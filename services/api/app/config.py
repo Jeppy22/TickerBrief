@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     ai_total_cap: int = Field(default=100, ge=1, le=1000)
     ai_rpm: int = Field(default=1, ge=1, le=5)
     ai_budget_path: str = ""
+    ai_budget_database_url: SecretStr = SecretStr("")
 
     @property
     def sec_configured(self) -> bool:

@@ -110,6 +110,17 @@ def test_zero_is_valid_but_infinite_and_boolean_are_not(facts):
         assert normalize(facts).period("2025-12-31", "annual").metrics[1].current is None
 
 
+def test_reported_combined_debt_preferred_without_adding_components(facts):
+    gaap = facts["facts"]["us-gaap"]
+    row = gaap["LongTermDebtNoncurrent"]["units"]["USD"][-1]
+    gaap["DebtLongtermAndShorttermCombinedAmount"] = {"units": {"USD": [{**row, "val": 27}]}}
+    metric = normalize(facts).period("2025-12-31", "annual").metrics[4]
+    assert metric.current.value == 27
+    assert len(metric.current.source_ids) == 1
+    assert metric.previous is None  # Do not compare combined debt with long-term-only history.
+    assert "combined" in metric.label
+
+
 def test_53_week_annual_comparison(facts):
     rows = facts["facts"]["us-gaap"]["RevenueFromContractWithCustomerExcludingAssessedTax"]["units"]["USD"]
     rows[0].update(start="2023-12-31", end="2024-12-28")

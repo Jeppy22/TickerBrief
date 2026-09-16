@@ -8,13 +8,11 @@ import httpx
 import pytest
 from pydantic import SecretStr
 
+from app.budget import BudgetExceeded, initialize_budget, reserve
 from app.config import Settings
 from app.interpretation import (
-    BudgetExceeded,
     enabled,
-    initialize_budget,
     interpret,
-    reserve,
     validate_content,
 )
 from app.models import Company, Evidence, Interpretation, Report

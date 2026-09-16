@@ -1,4 +1,13 @@
+import os
+
 import pytest
+
+
+@pytest.fixture(autouse=True)
+def isolate_provider_environment(monkeypatch):
+    for key in os.environ:
+        if key.startswith(("AI_", "GEMINI_", "SEC_")):
+            monkeypatch.delenv(key, raising=False)
 
 
 @pytest.fixture

@@ -86,7 +86,7 @@ async def build_report(company: Company, sec: SecClient) -> Report:
     overview, overview_sources = None, []
     uncertainties = [
         "This brief is a partial reading of SEC filings, not a valuation or personalized investment advice.",
-        "Cash excludes investments and restricted cash. Debt here covers long-term borrowings, including the current portion; it is not total liabilities and may exclude commercial paper, other short-term borrowing and leases.",
+        "Cash excludes investments and restricted cash. Debt uses a reported combined short- and long-term amount where available. Otherwise the label states long-term borrowings only, which may exclude other short-term borrowing and leases. Debt is not total liabilities.",
         "Comparisons use the same concept and similar period lengths. Later reported amendments or comparative restatements replace earlier facts; check the displayed filing dates.",
         "Custom company tags, segment-level disclosures and non-USD facts are not normalized. Missing values do not mean zero.",
     ]

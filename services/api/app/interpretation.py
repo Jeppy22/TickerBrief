@@ -4,44 +4,14 @@ import hashlib
 import json
 import re
 import sqlite3
-import time
 from datetime import UTC, datetime
-from pathlib import Path
 
 import httpx
+import psycopg
 
+from .budget import BudgetExceeded, cached_result, configured, reserve, save_result
 from .config import Settings
 from .models import Interpretation, InterpretationContent, Report
-
-
-class BudgetExceeded(Exception):
-    pass
-
-
-def initialize_budget(path: Path) -> None:
-    """Explicit operator action; never recreate a lost budget automatically."""
-    if path.exists():
-        raise ValueError("Budget already exists; refusing to reset global usage.")
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with sqlite3.connect(path) as db:
-        db.execute("CREATE TABLE requests (timestamp REAL NOT NULL)")
-        db.execute("CREATE TABLE results (fingerprint TEXT PRIMARY KEY, content TEXT NOT NULL)")
-
-
-def reserve(settings: Settings, now: float | None = None) -> None:
-    now = time.time() if now is None else now
-    path = Path(settings.ai_budget_path)
-    if not settings.ai_budget_path or not path.is_file():
-        raise BudgetExceeded("A durable initialized usage ledger is required.")
-    with sqlite3.connect(f"{path.resolve().as_uri()}?mode=rw", uri=True, timeout=5) as db:
-        db.execute("BEGIN IMMEDIATE")
-        total, daily, minute = db.execute(
-            "SELECT COUNT(*), COALESCE(SUM(timestamp > ?),0), COALESCE(SUM(timestamp > ?),0) FROM requests",
-            (now - 86400, now - 60),
-        ).fetchone()
-        if total >= settings.ai_total_cap or daily >= settings.ai_daily_cap or minute >= settings.ai_rpm:
-            raise BudgetExceeded("Interpretation usage cap reached. Facts are still available.")
-        db.execute("INSERT INTO requests VALUES (?)", (now,))
 
 
 def validate_content(raw: str, report: Report) -> InterpretationContent:
@@ -81,8 +51,7 @@ def enabled(settings: Settings) -> bool:
         and expiry > datetime.now(UTC)
         and settings.gemini_api_key.get_secret_value()
         and re.fullmatch(r"gemini-[a-z0-9.-]+", settings.gemini_model)
-        and settings.ai_budget_path
-        and Path(settings.ai_budget_path).is_file()
+        and configured(settings)
     )
 
 
@@ -100,10 +69,9 @@ async def interpret(report: Report, settings: Settings, transport=None) -> Inter
         )
     fingerprint = hashlib.sha256((settings.gemini_model + payload).encode()).hexdigest()
     try:
-        with sqlite3.connect(f"{Path(settings.ai_budget_path).resolve().as_uri()}?mode=rw", uri=True) as db:
-            cached = db.execute("SELECT content FROM results WHERE fingerprint=?", (fingerprint,)).fetchone()
+        cached = cached_result(settings, fingerprint)
         if cached:
-            content = validate_content(cached[0], report)
+            content = validate_content(cached, report)
         else:
             reserve(settings)  # Reserve before any network call; failures still consume the cap.
             instruction = (
@@ -141,18 +109,14 @@ async def interpret(report: Report, settings: Settings, transport=None) -> Inter
                     part.get("text", "") for part in candidate["content"]["parts"] if not part.get("thought")
                 )
                 content = validate_content(raw, report)
-                with sqlite3.connect(settings.ai_budget_path) as db:
-                    db.execute(
-                        "INSERT OR REPLACE INTO results VALUES (?,?)",
-                        (fingerprint, content.model_dump_json()),
-                    )
+                save_result(settings, fingerprint, content.model_dump_json())
         return Interpretation(
             status="available",
             model=settings.gemini_model,
             content=content,
             message="Model interpretation, not a reported fact. Inspect each supporting excerpt and conditional assumption.",
         )
-    except (BudgetExceeded, httpx.HTTPError, ValueError, KeyError, IndexError, sqlite3.Error):
+    except (BudgetExceeded, httpx.HTTPError, ValueError, KeyError, IndexError, sqlite3.Error, psycopg.Error):
         return Interpretation(
             status="unavailable",
             message="Interpretation is unavailable or could not be verified. Financial facts and sources are still available.",

@@ -1,0 +1,91 @@
+# Private iPhone beta release runbook
+
+Release state: preparation only. No hosted API, signed iOS build, TestFlight upload, Apple processing, beta review, or physical-device test has been verified.
+
+## Known identities
+
+- GitHub: `Jeppy22/TickerBrief`, project branch `feat/private-beta`.
+- Expo owner: `jeppy22`.
+- EAS project: `ba290e73-7370-4c6e-b557-1ea2e21987d0`, [project dashboard](https://expo.dev/accounts/jeppy22/projects/tickerbrief).
+- Public app: **TickerBrief**. Tagline: **Stock research, clearly explained.**
+- Apple team, registered bundle identifier and App Store Connect app ID are **not verified**. Do not guess or replace an existing identifier. `IOS_BUNDLE_IDENTIFIER` must be supplied before building.
+
+EAS account usage was read through the signed-in CLI on 2026-09-16: Free plan, 3/15 iOS builds used, 3/30 total builds used, one concurrent build. This is a point-in-time check, not permission to assume the same quota later.
+
+## Hosted factual backend
+
+The proposed private-beta evaluation host is Render Free, using `render.yaml`. [Render's current terms](https://render.com/docs/free) describe idle sleeping, cold starts, ephemeral files, and finite workspace allowances. It is not a production-service guarantee. To avoid automatic bandwidth overage charges, use a workspace **with no payment method** and verify remaining included bandwidth/build minutes/free service hours before deployment. Do not add a card or upgrade.
+
+1. Sign in to [Render](https://dashboard.render.com/) through its official flow. Allow access only to the specified repository if needed. Confirm the account's free allowances and no payment method. There is no authenticated Render connection available to this session.
+2. Create a Blueprint from `Jeppy22/TickerBrief`, branch `feat/private-beta`, using the included `render.yaml`. Review that the only service is a **Free** Python web service, with no paid disk/database/add-on. Auto-deploy is off; deploy deliberately after checks.
+3. Set the approved `SEC_USER_AGENT`. Leave `AI_ENABLED=false`. No mobile notes or account database is required. Preserve one instance/one Uvicorn worker for the provider-wide throttle. Cache files can be safely rebuilt after a restart.
+4. Deploy, copy the resulting HTTPS URL, and verify `/health` reports the correct service and SEC configuration. Then run the live verification script against the hosted URL with the approved SEC identity. A health check alone does not prove research works from the hosting IP; SEC may deny some cloud traffic.
+5. Confirm the mobile normal flow can search and read all three audit companies using that HTTPS URL. Test a cold start. Do not use a tunnel to the Windows PC as the beta backend.
+
+The Dockerfile is an alternative deployment artifact; it has not been built here unless STATUS.md records a successful container check. Render Free cannot persist a local lifetime AI ledger; the included PostgreSQL adapter supports a separately verified free persistent database. Hosted AI needs that durable-storage prerequisite plus verified model access in [AI.md](AI.md).
+
+## Apple and EAS
+
+Use the existing project and ownership. From `apps/mobile` in PowerShell:
+
+```powershell
+npx.cmd eas-cli@latest whoami
+npx.cmd eas-cli@latest project:info
+npx.cmd eas-cli@latest account:usage jeppy22 --json --non-interactive
+```
+
+If sign-in has expired, use `npx.cmd eas-cli@latest login` and the official sign-in flow. Do not paste passwords, 2FA codes, API keys, signing keys or provisioning profiles into chat or the repository.
+
+In Apple Developer / App Store Connect, verify active membership, the correct team, access to the existing app/bundle identifier, and the permissions required for signing/uploading. Account Holder/Admin may need to provide Certificates, Identifiers & Profiles access or accept current Apple agreements themselves. Review the [Apple role permissions](https://developer.apple.com/help/app-store-connect/reference/role-permissions/). Do not register a competing bundle ID to avoid an access problem.
+
+Configure **public/nonsecret** EAS environment values for the relevant environment through the official dashboard/CLI:
+
+- `EXPO_PUBLIC_API_URL`: the verified hosted HTTPS backend.
+- `IOS_BUNDLE_IDENTIFIER`: the verified registered Apple identifier.
+
+Also set them in the local shell used to resolve the dynamic app config:
+
+```powershell
+$env:EXPO_PUBLIC_API_URL = 'https://YOUR_VERIFIED_BACKEND_HOST'
+$env:IOS_BUNDLE_IDENTIFIER = 'YOUR_REGISTERED_BUNDLE_IDENTIFIER'
+```
+
+The EAS project ID and owner are already committed in app configuration. Do not move ownership or replace the linked project. No provider credentials belong in EAS public variables.
+
+For a physical-device development build, register the device through EAS when needed, then build within the verified free quota:
+
+```powershell
+npx.cmd eas-cli@latest device:create
+npx.cmd eas-cli@latest build --platform ios --profile development
+```
+
+For App Store distribution to TestFlight (no public release):
+
+```powershell
+npx.cmd eas-cli@latest build --platform ios --profile production
+npx.cmd eas-cli@latest submit --platform ios --profile production --id YOUR_SUCCESSFUL_BUILD_ID
+```
+
+Use the exact successful build ID, not an unrelated `--latest` artifact. Complete the official Apple authentication/signing flow and choose the verified existing app. Confirm App Store Connect `ascAppId` if submission asks. Do not start either build before checking the Free plan and remaining iOS quota. Never accept a paid-build upgrade.
+
+## Privacy and beta information
+
+- Read [PRIVACY.md](PRIVACY.md) against the deployed configuration. Publish a stable public privacy-policy URL and a support contact before submission; the operator/contact has not been supplied for publication yet.
+- Device-local watchlists/notes are not transmitted. Company searches, request IPs and infrastructure logs need accurate disclosure for the actual host; model-enabled operation sends public company evidence. Do not blindly select “Data Not Collected” without considering final logging/diagnostics behavior.
+- AsyncStorage includes a dependency privacy manifest for file timestamp access (`C617.1` inspected in this checkout). Inspect the final cloud build's combined privacy manifest and App Store Connect warnings; a dependency file alone is not proof the final archive complies.
+- This app uses standard HTTPS and no custom encryption. App config declares no non-exempt encryption; verify the final archive/features remain consistent with that declaration.
+- Prepare beta description, what to test, feedback email, review contact and export-compliance answers. Reviewers do not need an app login because there are no accounts. Explain the SEC coverage limits and disabled interpretation if still disabled.
+- [External testing](https://developer.apple.com/help/app-store-connect/test-a-beta-version/invite-external-testers/) can require Beta App Review. Do not create tester invitations or a public link automatically.
+
+## Record distinct release gates
+
+| Gate | Evidence required |
+| --- | --- |
+| JavaScript export | Successful Expo iOS export; not a native build |
+| Cloud build | Successful EAS build ID and signed `.ipa` |
+| Upload | EAS Submit receipt for that build and correct App Store Connect app |
+| Apple processing | Build appears and processing finishes in TestFlight |
+| Beta review | Approved/available for the chosen external-testing group, if required |
+| Physical iPhone | Actual install and core-flow checklist executed on device |
+
+Physical checklist: search AAPL/MSFT/RKLB, open original filing links, inspect dates and missing data, save two versions, edit notes, force-quit/reopen, enable airplane mode and reopen snapshots/excerpts, restore connectivity, refresh without changing earlier snapshots, delete one version without deleting another, test smaller-screen layout and larger accessibility text. Record the device/iOS version and actual results. A 390×844 browser viewport is not a physical-device test.

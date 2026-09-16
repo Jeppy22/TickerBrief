@@ -30,6 +30,13 @@ LABELS = {
     "cash": "Cash and cash equivalents",
     "debt": "Long-term debt, including current portion",
 }
+DEFINITIONS = {
+    "revenue": "Revenue records sales before expenses.",
+    "net_income": "Net income is accounting profit or loss after expenses and taxes.",
+    "operating_cash_flow": "Operating cash flow is cash generated or used by operations; it can differ from accounting profit.",
+    "cash": "Cash and cash equivalents are readily available cash balances; this measure excludes investments and restricted cash.",
+    "debt": "Debt is recorded borrowing, not all liabilities. Its coverage is stated in the metric label.",
+}
 
 
 def days(start: str, end: str) -> int:
@@ -107,6 +114,9 @@ class Normalizer:
         self, key: str, start: str, end: str, required_concept: str | None = None
     ) -> Observation | None:
         if key == "debt":
+            combined_total = self.select("DebtLongtermAndShorttermCombinedAmount", None, end)
+            if combined_total and required_concept in (None, "DebtLongtermAndShorttermCombinedAmount"):
+                return self.observation("DebtLongtermAndShorttermCombinedAmount", combined_total)
             # LongTermDebt is a reported total; never add it to its components.
             total = self.select("LongTermDebt", None, end)
             if total and required_concept in (None, "LongTermDebt"):
@@ -178,6 +188,8 @@ class Normalizer:
         metrics = []
         for key, label in LABELS.items():
             current = self.value(key, start, end)
+            if current and current.concept == "DebtLongtermAndShorttermCombinedAmount":
+                label = "Debt, reported short- and long-term combined"
             previous = (
                 self.value(key, *prior, required_concept=current.concept) if prior and current else None
             )
@@ -204,7 +216,7 @@ class Normalizer:
                     previous=previous,
                     change=change,
                     change_percent=percent,
-                    explanation=text,
+                    explanation=DEFINITIONS[key] + " " + text,
                     missing_reason=None if current else text,
                 )
             )
