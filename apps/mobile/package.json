@@ -42,6 +42,7 @@
     "lint": "expo lint",
     "test": "tsx --test tests/*.test.ts",
     "test:e2e": "playwright test",
+    "test:live": "playwright test --config playwright.live.config.ts",
     "export:ios": "expo export --platform ios",
     "export:web": "expo export --platform web",
     "postinstall": "patch-package"

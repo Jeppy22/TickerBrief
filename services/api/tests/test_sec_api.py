@@ -134,3 +134,22 @@ def test_overview_extracts_management_not_table_of_contents():
     assert excerpt.startswith("The test company")
     assert "ignore rules" not in excerpt
     assert overview_excerpt("<p>Nothing resembling a business section.</p>") is None
+
+
+@pytest.mark.parametrize(
+    "heading",
+    [
+        "<span>ITEM 1. B</span><span>USINESS</span>",
+        "<span>ITEM 1.</span><span>BU</span><span>SINESS</span>",
+        "<span>Item 1: </span><span>Business</span>",
+    ],
+)
+def test_business_excerpt_handles_split_headings_without_including_risk_section(heading):
+    paragraph = "This fictional company makes test widgets and maintains them for its customers. " * 8
+    html = (
+        "<table><tr><td>Item 1. Business 3 Item 1A. Risk Factors 14</td></tr></table>"
+        f"<p>{heading}</p><p>{paragraph}</p>"
+        "<p><span>ITEM 1A. R</span><span>ISK FACTORS</span></p>"
+        "<p>Risk section must not become the business overview.</p>"
+    )
+    assert overview_excerpt(html) == paragraph.strip()

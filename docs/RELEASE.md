@@ -17,10 +17,16 @@ EAS account usage was read through the signed-in CLI on 2026-09-16: Free plan, 3
 The proposed private-beta evaluation host is Render Free, using `render.yaml`. [Render's current terms](https://render.com/docs/free) describe idle sleeping, cold starts, ephemeral files, and finite workspace allowances. It is not a production-service guarantee. To avoid automatic bandwidth overage charges, use a workspace **with no payment method** and verify remaining included bandwidth/build minutes/free service hours before deployment. Do not add a card or upgrade.
 
 1. Sign in to [Render](https://dashboard.render.com/) through its official flow. Allow access only to the specified repository if needed. Confirm the account's free allowances and no payment method. There is no authenticated Render connection available to this session.
-2. Create a Blueprint from `Jeppy22/TickerBrief`, branch `feat/private-beta`, using the included `render.yaml`. Review that the only service is a **Free** Python web service, with no paid disk/database/add-on. Auto-deploy is off; deploy deliberately after checks.
-3. Set the approved `SEC_USER_AGENT`. Leave `AI_ENABLED=false`. No mobile notes or account database is required. Preserve one instance/one Uvicorn worker for the provider-wide throttle. Cache files can be safely rebuilt after a restart.
-4. Deploy, copy the resulting HTTPS URL, and verify `/health` reports the correct service and SEC configuration. Then run the live verification script against the hosted URL with the approved SEC identity. A health check alone does not prove research works from the hosting IP; SEC may deny some cloud traffic.
+2. Select **New > Blueprint**, connect GitHub if required, and choose `Jeppy22/TickerBrief`. Set the Blueprint name to `tickerbrief-beta`, branch to `feat/private-beta`, and Blueprint Path to `render.yaml`. Review that the only service is `tickerbrief-api`, a **Free** Python web service, with no paid disk/database/add-on. See [Render's Blueprint setup](https://render.com/docs/infrastructure-as-code).
+3. At the `SEC_USER_AGENT` prompt, privately enter the value from the ignored local `services/api/.env`; do not paste the whole environment file. Leave `AI_ENABLED=false`. Do not put the contact in Git, screenshots, or logs. Preserve one instance/one Uvicorn worker for the provider-wide throttle.
+4. Select **Deploy Blueprint** after confirming the Free plan. On the Blueprint's **Settings** page, set **Auto Sync** to **No**; this is separate from the service's already-disabled auto-deploy. Wait for the service to become Live, copy its actual HTTPS URL, and verify `/health` returns `service=TickerBrief`, `sec_configured=true`, `ai_enabled=false`. Then run the live verification script against that URL. Local AAPL/MSFT/RKLB verification has passed, but this does not prove research works from the hosting IP; SEC may deny some cloud traffic.
 5. Confirm the mobile normal flow can search and read all three audit companies using that HTTPS URL. Test a cold start. Do not use a tunnel to the Windows PC as the beta backend.
+
+The next handoff is the service's public HTTPS URL and confirmation that the Free workspace has no payment method. No Render API token is needed if these dashboard steps are completed manually. From `services/api`, the hosted check is:
+
+```powershell
+..\..\.venv\Scripts\python.exe scripts\verify_live.py --base-url https://YOUR_RENDER_SERVICE.onrender.com
+```
 
 The Dockerfile is an alternative deployment artifact; it has not been built here unless STATUS.md records a successful container check. Render Free cannot persist a local lifetime AI ledger; the included PostgreSQL adapter supports a separately verified free persistent database. Hosted AI needs that durable-storage prerequisite plus verified model access in [AI.md](AI.md).
 

@@ -92,6 +92,14 @@ Once an approved SEC contact is configured and the factual API is running with A
 
 It checks AAPL, MSFT and RKLB report values against the underlying inline-XBRL filing facts, including units, scaling, sign, period and accession. It writes `artifacts/live-verification.json`. Unmatched facts fail the audit and require inspection; do not label the report verified just because URLs resolve.
 
+To verify the actual local app flow after that audit, keep the backend on 8000 and Metro on 8081, then run from `apps/mobile`:
+
+```powershell
+npm.cmd run test:live
+```
+
+This separate, explicit suite uses real AAPL/MSFT/RKLB research, requires the local API to confirm AI is disabled, and verifies browser restart persistence with API access blocked. Ordinary `test:e2e` remains synthetic. See the [dated live results](docs/LIVE_VERIFICATION.md).
+
 ## Data and storage
 
 The backend caches SEC company directory, submissions, companyfacts and filing excerpts. SEC requests are identified, serialized at at most two/second and paused after 403/429. Facts use USD and consolidated US-GAAP tags. Annual and fiscal-year-to-date periods are explicit; missing values stay unavailable. Exact source records and code-calculated changes are kept in reports. Debt coverage is labeled and intentionally does not claim total obligations.

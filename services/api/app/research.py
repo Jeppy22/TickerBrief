@@ -20,9 +20,13 @@ def overview_excerpt(html: str) -> str | None:
     text = re.sub(r"\s+", " ", soup.get_text(" ", strip=True))
     # Skip contents entries: use the longest Item 1 -> Item 1A region.
     candidates = []
-    for match in re.finditer(r"\bITEM\s+1[.\s:–-]+BUSINESS\b", text, re.I):
+    # Small-cap styling can split a heading word across spans (for example B + USINESS).
+    # Tolerate those extraction spaces only in section markers; retain the source prose.
+    business_marker = r"\bITEM\s+1[.\s:–-]+B\s*U\s*S\s*I\s*N\s*E\s*S\s*S\b"
+    risk_marker = r"\bITEM\s+1A[.\s:–-]+R\s*I\s*S\s*K\b"
+    for match in re.finditer(business_marker, text, re.I):
         rest = text[match.end() :]
-        finish = re.search(r"\bITEM\s+1A[.\s:–-]+RISK", rest, re.I)
+        finish = re.search(risk_marker, rest, re.I)
         section = rest[: finish.start()] if finish else rest[:12000]
         if len(section) > 500:
             candidates.append(section)
@@ -30,6 +34,8 @@ def overview_excerpt(html: str) -> str | None:
         return None
     section = max(candidates, key=len).strip()
     # Display an exact excerpt, with no generated paraphrase presented as management text.
+    if len(section) <= 1800:
+        return section
     excerpt = section[:1800]
     last_sentence = max(excerpt.rfind(". "), excerpt.rfind("; "))
     return excerpt[: last_sentence + 1] if last_sentence > 250 else excerpt
