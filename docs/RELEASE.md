@@ -1,6 +1,6 @@
 # Private iPhone beta release runbook
 
-Release state: the hosted factual API passed its 50/50 source-fact audit. Hosted browser access requires the CORS update in [HOSTED_VERIFICATION.md](HOSTED_VERIFICATION.md). No signed iOS build, TestFlight upload, Apple processing, beta review, or physical-device test has been verified.
+Release state: the hosted factual API passed its 50/50 source-fact audit and all three hosted browser flows passed after the deployed CORS correction. See [HOSTED_VERIFICATION.md](HOSTED_VERIFICATION.md). No signed iOS build, TestFlight upload, Apple processing, beta review, or physical-device test has been verified.
 
 ## Known identities
 
@@ -34,7 +34,7 @@ The Dockerfile is an alternative deployment artifact; it has not been built here
 
 ## Apple and EAS
 
-See [the local iOS configuration review and exact missing Apple prerequisites](IOS_READINESS.md). Hosted report retrieval is verified; the next release prerequisites are browser CORS access and the intended Apple team/bundle/signing details.
+See [the local iOS configuration review and exact missing Apple prerequisites](IOS_READINESS.md). Hosted report retrieval and the browser flow are verified; the next release prerequisites are the intended Apple team/bundle/signing details and approved privacy/review information.
 
 Use the existing project and ownership. From `apps/mobile` in PowerShell:
 
@@ -84,6 +84,7 @@ Use the exact successful build ID, not an unrelated `--latest` artifact. Complet
 - AsyncStorage includes a dependency privacy manifest for file timestamp access (`C617.1` inspected in this checkout). Inspect the final cloud build's combined privacy manifest and App Store Connect warnings; a dependency file alone is not proof the final archive complies.
 - This app uses standard HTTPS and no custom encryption. App config declares no non-exempt encryption; verify the final archive/features remain consistent with that declaration.
 - Prepare beta description, what to test, feedback email, review contact and export-compliance answers. Reviewers do not need an app login because there are no accounts. Explain the SEC coverage limits and disabled interpretation if still disabled.
+- [BETA_TESTING.md](BETA_TESTING.md) contains draft beta description, tester steps and review notes. Supply the approved contacts and policy URL before submission; its device checklist is explicitly unperformed.
 - [External testing](https://developer.apple.com/help/app-store-connect/test-a-beta-version/invite-external-testers/) can require Beta App Review. Do not create tester invitations or a public link automatically.
 
 ## Record distinct release gates

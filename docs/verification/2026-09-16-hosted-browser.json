@@ -1,0 +1,27 @@
+{
+  "checked_at": "2026-09-16T23:01:21.653Z",
+  "api": "https://tickerbrief-api.onrender.com",
+  "origin": "http://127.0.0.1:8081",
+  "requests": [
+    "https://tickerbrief-api.onrender.com/v1/companies?q=AAPL",
+    "https://tickerbrief-api.onrender.com/v1/companies?q=AAPL"
+  ],
+  "cors_errors": [
+    "Access to fetch at 'https://tickerbrief-api.onrender.com/v1/companies?q=AAPL' from origin 'http://127.0.0.1:8081' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    "Access to fetch at 'https://tickerbrief-api.onrender.com/v1/companies?q=AAPL' from origin 'http://127.0.0.1:8081' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource."
+  ],
+  "attempts": [
+    {
+      "button": "Search companies",
+      "loading_visible": true,
+      "result": "connection_error",
+      "elapsed_seconds": 0.873
+    },
+    {
+      "button": "Try search again",
+      "loading_visible": true,
+      "result": "connection_error",
+      "elapsed_seconds": 0.336
+    }
+  ]
+}

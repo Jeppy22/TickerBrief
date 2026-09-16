@@ -51,7 +51,7 @@ A public privacy-policy URL, approved support/review contact and beta informatio
 
 ## Hosted handoff and next release action
 
-The supplied URL passed health and the complete 50/50 financial-fact audit. See [hosted verification](HOSTED_VERIFICATION.md) for the exact results and the CORS environment correction required for the browser preview. Apple prerequisites above remain unverified; account checks were not repeated.
+The supplied URL passed health and the complete 50/50 financial-fact audit. After the operator deployed the CORS environment correction, all three hosted browser scenarios passed, including saved data reopening and manual retry recovery. See [hosted verification](HOSTED_VERIFICATION.md). Apple prerequisites above remain unverified; account checks were not repeated.
 
 To repeat hosted verification after a relevant deployment change:
 
