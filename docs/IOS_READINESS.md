@@ -1,6 +1,6 @@
 # iOS beta readiness
 
-Reviewed on 2026-09-16. This is configuration review, not proof of Apple account access, signing, upload, or a physical iPhone test. One read-only lookup used the existing Expo session for the newly supplied bundle ID; no Apple sign-in or cloud build was started.
+Reviewed on 2026-09-16. This is configuration review, not proof of Apple account access, signing, upload, or a physical iPhone test. EAS quota was checked and production credential setup reached the Apple login prompt; it was cancelled before authentication. No cloud build was started.
 
 ## Established configuration
 
@@ -14,7 +14,7 @@ The existing `eas.json` provides:
 | `preview` | Internal preview | Internal distribution, preview environment, physical device |
 | `production` | TestFlight/App Store distribution archive | Store distribution, production environment, automatic build-number increment |
 
-Remote app-version management remains enabled. `submit.production` is intentionally empty until the numeric App Store Connect Apple ID is known; no `ascAppId` is guessed. The app configuration requires the existing EAS project, `IOS_BUNDLE_IDENTIFIER`, and an HTTPS `EXPO_PUBLIC_API_URL` for cloud builds. All three profiles supply the registered bundle ID and retain `https://tickerbrief-api.onrender.com` as their public API URL. Ownership, distribution and version settings are unchanged.
+Remote app-version management remains enabled. The operator confirmed App Store Connect Apple ID **`6812926318`**, now configured as `submit.production.ios.ascAppId`. EAS's own schema and resolved production submission profile validate this value. The app configuration requires the existing EAS project, `IOS_BUNDLE_IDENTIFIER`, and an HTTPS `EXPO_PUBLIC_API_URL` for cloud builds. All three profiles supply the registered bundle ID and retain `https://tickerbrief-api.onrender.com` as their public API URL. Ownership, distribution and version settings are unchanged.
 
 Local checks confirmed the build profiles above and exercised the cloud-config guard with process-local synthetic values: missing bundle ID, missing project ID and an HTTP API URL are rejected; a complete synthetic HTTPS configuration preserves the real Expo owner/project. These checks created no Apple identifier, EAS build, or persisted example credentials.
 
@@ -31,7 +31,7 @@ The read-only EAS lookup found no identifier record for this bundle under `jeppy
 | Correct team | Team ID **`98BBY4NN94`** is supplied and configured. Select that team in Apple Developer and App Store Connect; enrollment type and signing role remain to be confirmed. |
 | Signing access | For individual enrollment, the Account Holder must prepare signing credentials. For an organization, use the Account Holder/Admin, or an App Manager with **Access to Certificates, Identifiers & Profiles**. An invitation to an individual owner's App Store Connect alone does not grant Developer Program signing access. |
 | Existing bundle ID | **Resolved:** the operator confirmed **`com.jeppyinvesting.tickerbrief`** is registered. It is configured locally and in every EAS build profile. Reuse it; do not register a replacement. |
-| App Store Connect app | Open Apps → TickerBrief → App Information. Confirm the bundle ID and record its numeric **Apple ID** (`ascAppId`). If the app record does not exist, the team's authorized app manager must create it using the intended bundle ID. Reuse any existing record. |
+| App Store Connect app | **Resolved:** the operator created the record and supplied numeric Apple ID **`6812926318`** for the registered bundle/team. The production submission profile now targets it. |
 | Build signing | EAS needs a valid distribution certificate and corresponding private key, plus an App Store distribution provisioning profile for that team and bundle ID. An authorized team member can configure/reuse these through EAS-managed credentials. Do not revoke an existing certificate or commit signing files. |
 | Upload access | The uploading account needs access to this App Store Connect app and an Account Holder, Admin, App Manager or Developer role. Configure EAS Submit authentication through its official flow; keep passwords, 2FA codes and API keys out of chat and Git. |
 | Development device, if used | Internal development/preview builds need the iPhone registered by UDID and included in their ad hoc provisioning profile. TestFlight distribution does not use that device-registration path. |
@@ -40,26 +40,30 @@ The distinction between signing and app access follows [Expo's EAS role requirem
 
 ## Manual handoff
 
-The remaining nonsecret handoff is the **numeric App Store Connect Apple ID**, plus confirmation of membership/signing access for team `98BBY4NN94`. An authorized colleague can prepare credentials in the existing Expo project if your own role lacks signing access.
+The next action is interactive Apple authentication for team `98BBY4NN94`. The app record, bundle and team are already supplied; do not create replacements. An authorized colleague can prepare credentials in the existing Expo project if your own role lacks signing access.
 
-An authorized operator can inspect/configure credentials from `apps/mobile` in PowerShell:
+Run in your own VS Code PowerShell terminal:
 
 ```powershell
-$env:IOS_BUNDLE_IDENTIFIER = 'com.jeppyinvesting.tickerbrief'
-npx.cmd eas-cli@latest credentials --platform ios
+Set-Location 'C:\Users\JEMJR\OneDrive\Desktop\TickerBrief\apps\mobile'
+npx.cmd eas-cli@latest credentials:configure-build --platform ios --profile production
 ```
 
-Select the `production` profile for TestFlight signing and team **`98BBY4NN94`**. Reuse valid existing credentials. This is separate from starting a build. The numeric app ID is needed for submission; it is not itself a signing credential or a prerequisite to compiling a production build. Before starting a build, confirm signing access and remaining Free EAS quota once; the recorded 2026-09-16 quota is historical evidence.
+EAS CLI 24.7.0 resolved `production` and reached **Do you want to log in to your Apple account?** during this run. It was cancelled before entering an Apple account. No credentials were created or revoked, and no build was queued.
+
+1. Answer **Yes** to Apple login. Enter your authorized Apple Account, password and 2FA only in that official local flow. The numeric app ID is not the sign-in name; no account email is inferred.
+2. Choose team **`98BBY4NN94`** if prompted and verify bundle **`com.jeppyinvesting.tickerbrief`**.
+3. Reuse an existing valid Apple Distribution certificate when EAS offers one. A certificate can be reused for apps on the same team only when its private key is available to EAS. If no usable certificate is available, let EAS generate one; do not revoke unrelated certificates to work around a limit.
+4. Reuse the matching valid **App Store** provisioning profile for this bundle/team/certificate. Allow EAS to create missing credentials. No ad hoc device registration or push key is needed for this TestFlight build.
+5. Wait for **All credentials are ready to build**. If access or certificate limits block setup, return only the prompt/error with personal details removed. Never share passwords, codes or signing files. `npx.cmd eas-cli@latest credentials --platform ios` remains available for inspecting/managing existing credentials when needed.
+
+The credential command does not start a build. On **2026-09-16**, the account was Free with **12 iOS builds remaining**, **27 total builds remaining**, one concurrent build, no overage charges and no paid add-ons. If completing signing later, run `npx.cmd eas-cli@latest account:usage jeppy22 --json --non-interactive` immediately before the production build and require available Free iOS/total quota. Do not upgrade or enable paid builds. The [release runbook](RELEASE.md) has the subsequent build and submission commands.
 
 A public privacy-policy URL, approved support/review contact and beta information are still required. Authorization to identify SEC requests does not authorize publishing that contact as the app's support or review address. No testers will be invited automatically.
 
-## Confirm or create the App Store Connect record
+## Confirmed App Store Connect record
 
-1. Open [App Store Connect → Apps](https://appstoreconnect.apple.com/apps) under team `98BBY4NN94`. If TickerBrief already exists, open **General → App Information**, confirm bundle `com.jeppyinvesting.tickerbrief`, and copy the numeric **Apple ID**.
-2. If no matching record exists, an Account Holder, Admin or App Manager can select **+ → New App**. Use platform **iOS**, name **TickerBrief**, primary language **English (U.S.)**, and the existing bundle **`com.jeppyinvesting.tickerbrief`**. For a new record only, `tickerbrief-ios-001` is a proposed internal SKU; preserve any existing SKU. Choose user access for the intended team, then create the record.
-3. Open **General → App Information** and return its numeric **Apple ID**. This becomes `submit.production.ios.ascAppId` once confirmed. It is distinct from the Team ID, bundle ID and Apple sign-in email. Creating the record does not upload a build or publish the app.
-
-If the bundle is absent from the selector, check the selected team/access instead of registering another identifier. App creation requires the Account Holder's current agreement acceptance. See [Apple's app-record instructions](https://developer.apple.com/help/app-store-connect/create-an-app-record/add-a-new-app/) and [Expo's numeric-ID location](https://docs.expo.dev/submit/ios/#how-to-find-ascappid).
+The operator confirmed creation of TickerBrief with Apple ID **`6812926318`**, bundle **`com.jeppyinvesting.tickerbrief`**, team **`98BBY4NN94`**. The submission profile uses the numeric ID as a string, following [Expo's submission configuration](https://docs.expo.dev/submit/ios/). This is operator confirmation plus local configuration validation, not an authenticated App Store Connect lookup or upload. Reuse this record.
 
 ## Hosted handoff and next release action
 
@@ -75,4 +79,4 @@ To repeat hosted verification after a relevant deployment change:
    ```
 
 3. Run the real browser flow using the hosted URL and actual CORS permissions, following the hosted runbook. Record cold-start observations separately from synthetic timeout checks.
-4. Confirm or create the App Store Connect record above and complete the official signing flow for the configured team/bundle. Then use the existing `production` build/submit commands in [RELEASE.md](RELEASE.md). Record build, upload, Apple processing, beta review and physical-device results separately. No local Xcode or simulator build is required.
+4. Complete the official signing flow for the configured team/bundle and existing App Store Connect record. Then use the existing `production` build/submit commands in [RELEASE.md](RELEASE.md) within verified Free quota. Record build, upload, Apple processing, beta review and physical-device results separately. No local Xcode or simulator build is required.

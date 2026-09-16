@@ -10,9 +10,9 @@ Release state: the hosted factual API passed its 50/50 source-fact audit and all
 - Public app: **TickerBrief**. Tagline: **Stock research, clearly explained.**
 - Apple Team ID: **`98BBY4NN94`**, supplied by the operator and configured as `ios.appleTeamId`.
 - Registered bundle ID: **`com.jeppyinvesting.tickerbrief`**, confirmed by the operator and configured through `IOS_BUNDLE_IDENTIFIER` locally and in every EAS profile.
-- Numeric App Store Connect Apple ID (`ascAppId`), signing access and credentials remain pending. [IOS_READINESS.md](IOS_READINESS.md#confirm-or-create-the-app-store-connect-record) gives the exact record-creation/reuse steps.
+- App Store Connect Apple ID: **`6812926318`**, confirmed by the operator and configured as `submit.production.ios.ascAppId`. Signing still requires the [local Apple authentication handoff](IOS_READINESS.md#manual-handoff).
 
-EAS account usage was read through the signed-in CLI on 2026-09-16: Free plan, 3/15 iOS builds used, 3/30 total builds used, one concurrent build. This is a point-in-time check, not permission to assume the same quota later.
+EAS account usage was checked through the signed-in CLI on **2026-09-16**: Free plan, **3/15 iOS builds used (12 remaining)**, **3/30 total builds used (27 remaining)**, one concurrent build, no overage charges or paid add-ons. The current billing period ends October 1. This is a point-in-time check; check again immediately before a build if signing is completed in a later session.
 
 ## Hosted factual backend
 
@@ -36,7 +36,7 @@ The Dockerfile is an alternative deployment artifact; it has not been built here
 
 ## Apple and EAS
 
-See [the local iOS configuration review and exact missing Apple prerequisites](IOS_READINESS.md). Hosted report retrieval and the browser flow are verified; the next release prerequisites are the intended Apple team/bundle/signing details and approved privacy/review information.
+See [the local iOS configuration review and exact missing Apple prerequisites](IOS_READINESS.md). Hosted report retrieval and the browser flow are verified. Team, bundle and App Store Connect app are configured; signing authentication and approved privacy/review information remain.
 
 Use the existing project and ownership. From `apps/mobile` in PowerShell:
 
@@ -50,7 +50,7 @@ If sign-in has expired, use `npx.cmd eas-cli@latest login` and the official sign
 
 In Apple Developer / App Store Connect, verify active membership, the correct team, access to the existing app/bundle identifier, and the permissions required for signing/uploading. Account Holder/Admin may need to provide Certificates, Identifiers & Profiles access or accept current Apple agreements themselves. Review the [Apple role permissions](https://developer.apple.com/help/app-store-connect/reference/role-permissions/). Do not register a competing bundle ID to avoid an access problem.
 
-The public `EXPO_PUBLIC_API_URL=https://tickerbrief-api.onrender.com` and `IOS_BUNDLE_IDENTIFIER=com.jeppyinvesting.tickerbrief` are configured in each existing EAS build profile, using [Expo's build-profile environment setting](https://docs.expo.dev/build/eas-json/). Do not add conflicting remote values. The Apple team is set in app configuration; the numeric `ascAppId` will be added to the submission profile after the actual app record is confirmed.
+The public `EXPO_PUBLIC_API_URL=https://tickerbrief-api.onrender.com` and `IOS_BUNDLE_IDENTIFIER=com.jeppyinvesting.tickerbrief` are configured in each existing EAS build profile, using [Expo's build-profile environment setting](https://docs.expo.dev/build/eas-json/). Do not add conflicting remote values. The Apple team is set in app configuration; `submit.production.ios.ascAppId` targets the confirmed app **`6812926318`**.
 
 Also set them in the local shell used to resolve the dynamic app config:
 
@@ -60,6 +60,14 @@ $env:IOS_BUNDLE_IDENTIFIER = 'com.jeppyinvesting.tickerbrief'
 ```
 
 The EAS project ID and owner are already committed in app configuration. Do not move ownership or replace the linked project. No provider credentials belong in EAS public variables.
+
+Complete signing setup before starting a build:
+
+```powershell
+npx.cmd eas-cli@latest credentials:configure-build --platform ios --profile production
+```
+
+This command was run with EAS CLI 24.7.0 and reached **Do you want to log in to your Apple account?**; it was cancelled there for the operator to authenticate locally. Answer Yes in your own terminal, enter your authorized Apple Account and 2FA locally, and select team `98BBY4NN94`. Confirm bundle `com.jeppyinvesting.tickerbrief`. Reuse valid existing distribution certificates and matching App Store provisioning profiles; generate only missing credentials. Do not revoke certificates used by other apps. Wait for **All credentials are ready to build**. This credential command does not start a build. See the [detailed handoff](IOS_READINESS.md#manual-handoff).
 
 For a physical-device development build, register the device through EAS when needed, then build within the verified free quota:
 
@@ -75,7 +83,7 @@ npx.cmd eas-cli@latest build --platform ios --profile production
 npx.cmd eas-cli@latest submit --platform ios --profile production --id YOUR_SUCCESSFUL_BUILD_ID
 ```
 
-Use the exact successful build ID, not an unrelated `--latest` artifact. Complete the official Apple authentication/signing flow and choose the verified existing app. Confirm App Store Connect `ascAppId` if submission asks. Do not start either build before checking the Free plan and remaining iOS quota. Never accept a paid-build upgrade.
+Use the exact successful build ID, not an unrelated `--latest` artifact. Submission targets the configured app `6812926318`; EAS Submit authentication may still be required separately from build signing. Do not start either build before checking the Free plan and remaining iOS quota. Never accept a paid-build upgrade.
 
 ## Privacy and beta information
 
