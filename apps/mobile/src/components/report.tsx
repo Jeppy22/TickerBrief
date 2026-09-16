@@ -53,7 +53,7 @@ export function ReportBody({ report }: { report: Report }) {
         ) : (
           <Notice>A sourced business overview is unavailable for this report.</Notice>
         )}
-        {report.industry && (
+        {Boolean(report.industry) && (
           <>
             <Copy style={s.muted}>SEC industry classification: {report.industry}</Copy>
             <Button
@@ -134,7 +134,9 @@ export function ReportBody({ report }: { report: Report }) {
               {content[section].map((claim, index) => (
                 <View key={index} style={{ gap: 8 }}>
                   <Copy>{claim.text}</Copy>
-                  {claim.assumption && <Copy style={s.muted}>Assumption: {claim.assumption}</Copy>}
+                  {Boolean(claim.assumption) && (
+                    <Copy style={s.muted}>Assumption: {claim.assumption}</Copy>
+                  )}
                   <Button
                     title="Inspect supporting evidence"
                     secondary
@@ -190,13 +192,13 @@ export function ReportBody({ report }: { report: Report }) {
                 <Card key={source.id}>
                   <Eyebrow>{source.kind.replaceAll('_', ' ')}</Eyebrow>
                   <Heading>{source.title}</Heading>
-                  {source.filed && (
+                  {Boolean(source.filed) && (
                     <Copy>
-                      Filed {dateLabel(source.filed)} · {source.form}
+                      Filed {dateLabel(source.filed!)} · {source.form}
                     </Copy>
                   )}
                   <Copy style={s.muted}>Retrieved {source.retrieved_at}</Copy>
-                  {source.accession && (
+                  {Boolean(source.accession) && (
                     <Copy selectable style={s.muted}>
                       Accession {source.accession}
                     </Copy>

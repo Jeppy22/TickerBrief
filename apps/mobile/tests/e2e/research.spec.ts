@@ -1,6 +1,21 @@
 import { expect, test } from '@playwright/test';
 import { fixtureReport } from '../fixtures';
 
+let renderingErrors: string[] = [];
+test.beforeEach(async ({ context }) => {
+  renderingErrors = [];
+  const observe = (page: import('@playwright/test').Page) =>
+    page.on('console', (message) => {
+      if (message.type() === 'error' && message.text().includes('Unexpected text node'))
+        renderingErrors.push(message.text());
+    });
+  context.pages().forEach(observe);
+  context.on('page', observe);
+});
+test.afterEach(() => {
+  expect(renderingErrors, 'React Native views must not contain bare text').toEqual([]);
+});
+
 test('fixture UI flow: search, inspect, watch, save, edit notes, restart offline, preserve versions and delete', async ({
   page,
   context,
@@ -112,4 +127,29 @@ test('failure states: loading, empty, unsupported, stale, offline and storage fa
   await expect(
     page.getByText('Synthetic test revenue: $100. Not real company research.'),
   ).toBeVisible();
+});
+
+test('malformed API responses stay unavailable and the small-screen search remains usable', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto('/?check=%E0%A4%A');
+  await expect(page.getByRole('textbox', { name: 'Company name or ticker' })).toBeVisible();
+  await page.screenshot({ path: 'test-results/search-small-screen.png', fullPage: true });
+  await page.route('**/v1/companies?*', (route) =>
+    route.fulfill({ json: { companies: 'invalid' } }),
+  );
+  await page.getByRole('textbox', { name: 'Company name or ticker' }).fill('TEST');
+  await page.getByRole('button', { name: 'Search companies', exact: true }).click();
+  await expect(
+    page.getByText('The company search response could not be verified. Please retry shortly.'),
+  ).toBeVisible();
+  await page.route('**/v1/reports/TEST', (route) => route.fulfill({ json: { id: 'incomplete' } }));
+  await page.goto('/report/TEST');
+  await expect(
+    page.getByText(
+      'This research response could not be verified. No report was saved. Please retry shortly.',
+    ),
+  ).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Save report & add notes' })).toHaveCount(0);
 });

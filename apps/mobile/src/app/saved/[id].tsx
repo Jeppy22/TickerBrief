@@ -82,7 +82,7 @@ export default function SavedDetailScreen() {
               disabled={busy || notes === saved.notes}
               onPress={() => void saveNotes()}
             />
-            {message && <Notice>{message}</Notice>}
+            {Boolean(message) && <Notice>{message}</Notice>}
           </Card>
           <Button
             title="Open current research"

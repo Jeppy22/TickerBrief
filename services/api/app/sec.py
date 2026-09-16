@@ -44,7 +44,7 @@ class SecClient:
             raise ValueError("SEC URLs only")
         if not self.settings.sec_configured:
             raise DataUnavailable(
-                "The backend needs a valid SEC_USER_AGENT contact email before it can load SEC data."
+                "Research is not configured for this beta yet. Please contact the beta operator. Your saved reports remain available."
             )
         path = self._path(url)
         async with self.lock:

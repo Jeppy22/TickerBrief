@@ -16,7 +16,7 @@ def test_missing_contact_fails_before_network(tmp_path):
     settings = Settings(_env_file=None, cache_dir=tmp_path)
     called = []
     sec = SecClient(settings, httpx.MockTransport(lambda r: called.append(r)))
-    with pytest.raises(DataUnavailable, match="SEC_USER_AGENT"):
+    with pytest.raises(DataUnavailable, match="beta operator"):
         asyncio.run(sec.companies())
     assert called == []
     with TestClient(create_app(settings, sec)) as client:

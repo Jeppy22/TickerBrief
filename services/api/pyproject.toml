@@ -1,6 +1,7 @@
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+addopts = "--basetemp=.pytest_cache/tmp"
 
 [tool.ruff]
 line-length = 110

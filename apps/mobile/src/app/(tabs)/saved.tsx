@@ -39,7 +39,7 @@ export default function SavedScreen() {
           </Eyebrow>
           <Heading>{saved.report.company.name}</Heading>
           <Copy>Data retrieved {dateLabel(saved.report.retrieved_at)}</Copy>
-          {saved.notes && <Copy numberOfLines={2}>{saved.notes}</Copy>}
+          {Boolean(saved.notes) && <Copy numberOfLines={2}>{saved.notes}</Copy>}
           <Button
             title="Open saved report"
             secondary

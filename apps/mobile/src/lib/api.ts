@@ -7,7 +7,7 @@ export const API_URL =
 async function request(path: string, signal?: AbortSignal) {
   if (!API_URL)
     throw new Error(
-      'The research service address is not configured. Set EXPO_PUBLIC_API_URL for this build. Saved reports are still available.',
+      'This build is not connected to a research service. Your saved reports are still available. Please contact the beta operator.',
     );
   const controller = new AbortController();
   const abort = () => controller.abort();
@@ -25,7 +25,7 @@ async function request(path: string, signal?: AbortSignal) {
     }
     if (!response.ok)
       throw new Error(
-        typeof body.detail === 'string'
+        typeof body.detail === 'string' && body.detail.trim()
           ? body.detail
           : 'The research service could not complete this request.',
       );
@@ -42,15 +42,25 @@ async function request(path: string, signal?: AbortSignal) {
   }
 }
 export async function searchCompanies(query: string, signal?: AbortSignal) {
-  return z
+  const result = z
     .object({
       companies: z.array(CompanySchema),
       stale: z.boolean(),
       retrieved_at: z.string(),
       coverage: z.string(),
     })
-    .parse(await request(`/v1/companies?q=${encodeURIComponent(query)}`, signal));
+    .safeParse(await request(`/v1/companies?q=${encodeURIComponent(query)}`, signal));
+  if (!result.success)
+    throw new Error('The company search response could not be verified. Please retry shortly.');
+  return result.data;
 }
 export async function getReport(ticker: string, signal?: AbortSignal) {
-  return ReportSchema.parse(await request(`/v1/reports/${encodeURIComponent(ticker)}`, signal));
+  const result = ReportSchema.safeParse(
+    await request(`/v1/reports/${encodeURIComponent(ticker)}`, signal),
+  );
+  if (!result.success)
+    throw new Error(
+      'This research response could not be verified. No report was saved. Please retry shortly.',
+    );
+  return result.data;
 }
