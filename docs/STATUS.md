@@ -21,9 +21,11 @@ Updated: 2026-09-16. This project is in implementation; the beta is not complete
 - Mobile TypeScript and ESLint passed; **6 unit tests passed** (four storage and two dependency compatibility checks). Disk-backed tests reopen a new store instance; cover concurrent writes, preserved versions, corrupt data and storage failures.
 - **3 Playwright browser flows passed** at 390×844 and 320×568: search → inspect → watch → save → notes → close/reopen → offline API → versions → delete; loading/empty/unsupported/stale/network/storage failures and malformed API responses. Rendering errors are asserted absent, and screenshots were visually reviewed. These use synthetic network fixtures, not live research, and are not physical iPhone tests.
 - Expo Doctor: **21/21 checks passed**. iOS/web JavaScript exports passed with patched dependencies and TickerBrief assets. These are not signed native builds.
-- FastAPI started on port 8000 and `/health` returned 200. Expo Metro started on 8081 and web returned 200. Backend was restarted without a SEC contact after the approval rejection; live SEC access remains gated below.
+- FastAPI started on port 8000 and `/health` returned 200 (`sec_configured=false`, `ai_enabled=false`). Expo Metro started on 8081 and web returned 200. Live SEC access remains gated below.
 - PostgreSQL usage ledger added for ephemeral hosting; TLS verification, transaction locking, explicit schema initialization, missing-ledger failure and budget checks covered with protocol/error mocks. SQLite concurrency/persistence uses an actual test database. A real hosted PostgreSQL transaction has not been tested because no database credentials/environment are available.
-- Release preparation includes an explicit Free Render blueprint, Dockerfile, privacy draft, EAS profiles, public app icon and Windows startup/release runbooks. Docker CLI exists but its daemon is not running; no container build is claimed.
+- Release preparation includes an explicit Free Render blueprint, Dockerfile, privacy draft, EAS profiles, public app icon and Windows startup/release runbooks. The blueprint passed validation against [Render's official JSON schema](https://render.com/schema/render.yaml.json); it has not been deployed. Docker CLI exists but its daemon is not running; no container build is claimed.
+- Clean temporary checkout: hash-pinned Python installation and `npm ci` succeeded; the committed dependency patch applied and npm reported zero vulnerabilities. All 31 backend tests, mobile TypeScript and six unit tests passed. Fresh FastAPI started on 8002 with healthy status; fresh Metro started on 8082 and a headless Chromium check confirmed HTTP 200, title `TickerBrief`, and the visible search input.
+- Fixed the clean-checkout Windows test scratch-directory ACL conflict by keeping pytest temporary data inside the checkout's ignored `.pytest_cache/tmp`. Final iOS Hermes and web exports passed after the latest rendering fixes. The local Hermes executable required running outside Codex's sandbox; no Mac or Xcode was involved.
 
 ## External prerequisites
 
@@ -32,22 +34,21 @@ Updated: 2026-09-16. This project is in implementation; the beta is not complete
 - Expo CLI is signed in as `jeppy22`; GitHub CLI as `Jeppy22`. EAS project `ba290e73-7370-4c6e-b557-1ea2e21987d0` was created and its link verified. Owner remains `jeppy22`. Free quota verified 2026-09-16: 3/15 iOS and 3/30 total builds used. Apple team permissions, registered bundle identifier and App Store Connect app ID are unverified. No cloud build started.
 - No Render token found. Connected browser automation reports no available browser, so hosting and Apple web account access cannot be checked through it.
 - npm audit now reports **zero vulnerabilities**, after scoped patched dependencies plus a committed, tested CommonJS compatibility patch. See DEPENDENCIES.md.
-- Clean temporary checkout: `npm ci` applied the committed patch, audit reported zero vulnerabilities, TypeScript and six unit checks passed. Python hash-pinned installation succeeded; its first test run exposed a shared Windows temp-directory ACL conflict. Test scratch storage now uses the checkout's ignored `.pytest_cache/tmp`; clean-checkout retest is in progress.
 
 ## Next task
 
-Finish fresh-checkout installation/startup verification and push reviewed commits. Once SEC contact is approved, verify AAPL/MSFT/RKLB against live underlying filings. Then use a verified free hosting account; live interpretation additionally needs verified free model access and durable usage storage. Apple signing and physical testing remain external.
+Once SEC contact is approved, configure it locally and verify AAPL/MSFT/RKLB against live underlying filings using `scripts/verify_live.py`; fix any actual coverage or normalization failures it reveals. Then use a verified free hosting account; live interpretation additionally needs verified free model access and durable usage storage. Apple signing and physical testing remain external. Code is on branch `feat/private-beta`; reproducible commands are in [README.md](../README.md).
 
 ## Acceptance audit
 
 | Goal criterion | Current evidence/status |
 | --- | --- |
-| Fresh Windows checkout starts both services | Working checkout starts; clean installation verification pending |
+| Fresh Windows checkout starts both services | Passed: clean dependency installs, fresh API health, fresh Metro and browser rendering |
 | Real dated reports for supported searches | Implemented and fixture-tested; live AAPL/MSFT/RKLB gate blocked by SEC contact authorization |
 | Live summary and bull/bear evidence verified | Not met; no model credential/free-tier verification or live generation |
 | Watchlist, snapshots, notes survive restart | Browser/device-storage code and persisted-file tests pass; physical iPhone pending |
 | Honest missing/offline/loading/error states | Browser fixture flows pass, including failed writes and retained reports |
-| Relevant checks documented | Passing checks above; additional clean-install evidence pending |
+| Relevant checks documented | Passed: 31 backend tests, 6 mobile unit tests, 3 browser flows, lint/types, Doctor, exports, audit and clean-install checks |
 | Hosted backend and TestFlight build | Not met; hosting credentials/settings, Apple identity/permissions and hosted URL needed |
 | Remaining review/device steps identified | RELEASE.md separates signing, upload, Apple processing, beta review and device checks |
 

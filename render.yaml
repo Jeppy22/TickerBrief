@@ -1,5 +1,6 @@
+# yaml-language-server: $schema=https://render.com/schema/render.yaml.json
 # Private-beta evaluation only. Verify workspace free allowances and no payment method first.
-# AI stays disabled because free Render filesystems cannot retain a lifetime usage ledger.
+# AI stays disabled until free provider access and a durable external usage ledger are verified.
 services:
   - type: web
     name: tickerbrief-api
