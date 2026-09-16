@@ -8,7 +8,9 @@ Release state: the hosted factual API passed its 50/50 source-fact audit and all
 - Expo owner: `jeppy22`.
 - EAS project: `ba290e73-7370-4c6e-b557-1ea2e21987d0`, [project dashboard](https://expo.dev/accounts/jeppy22/projects/tickerbrief).
 - Public app: **TickerBrief**. Tagline: **Stock research, clearly explained.**
-- Apple team, registered bundle identifier and App Store Connect app ID are **not verified**. Do not guess or replace an existing identifier. `IOS_BUNDLE_IDENTIFIER` must be supplied before building.
+- Apple Team ID: **`98BBY4NN94`**, supplied by the operator and configured as `ios.appleTeamId`.
+- Registered bundle ID: **`com.jeppyinvesting.tickerbrief`**, confirmed by the operator and configured through `IOS_BUNDLE_IDENTIFIER` locally and in every EAS profile.
+- Numeric App Store Connect Apple ID (`ascAppId`), signing access and credentials remain pending. [IOS_READINESS.md](IOS_READINESS.md#confirm-or-create-the-app-store-connect-record) gives the exact record-creation/reuse steps.
 
 EAS account usage was read through the signed-in CLI on 2026-09-16: Free plan, 3/15 iOS builds used, 3/30 total builds used, one concurrent build. This is a point-in-time check, not permission to assume the same quota later.
 
@@ -48,15 +50,13 @@ If sign-in has expired, use `npx.cmd eas-cli@latest login` and the official sign
 
 In Apple Developer / App Store Connect, verify active membership, the correct team, access to the existing app/bundle identifier, and the permissions required for signing/uploading. Account Holder/Admin may need to provide Certificates, Identifiers & Profiles access or accept current Apple agreements themselves. Review the [Apple role permissions](https://developer.apple.com/help/app-store-connect/reference/role-permissions/). Do not register a competing bundle ID to avoid an access problem.
 
-The public `EXPO_PUBLIC_API_URL=https://tickerbrief-api.onrender.com` is already configured in each existing EAS build profile, using [Expo's build-profile environment setting](https://docs.expo.dev/build/eas-json/). Do not add a conflicting remote URL. Configure the remaining **public/nonsecret** EAS environment value for the relevant environment through the official dashboard/CLI:
-
-- `IOS_BUNDLE_IDENTIFIER`: the verified registered Apple identifier.
+The public `EXPO_PUBLIC_API_URL=https://tickerbrief-api.onrender.com` and `IOS_BUNDLE_IDENTIFIER=com.jeppyinvesting.tickerbrief` are configured in each existing EAS build profile, using [Expo's build-profile environment setting](https://docs.expo.dev/build/eas-json/). Do not add conflicting remote values. The Apple team is set in app configuration; the numeric `ascAppId` will be added to the submission profile after the actual app record is confirmed.
 
 Also set them in the local shell used to resolve the dynamic app config:
 
 ```powershell
 $env:EXPO_PUBLIC_API_URL = 'https://tickerbrief-api.onrender.com'
-$env:IOS_BUNDLE_IDENTIFIER = 'YOUR_REGISTERED_BUNDLE_IDENTIFIER'
+$env:IOS_BUNDLE_IDENTIFIER = 'com.jeppyinvesting.tickerbrief'
 ```
 
 The EAS project ID and owner are already committed in app configuration. Do not move ownership or replace the linked project. No provider credentials belong in EAS public variables.

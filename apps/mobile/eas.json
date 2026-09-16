@@ -5,20 +5,29 @@
       "developmentClient": true,
       "distribution": "internal",
       "environment": "development",
-      "env": { "EXPO_PUBLIC_API_URL": "https://tickerbrief-api.onrender.com" },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://tickerbrief-api.onrender.com",
+        "IOS_BUNDLE_IDENTIFIER": "com.jeppyinvesting.tickerbrief"
+      },
       "ios": { "simulator": false }
     },
     "preview": {
       "distribution": "internal",
       "environment": "preview",
-      "env": { "EXPO_PUBLIC_API_URL": "https://tickerbrief-api.onrender.com" },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://tickerbrief-api.onrender.com",
+        "IOS_BUNDLE_IDENTIFIER": "com.jeppyinvesting.tickerbrief"
+      },
       "ios": { "simulator": false }
     },
     "production": {
       "distribution": "store",
       "autoIncrement": true,
       "environment": "production",
-      "env": { "EXPO_PUBLIC_API_URL": "https://tickerbrief-api.onrender.com" },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://tickerbrief-api.onrender.com",
+        "IOS_BUNDLE_IDENTIFIER": "com.jeppyinvesting.tickerbrief"
+      },
       "ios": { "simulator": false }
     }
   },

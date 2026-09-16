@@ -23,6 +23,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ios: {
       ...config.ios,
       bundleIdentifier,
+      appleTeamId: '98BBY4NN94',
       supportsTablet: false,
       infoPlist: { ITSAppUsesNonExemptEncryption: false },
     },
