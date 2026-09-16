@@ -1,0 +1,79 @@
+import { Report } from '../src/lib/schema';
+
+/** Synthetic TEST company. Test tooling only; never imported by application code. */
+export const fixtureReport: Report = {
+  schema_version: 1,
+  id: 'synthetic-test-only',
+  company: { ticker: 'TEST', name: 'TEST FIXTURE ONLY', cik: '0000000001' },
+  retrieved_at: '2026-09-16T12:00:00Z',
+  generated_at: '2026-09-16T12:00:00Z',
+  stale: false,
+  overview: 'This fictional company exists only in automated test fixtures.',
+  overview_source_ids: ['test-business'],
+  industry: 'Synthetic industry',
+  periods: [
+    {
+      kind: 'annual',
+      label: 'Annual',
+      start: '2025-01-01',
+      end: '2025-12-31',
+      metrics: [
+        {
+          key: 'revenue',
+          label: 'Revenue',
+          current: {
+            value: 100,
+            unit: 'USD',
+            start: '2025-01-01',
+            end: '2025-12-31',
+            source_ids: ['test-revenue'],
+            concept: 'Revenues',
+          },
+          previous: null,
+          change: null,
+          change_percent: null,
+          explanation: 'Synthetic test revenue: $100. Not real company research.',
+          missing_reason: null,
+        },
+        {
+          key: 'cash',
+          label: 'Cash',
+          current: null,
+          previous: null,
+          change: null,
+          change_percent: null,
+          explanation: 'Unavailable: no unambiguous USD fact for this reporting period.',
+          missing_reason: 'Missing in test fixture.',
+        },
+      ],
+    },
+  ],
+  sources: [
+    {
+      id: 'test-revenue',
+      kind: 'reported_fact',
+      title: 'SYNTHETIC revenue evidence',
+      url: 'https://www.sec.gov/test-only',
+      data_url: 'https://data.sec.gov/test-only',
+      retrieved_at: '2026-09-16T12:00:00Z',
+      excerpt: 'TEST FIXTURE ONLY: Revenues 100 USD, 2025-01-01 to 2025-12-31',
+      filed: '2026-02-01',
+      form: '10-K',
+    },
+    {
+      id: 'test-business',
+      kind: 'management_statement',
+      title: 'SYNTHETIC business evidence',
+      url: 'https://www.sec.gov/test-only',
+      data_url: 'https://www.sec.gov/test-only',
+      retrieved_at: '2026-09-16T12:00:00Z',
+      excerpt: 'This fictional company exists only in automated test fixtures.',
+    },
+  ],
+  uncertainties: ['This is a test fixture, never live research.'],
+  interpretation: {
+    status: 'disabled',
+    message: 'Model interpretation is disabled in this test fixture.',
+    content: null,
+  },
+};
