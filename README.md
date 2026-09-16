@@ -84,6 +84,8 @@ npm.cmd run test:e2e
 
 These browser tests intercept requests with explicitly synthetic TEST fixtures. Production code never imports them. Tests cover source inspection, watchlists, snapshot versioning, notes, restart persistence, offline API access, deletion, and failure states. iOS JavaScript export does not prove native signing, TestFlight upload, or physical-device behavior.
 
+The resilience scenarios simulate a delayed response, the 90-second request deadline, HTML/JSON service errors and manual retry recovery. Browser-clock time is accelerated for delay tests. Saved research and note editing remain local; an in-progress refresh does not prevent saving the report already displayed. The test runner allows 120 seconds for an entire scenario because full Metro page loads can be slow on Windows; individual UI assertions and the app's request deadline remain bounded separately. These simulations do not verify a real Render cold start.
+
 Once an approved SEC contact is configured and the factual API is running with AI disabled, run the independent live filing audit from `services/api`:
 
 ```powershell

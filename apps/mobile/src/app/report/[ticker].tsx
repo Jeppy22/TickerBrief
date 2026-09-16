@@ -59,7 +59,11 @@ function ResearchView({ ticker }: { ticker: string }) {
               ? 'Checking for updated research…'
               : 'Reading SEC filings… This can take a moment.'
           }
+          slowHint="The research service is taking longer to respond. Your saved research is available while you wait."
         />
+      )}
+      {(busy || Boolean(error)) && (
+        <Button title="Open saved research" secondary onPress={() => router.replace('/saved')} />
       )}
       {error && (
         <>
@@ -76,7 +80,7 @@ function ResearchView({ ticker }: { ticker: string }) {
           <Button
             title={saving ? 'Saving…' : 'Save report & add notes'}
             onPress={() => void save()}
-            disabled={saving || !library || busy}
+            disabled={saving || !library}
           />
           <Button
             title={watched ? 'Remove from watchlist' : 'Add to watchlist'}
@@ -90,8 +94,9 @@ function ResearchView({ ticker }: { ticker: string }) {
           />
           <Button title="Refresh research" secondary disabled={busy} onPress={reload} />
           <Copy>
-            Saving creates a dated copy. Refreshing never changes your saved reports. SEC data is
-            cached to respect source access limits.
+            Saving keeps a dated copy of the report currently shown, even during a refresh.
+            Refreshing never changes your saved reports. SEC data is cached to respect source access
+            limits.
           </Copy>
           <ReportBody report={report} />
         </>

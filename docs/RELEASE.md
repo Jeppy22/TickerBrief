@@ -32,6 +32,8 @@ The Dockerfile is an alternative deployment artifact; it has not been built here
 
 ## Apple and EAS
 
+See [the local iOS configuration review and exact missing Apple prerequisites](IOS_READINESS.md). Render deployment is in progress per the operator; its configuration must remain unchanged while it finishes. The next release action is verification of the supplied HTTPS URL.
+
 Use the existing project and ownership. From `apps/mobile` in PowerShell:
 
 ```powershell

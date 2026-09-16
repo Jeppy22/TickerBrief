@@ -74,7 +74,12 @@ export default function SearchScreen() {
         onPress={() => void search()}
         disabled={busy || !query.trim()}
       />
-      {busy && <Loading label="Searching SEC companies…" />}
+      {busy && (
+        <Loading
+          label="Searching SEC companies…"
+          slowHint="The research service is taking longer to respond. Your saved research is available while you wait."
+        />
+      )}
       {error && (
         <>
           <Notice error>{error}</Notice>

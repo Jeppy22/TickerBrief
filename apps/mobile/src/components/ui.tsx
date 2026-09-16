@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Pressable,
@@ -98,11 +98,24 @@ export function Notice({ children, error = false }: PropsWithChildren<{ error?: 
     </View>
   );
 }
-export function Loading({ label = 'Loading research…' }: { label?: string }) {
+export function Loading({
+  label = 'Loading research…',
+  slowHint,
+}: {
+  label?: string;
+  slowHint?: string;
+}) {
+  const [slow, setSlow] = useState(false);
+  useEffect(() => {
+    if (!slowHint) return;
+    const timer = setTimeout(() => setSlow(true), 10000);
+    return () => clearTimeout(timer);
+  }, [slowHint]);
   return (
     <View style={s.loading}>
       <ActivityIndicator color={colors.teal} />
       <Copy>{label}</Copy>
+      {slow && Boolean(slowHint) && <Notice>{slowHint}</Notice>}
     </View>
   );
 }

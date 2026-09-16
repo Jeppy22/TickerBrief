@@ -10,9 +10,14 @@ async function request(path: string, signal?: AbortSignal) {
       'This build is not connected to a research service. Your saved reports are still available. Please contact the beta operator.',
     );
   const controller = new AbortController();
+  let timedOut = false;
   const abort = () => controller.abort();
   signal?.addEventListener('abort', abort);
-  const timeout = setTimeout(abort, 90000); // Free hosting can take a minute to wake.
+  if (signal?.aborted) abort();
+  const timeout = setTimeout(() => {
+    timedOut = true;
+    abort();
+  }, 90000); // Free hosting can take a minute to wake.
   try {
     const response = await fetch(`${API_URL.replace(/\/$/, '')}${path}`, {
       signal: controller.signal,
@@ -20,7 +25,8 @@ async function request(path: string, signal?: AbortSignal) {
     let body;
     try {
       body = await response.json();
-    } catch {
+    } catch (error) {
+      if (controller.signal.aborted) throw error;
       throw new Error('The research service is waking up or unavailable. Try again shortly.');
     }
     if (!response.ok)
@@ -31,6 +37,10 @@ async function request(path: string, signal?: AbortSignal) {
       );
     return body;
   } catch (error) {
+    if (timedOut)
+      throw new Error(
+        'The research request timed out. Please retry shortly. Your saved reports are still available offline.',
+      );
     if (error instanceof TypeError || (error instanceof Error && error.name === 'AbortError'))
       throw new Error(
         'Unable to reach research. Check your connection or retry shortly. Your saved reports work offline.',
