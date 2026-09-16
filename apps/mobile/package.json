@@ -43,8 +43,8 @@
     "test": "tsx --test tests/*.test.ts",
     "test:e2e": "playwright test",
     "test:live": "playwright test --config playwright.live.config.ts",
-    "export:ios": "expo export --platform ios",
-    "export:web": "expo export --platform web",
+    "export:ios": "expo export --platform ios --clear",
+    "export:web": "expo export --platform web --clear",
     "postinstall": "patch-package"
   },
   "private": true,

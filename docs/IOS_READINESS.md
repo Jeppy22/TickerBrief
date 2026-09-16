@@ -14,7 +14,7 @@ The existing `eas.json` provides:
 | `preview` | Internal preview | Internal distribution, preview environment, physical device |
 | `production` | TestFlight/App Store distribution archive | Store distribution, production environment, automatic build-number increment |
 
-Remote app-version management remains enabled. `submit.production` is intentionally empty until the actual App Store Connect app is identified. The app configuration requires the existing EAS project, `IOS_BUNDLE_IDENTIFIER`, and an HTTPS `EXPO_PUBLIC_API_URL` for cloud builds. These settings and the running Render deployment configuration were left unchanged.
+Remote app-version management remains enabled. `submit.production` is intentionally empty until the actual App Store Connect app is identified. The app configuration requires the existing EAS project, `IOS_BUNDLE_IDENTIFIER`, and an HTTPS `EXPO_PUBLIC_API_URL` for cloud builds. All three established profiles now supply `https://tickerbrief-api.onrender.com` as their public API URL. Ownership, identifiers, distribution and version settings are unchanged.
 
 Local checks confirmed the build profiles above and exercised the cloud-config guard with process-local synthetic values: missing bundle ID, missing project ID and an HTTP API URL are rejected; a complete synthetic HTTPS configuration preserves the real Expo owner/project. These checks created no Apple identifier, EAS build, or persisted example credentials.
 
@@ -49,14 +49,18 @@ Select the `production` profile for TestFlight signing and the correct Apple tea
 
 A public privacy-policy URL, approved support/review contact and beta information are still required. Authorization to identify SEC requests does not authorize publishing that contact as the app's support or review address. No testers will be invited automatically.
 
-## First action when the hosted URL arrives
+## Hosted handoff and next release action
 
-1. Check its HTTPS `/health` endpoint for `service=TickerBrief`, `sec_configured=true`, and `ai_enabled=false`. Observe initial response time without changing the running deployment.
-2. From `services/api`, run the existing filing audit against that URL:
+The supplied URL passed health and the complete 50/50 financial-fact audit. See [hosted verification](HOSTED_VERIFICATION.md) for the exact results and the CORS environment correction required for the browser preview. Apple prerequisites above remain unverified; account checks were not repeated.
+
+To repeat hosted verification after a relevant deployment change:
+
+1. Check `https://tickerbrief-api.onrender.com/health` for `service=TickerBrief`, `sec_configured=true`, and `ai_enabled=false`.
+2. From `services/api`, run the existing filing audit:
 
    ```powershell
-   ..\..\.venv\Scripts\python.exe scripts\verify_live.py --base-url https://YOUR_VERIFIED_BACKEND_HOST
+   ..\..\.venv\Scripts\python.exe scripts\verify_live.py --base-url https://tickerbrief-api.onrender.com
    ```
 
-3. Verify all three hosted reports and record any cold-start or SEC-hosting-IP failures. Then set the verified URL as `EXPO_PUBLIC_API_URL` in the mobile build environment and test its normal flow. Browser previews also depend on allowed CORS origins; local browser simulations do not establish hosted CORS behavior.
-4. With Apple prerequisites satisfied, use the existing `production` build/submit commands in [RELEASE.md](RELEASE.md). Record build, upload, Apple processing, beta review and physical-device results separately. No local Xcode or simulator build is required.
+3. Run the real browser flow using the hosted URL and actual CORS permissions, following the hosted runbook. Record cold-start observations separately from synthetic timeout checks.
+4. The next Apple action is to sign in at the Apple Developer account, choose the intended team, and supply the nonsecret team/role, existing bundle ID and numeric App Store Connect app ID listed above. With those prerequisites satisfied, use the existing `production` build/submit commands in [RELEASE.md](RELEASE.md). Record build, upload, Apple processing, beta review and physical-device results separately. No local Xcode or simulator build is required.

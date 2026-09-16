@@ -1,17 +1,24 @@
 import { chromium, expect, test } from '@playwright/test';
 import { ReportSchema } from '../../src/lib/schema';
 
-const api = 'http://127.0.0.1:8000';
+const api = (process.env.EXPO_PUBLIC_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
 const app = 'http://127.0.0.1:8081';
 
 test.beforeAll(async ({ request }) => {
-  const response = await request.get(`${api}/health`);
+  const response = await request.get(`${api}/health`, {
+    headers: { Origin: app },
+    timeout: 120000,
+  });
   expect(response.ok()).toBe(true);
   expect(await response.json()).toMatchObject({
     service: 'TickerBrief',
     sec_configured: true,
     ai_enabled: false,
   });
+  expect(
+    response.headers()['access-control-allow-origin'],
+    `The backend must allow the browser origin ${app}; do not bypass CORS in this live suite.`,
+  ).toBe(app);
 });
 
 for (const [ticker, query] of [
@@ -32,8 +39,11 @@ for (const [ticker, query] of [
       await page.goto(app);
       await page.getByRole('textbox', { name: 'Company name or ticker' }).fill(query);
       await page.getByRole('button', { name: 'Search companies', exact: true }).click();
-      const pending = page.waitForResponse(`${api}/v1/reports/${ticker}`);
-      await page.getByRole('button', { name: `Read ${ticker} brief`, exact: true }).click();
+      // The app allows 90 seconds for each research request, including a host wake-up.
+      const readBrief = page.getByRole('button', { name: `Read ${ticker} brief`, exact: true });
+      await expect(readBrief).toBeVisible({ timeout: 95000 });
+      const pending = page.waitForResponse(`${api}/v1/reports/${ticker}`, { timeout: 95000 });
+      await readBrief.click();
       const response = await pending;
       expect(response.ok()).toBe(true);
       const report = ReportSchema.parse(await response.json());
@@ -92,6 +102,30 @@ for (const [ticker, query] of [
       await expect(reopened.getByRole('button', { name: 'Open saved report' })).toHaveCount(2);
       await reopened.goto(`${app}/watchlist`);
       await expect(reopened.getByRole('button', { name: `Read ${ticker} brief` })).toBeVisible();
+
+      if (ticker === 'AAPL') {
+        await reopened.goto(savedUrl);
+        const offlineNotes = `${notes} Edited while API access was blocked.`;
+        await reopened.getByRole('textbox', { name: 'Personal research notes' }).fill(offlineNotes);
+        await reopened.getByRole('button', { name: 'Save notes', exact: true }).click();
+        await expect(reopened.getByText('Notes saved on this device.')).toBeVisible();
+        await reopened.reload();
+        await expect(
+          reopened.getByRole('textbox', { name: 'Personal research notes' }),
+        ).toHaveValue(offlineNotes);
+        await reopened.getByRole('button', { name: 'Open current research' }).click();
+        await expect(reopened.getByText(/Unable to reach research/)).toBeVisible();
+        // Restore direct access to the same real backend, then exercise the user's retry action.
+        await context.unroute('**/v1/**');
+        await context.route('**/v1/**', (route) =>
+          new URL(route.request().url()).origin === api ? route.continue() : route.abort(),
+        );
+        await reopened.getByRole('button', { name: 'Retry research', exact: true }).click();
+        await expect(
+          reopened.getByRole('heading', { name: report.company.name, exact: true }),
+        ).toBeVisible({ timeout: 95000 });
+        await expect(reopened.getByRole('alert')).toHaveCount(0);
+      }
     } finally {
       await context.close();
     }

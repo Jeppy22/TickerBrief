@@ -1,6 +1,6 @@
 # Private iPhone beta release runbook
 
-Release state: preparation only. No hosted API, signed iOS build, TestFlight upload, Apple processing, beta review, or physical-device test has been verified.
+Release state: the hosted factual API passed its 50/50 source-fact audit. Hosted browser access requires the CORS update in [HOSTED_VERIFICATION.md](HOSTED_VERIFICATION.md). No signed iOS build, TestFlight upload, Apple processing, beta review, or physical-device test has been verified.
 
 ## Known identities
 
@@ -14,6 +14,8 @@ EAS account usage was read through the signed-in CLI on 2026-09-16: Free plan, 3
 
 ## Hosted factual backend
 
+The existing service is **https://tickerbrief-api.onrender.com**. Do not create another deployment. The setup steps below are retained for reproducibility; current verification and the exact browser-origin setting are in the [hosted runbook](HOSTED_VERIFICATION.md).
+
 The proposed private-beta evaluation host is Render Free, using `render.yaml`. [Render's current terms](https://render.com/docs/free) describe idle sleeping, cold starts, ephemeral files, and finite workspace allowances. It is not a production-service guarantee. To avoid automatic bandwidth overage charges, use a workspace **with no payment method** and verify remaining included bandwidth/build minutes/free service hours before deployment. Do not add a card or upgrade.
 
 1. Sign in to [Render](https://dashboard.render.com/) through its official flow. Allow access only to the specified repository if needed. Confirm the account's free allowances and no payment method. There is no authenticated Render connection available to this session.
@@ -22,17 +24,17 @@ The proposed private-beta evaluation host is Render Free, using `render.yaml`. [
 4. Select **Deploy Blueprint** after confirming the Free plan. On the Blueprint's **Settings** page, set **Auto Sync** to **No**; this is separate from the service's already-disabled auto-deploy. Wait for the service to become Live, copy its actual HTTPS URL, and verify `/health` returns `service=TickerBrief`, `sec_configured=true`, `ai_enabled=false`. Then run the live verification script against that URL. Local AAPL/MSFT/RKLB verification has passed, but this does not prove research works from the hosting IP; SEC may deny some cloud traffic.
 5. Confirm the mobile normal flow can search and read all three audit companies using that HTTPS URL. Test a cold start. Do not use a tunnel to the Windows PC as the beta backend.
 
-The next handoff is the service's public HTTPS URL and confirmation that the Free workspace has no payment method. No Render API token is needed if these dashboard steps are completed manually. From `services/api`, the hosted check is:
+The URL has been supplied and its report audit passed. Preserve the Free workspace and no-payment-method constraint. No Render API token is needed for the documented manual dashboard steps. From `services/api`, the hosted check is:
 
 ```powershell
-..\..\.venv\Scripts\python.exe scripts\verify_live.py --base-url https://YOUR_RENDER_SERVICE.onrender.com
+..\..\.venv\Scripts\python.exe scripts\verify_live.py --base-url https://tickerbrief-api.onrender.com
 ```
 
 The Dockerfile is an alternative deployment artifact; it has not been built here unless STATUS.md records a successful container check. Render Free cannot persist a local lifetime AI ledger; the included PostgreSQL adapter supports a separately verified free persistent database. Hosted AI needs that durable-storage prerequisite plus verified model access in [AI.md](AI.md).
 
 ## Apple and EAS
 
-See [the local iOS configuration review and exact missing Apple prerequisites](IOS_READINESS.md). Render deployment is in progress per the operator; its configuration must remain unchanged while it finishes. The next release action is verification of the supplied HTTPS URL.
+See [the local iOS configuration review and exact missing Apple prerequisites](IOS_READINESS.md). Hosted report retrieval is verified; the next release prerequisites are browser CORS access and the intended Apple team/bundle/signing details.
 
 Use the existing project and ownership. From `apps/mobile` in PowerShell:
 
@@ -46,15 +48,14 @@ If sign-in has expired, use `npx.cmd eas-cli@latest login` and the official sign
 
 In Apple Developer / App Store Connect, verify active membership, the correct team, access to the existing app/bundle identifier, and the permissions required for signing/uploading. Account Holder/Admin may need to provide Certificates, Identifiers & Profiles access or accept current Apple agreements themselves. Review the [Apple role permissions](https://developer.apple.com/help/app-store-connect/reference/role-permissions/). Do not register a competing bundle ID to avoid an access problem.
 
-Configure **public/nonsecret** EAS environment values for the relevant environment through the official dashboard/CLI:
+The public `EXPO_PUBLIC_API_URL=https://tickerbrief-api.onrender.com` is already configured in each existing EAS build profile, using [Expo's build-profile environment setting](https://docs.expo.dev/build/eas-json/). Do not add a conflicting remote URL. Configure the remaining **public/nonsecret** EAS environment value for the relevant environment through the official dashboard/CLI:
 
-- `EXPO_PUBLIC_API_URL`: the verified hosted HTTPS backend.
 - `IOS_BUNDLE_IDENTIFIER`: the verified registered Apple identifier.
 
 Also set them in the local shell used to resolve the dynamic app config:
 
 ```powershell
-$env:EXPO_PUBLIC_API_URL = 'https://YOUR_VERIFIED_BACKEND_HOST'
+$env:EXPO_PUBLIC_API_URL = 'https://tickerbrief-api.onrender.com'
 $env:IOS_BUNDLE_IDENTIFIER = 'YOUR_REGISTERED_BUNDLE_IDENTIFIER'
 ```
 

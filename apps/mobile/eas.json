@@ -5,17 +5,20 @@
       "developmentClient": true,
       "distribution": "internal",
       "environment": "development",
+      "env": { "EXPO_PUBLIC_API_URL": "https://tickerbrief-api.onrender.com" },
       "ios": { "simulator": false }
     },
     "preview": {
       "distribution": "internal",
       "environment": "preview",
+      "env": { "EXPO_PUBLIC_API_URL": "https://tickerbrief-api.onrender.com" },
       "ios": { "simulator": false }
     },
     "production": {
       "distribution": "store",
       "autoIncrement": true,
       "environment": "production",
+      "env": { "EXPO_PUBLIC_API_URL": "https://tickerbrief-api.onrender.com" },
       "ios": { "simulator": false }
     }
   },

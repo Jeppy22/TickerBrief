@@ -51,7 +51,18 @@ npm.cmd start -- --lan --port 8081
 
 Open the QR code in a compatible Expo Go or installed EAS development build; use a development build when Expo Go does not include this SDK. If Windows prompts about networking, allow the app only on your trusted private network. No local Xcode command is part of this workflow. The release runbook explains cloud builds. A TestFlight build must use the hosted **HTTPS** backend, never the developer PC.
 
-All `EXPO_PUBLIC_` values ship in the app. They may contain a public API URL, **never provider keys**. When modifying this URL, restart Metro. If SDK network validation is temporarily unavailable, `npm.cmd start -- --offline` starts Metro without contacting Expo (SEC research still needs its own connection).
+All `EXPO_PUBLIC_` values ship in the app. They may contain a public API URL, **never provider keys**. When modifying this URL, restart Metro with `--clear`. The export scripts clear Metro's cache automatically so a previous API URL is not retained. If SDK network validation is temporarily unavailable, `npm.cmd start -- --offline` starts Metro without contacting Expo (SEC research still needs its own connection).
+
+### Use the hosted private-beta backend
+
+The deployed factual API is `https://tickerbrief-api.onrender.com`. Its AAPL/MSFT/RKLB filing audit passed; see [hosted evidence and browser prerequisites](docs/HOSTED_VERIFICATION.md). From `apps/mobile`:
+
+```powershell
+$env:EXPO_PUBLIC_API_URL = 'https://tickerbrief-api.onrender.com'
+npm.cmd run web -- --port 8081 --clear
+```
+
+The ignored local `.env` and public `.env.example` use this URL; all existing EAS build profiles also configure it explicitly. The local-backend commands above still override it for backend development. Browser preview requires the two documented localhost origins in Render's CORS allowlist. No local backend is needed for hosted research.
 
 ## Checks
 
@@ -101,6 +112,8 @@ npm.cmd run test:live
 ```
 
 This separate, explicit suite uses real AAPL/MSFT/RKLB research, requires the local API to confirm AI is disabled, and verifies browser restart persistence with API access blocked. Ordinary `test:e2e` remains synthetic. See the [dated live results](docs/LIVE_VERIFICATION.md).
+
+For the deployed service, set `$env:EXPO_PUBLIC_API_URL = 'https://tickerbrief-api.onrender.com'` in both the Metro and test terminals before running `npm.cmd run test:live`. The suite validates the selected API's disabled-AI health and browser CORS access before requesting research. It never substitutes fixtures or bypasses CORS; use the [hosted runbook](docs/HOSTED_VERIFICATION.md).
 
 ## Data and storage
 
