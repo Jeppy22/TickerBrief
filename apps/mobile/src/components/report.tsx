@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Linking, Modal, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Evidence, Report } from '../lib/schema';
+import { FinancialValue } from './financial-value';
 import { Button, Card, colors, Copy, dateLabel, Eyebrow, Heading, money, Notice, s } from './ui';
 
 export function ReportBody({ report }: { report: Report }) {
@@ -85,7 +86,7 @@ export function ReportBody({ report }: { report: Report }) {
           {period.metrics.map((metric) => (
             <Card key={metric.key}>
               <Copy style={s.muted}>{metric.label}</Copy>
-              <Heading>{money(metric.current?.value)}</Heading>
+              <FinancialValue>{money(metric.current?.value)}</FinancialValue>
               {metric.current && (
                 <Copy style={s.muted}>
                   {metric.current.start
@@ -95,11 +96,14 @@ export function ReportBody({ report }: { report: Report }) {
                 </Copy>
               )}
               {metric.previous && (
-                <Copy style={s.muted}>
-                  Prior year: {money(metric.previous.value)} (
-                  {metric.previous.start ? `${metric.previous.start} to ` : 'as of '}
-                  {metric.previous.end})
-                </Copy>
+                <View style={{ gap: 6 }}>
+                  <Copy style={s.muted}>Prior year · USD</Copy>
+                  <FinancialValue>{money(metric.previous.value)}</FinancialValue>
+                  <Copy style={s.muted}>
+                    {metric.previous.start ? `Period ${metric.previous.start} to ` : 'As of '}
+                    {metric.previous.end}
+                  </Copy>
+                </View>
               )}
               <Copy>{metric.explanation}</Copy>
               {metric.change !== null && <Eyebrow>Change calculated by TickerBrief</Eyebrow>}
@@ -175,13 +179,17 @@ export function ReportBody({ report }: { report: Report }) {
       </Copy>
       {selected.length > 0 && (
         <Modal visible animationType="slide" onRequestClose={() => setSelected([])}>
-          <SafeAreaView style={{ flex: 1, backgroundColor: colors.paper }}>
+          <SafeAreaView testID="source-notebook" style={{ flex: 1, backgroundColor: colors.paper }}>
             <View style={{ padding: 18 }}>
               <Button title="Close evidence" onPress={() => setSelected([])} />
             </View>
             <ScrollView contentContainerStyle={s.content}>
               <Eyebrow>Follow the evidence</Eyebrow>
               <Heading>Supporting sources</Heading>
+              <Copy style={s.muted}>
+                Retained excerpts are available offline. Opening SEC links requires an internet
+                connection.
+              </Copy>
               {linkError && (
                 <Notice error>
                   The source could not be opened. Its retained excerpt is available below; opening
@@ -202,6 +210,18 @@ export function ReportBody({ report }: { report: Report }) {
                     <Copy selectable style={s.muted}>
                       Accession {source.accession}
                     </Copy>
+                  )}
+                  {source.value !== null && source.value !== undefined && (
+                    <View style={{ gap: 6 }}>
+                      <Copy style={s.muted}>Reported value · {source.unit}</Copy>
+                      <FinancialValue>{String(source.value)}</FinancialValue>
+                      {Boolean(source.end) && (
+                        <Copy style={s.muted}>
+                          {source.start ? `Period ${source.start} to ` : 'As of '}
+                          {source.end}
+                        </Copy>
+                      )}
+                    </View>
                   )}
                   <Copy selectable>{source.excerpt}</Copy>
                   <Button title="Open SEC filing" secondary onPress={() => void open(source.url)} />

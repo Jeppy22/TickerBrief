@@ -13,10 +13,12 @@ export default function Layout() {
           screenOptions={{
             headerStyle: { backgroundColor: colors.paper },
             headerTintColor: colors.ink,
+            headerBackTitle: 'Back',
+            headerBackButtonDisplayMode: 'generic',
             contentStyle: { backgroundColor: colors.paper },
           }}
         >
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false, title: 'TickerBrief' }} />
           <Stack.Screen name="report/[ticker]" options={{ title: 'Research brief' }} />
           <Stack.Screen name="saved/[id]" options={{ title: 'Saved research' }} />
         </Stack>

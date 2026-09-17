@@ -1,6 +1,6 @@
 # Private iPhone beta release runbook
 
-Release state: production iOS build **`3797cb4d-c4f0-425d-8910-af53165d726c`** succeeded, version **0.1.0 (2)**, source **`4bed83a9a9547ad25fd2ce23bb67c0e4c4fac408`**. [Build dashboard](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3797cb4d-c4f0-425d-8910-af53165d726c). Static IPA inspection passed on Windows; no local Xcode was used. **Upload and Apple processing are complete**, and the build is ready for internal testing. Physical-device testing remains pending; external beta review has not been requested. Hosted factual API/browser gates remain passed. See [STATUS.md](STATUS.md) for distinct milestones.
+Release state: the first production build **`3797cb4d-c4f0-425d-8910-af53165d726c`**, version **0.1.0 (2)**, source **`4bed83a9a9547ad25fd2ce23bb67c0e4c4fac408`**, was built, uploaded, processed and physically tested in part by the operator. [Original build dashboard](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3797cb4d-c4f0-425d-8910-af53165d726c). The stabilization update addresses value readability and back labels; its build/upload/processing results are tracked in [STATUS.md](STATUS.md). Use the existing internal group and update over the installed app as described in [BETA_TESTING.md](BETA_TESTING.md#install-on-your-iphone). Offline saved access and native behavior of the fixes require device retesting. External beta review has not been requested. Hosted factual API/browser gates remain passed.
 
 ## Known identities
 
@@ -89,7 +89,7 @@ The root `.easignore` preserves the root/mobile Git exclusions and omits backend
 
 Use the exact successful build ID, not an unrelated `--latest` artifact. Submission targets the configured app `6812926318`; EAS Submit authentication may still be required separately from build signing. Do not start either build before checking the Free plan and remaining iOS quota. Never accept a paid-build upgrade.
 
-### Completed upload: monitor the existing submission
+### First release upload record (0.1.0 build 2)
 
 The existing API key was reused. This exact command succeeded from `apps/mobile` in PowerShell; it is retained as an audit record, **not a next action to rerun**:
 

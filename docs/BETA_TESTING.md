@@ -1,6 +1,22 @@
 # Private TestFlight handoff
 
-The production build **0.1.0 (2)**, ID **`3797cb4d-c4f0-425d-8910-af53165d726c`**, source **`4bed83a9a9547ad25fd2ce23bb67c0e4c4fac408`**, has been uploaded and processed by Apple. It is **ready for internal testing** (`VALID` / `READY_FOR_BETA_TESTING`). [Submission receipt and Apple status](verification/2026-09-17-testflight-submission.json). No tester invitations or public link have been created. The operator confirmed private review contact details are saved; physical-device results are not yet available.
+The first release **0.1.0 (2)**, ID **`3797cb4d-c4f0-425d-8910-af53165d726c`**, was uploaded, processed and installed by the operator. [Original submission receipt](verification/2026-09-17-testflight-submission.json). A stabilization build is being prepared for the existing private testing group; its delivery will be recorded here after completion. The operator confirmed private review contact details are saved. No new tester invitations or public links are part of this update.
+
+## First physical observations
+
+Device: **iPhone 17 Pro**, build **0.1.0 (2)**; exact iOS version not supplied. The operator reports successful research retrieval, SEC filing links, saving reports and personal notes, persistence after reopening, and normal keyboard behavior. Values sometimes wrap or clip, and the company screen's back label shows `(tabs)`.
+
+Airplane mode produced a connection error, but it is unknown whether the user was in live research or a saved snapshot. **Offline saved access remains unconfirmed on the iPhone.** Automated browser tests of saved research/source excerpts and note edits after process restarts pass with external requests blocked; Metro assets remain local. Those tests do not replace the device retest.
+
+## Device retest checklist
+
+1. Before updating, confirm at least one existing saved report and note and record their ticker/text privately. **Update through TestFlight over the existing installation; do not delete/reinstall TickerBrief or clear its storage.** Confirm the new build number, record the exact iOS version from Settings → General → About, and check the existing snapshots and notes are unchanged.
+2. Open both live research and an existing saved snapshot. Check current and prior-year amounts, signs, units, reporting periods and decimal digits, including a negative amount where present. Inspect source details and their full reported values. Repeat with larger text under Settings → Accessibility → Display & Text Size → Larger Text. At extreme sizes, use the indicated horizontal swipe to read every digit; verify no ellipses or split decimals.
+3. Check the native **Back** button from a live report opened from Search, a saved report opened from Saved Research, and current research opened from a saved snapshot. Confirm each returns to the previous screen, including the native edge-swipe gesture.
+4. Turn on airplane mode **and ensure Wi-Fi is off**. Force-quit TickerBrief, reopen it, select **Saved Research**, then select an existing saved snapshot (not **Open current research**). Read its report and retained business/financial source excerpts. Edit a note, save it, force-quit/reopen again while still offline, and confirm the edit persists.
+5. While offline, try **Open current research** and a fresh company search. A connection error is expected; use **Open saved research** to return to the local library. Original SEC links require connectivity. Restore connectivity, retry live research, and confirm earlier snapshots/notes remain unchanged.
+
+Record each result as pass/fail/unconfirmed with device model, iOS version, build number, ticker, exact screen/path and steps. Native verification of these fixes and survival across this app update are **pending until the operator retests**. No automated result is represented as a physical-device pass.
 
 ## App Store Connect fields
 
@@ -15,14 +31,13 @@ Both public pages were verified with anonymous HTTPS 200 responses. The policy d
 
 ## Install on your iPhone
 
-Perform these steps manually to invite only yourself. No new build or upload is needed.
+For this update, use the **existing private internal testing group and existing tester**. The new build number will be recorded at the top of this document when processing completes. No new invitations or public release are needed.
 
-1. Open [App Store Connect → TickerBrief → TestFlight](https://appstoreconnect.apple.com/apps/6812926318/testflight/ios) under team **98BBY4NN94**. Confirm iOS build **0.1.0 (2)** appears.
-2. Click **+** next to **Internal Testing**, name the group **Private Beta**, leave **Enable automatic distribution** unchecked, and click **Create**. If you already have a private group, select it and confirm automatic distribution is disabled and its tester list contains only intended users before adding the build.
-3. In the group, click **Add Builds**, select **0.1.0 (2)**, click **Next**, enter the “What to test” checklist below, and click **Add**.
-4. Click **Invite Testers** (or **+** next to Testers), select **only your own App Store Connect user**, then click **Add**. If your user is missing, check that you are in the correct team and that the user has access to TickerBrief in **Users and Access**; use an eligible Account Holder, Admin, App Manager, Developer or Marketing role. Do not create an external group or public invitation link. These steps follow [Apple's internal-testing instructions](https://developer.apple.com/help/app-store-connect/test-a-beta-version/add-internal-testers).
-5. On your iPhone running **iOS 16.4 or later**, install [TestFlight from the App Store](https://apps.apple.com/us/app/testflight/id899247664). Open your invitation email on that iPhone, tap **View in TestFlight**, then **Accept** and **Install**. See [Apple's installation instructions](https://testflight.apple.com/).
-6. Launch TickerBrief and run the checklist below. Record your device model, iOS version and **0.1.0 (2)** with the actual results. The application needs no login. TestFlight installation does not require a Mac, Xcode or registering an ad hoc device UDID.
+1. Open [App Store Connect → TickerBrief → TestFlight](https://appstoreconnect.apple.com/apps/6812926318/testflight/ios) under team **98BBY4NN94** and select your existing group under **Internal Testing**.
+2. Keep **Enable automatic distribution** disabled. In the group's **Builds** section, click **Add Builds**, select the processed stabilization build recorded above, then **Next**.
+3. Paste the **Device retest checklist** above into **What to Test**, then click **Add**. Keep the group's existing tester list unchanged. Do not create a new group, invite testers, or enable a public link. These steps follow [Apple's internal-testing instructions](https://developer.apple.com/help/app-store-connect/test-a-beta-version/add-internal-testers).
+4. On your iPhone, open **TestFlight → TickerBrief → Update**. If necessary, open **Previous Builds** and select the new **0.1.0** build number. Update over the installed build 2; do not uninstall the app. See [Apple's TestFlight instructions](https://testflight.apple.com/).
+5. Launch TickerBrief and run the device retest checklist. Record the exact device/iOS/build versions and actual results. The application needs no login. No Mac, Xcode or ad hoc device registration is required.
 
 ## Beta description
 
@@ -40,7 +55,7 @@ This beta covers supported US-GAAP companies with 10-K filings and USD financial
 6. Restore connectivity, retry failed research and refresh. Confirm older saved reports stay unchanged.
 7. Delete one saved version and confirm the other remains. Check a smaller screen and larger accessibility text for clipped controls or unreadable research.
 
-The physical-device steps above are **pending**, not completed results. Record device model, iOS version, build number, ticker, steps and observed behavior for each failure. Use the approved feedback address on the [support page](https://jeppy22.github.io/TickerBrief/support/); avoid including private notes or credentials in shared diagnostics.
+The operator's partial build-2 observations are recorded above. This complete checklist and the stabilization retest are **not yet verified on device**, particularly offline saved access. Record device model, iOS version, build number, ticker, steps and observed behavior for each failure. Use the approved feedback address on the [support page](https://jeppy22.github.io/TickerBrief/support/); avoid including private notes or credentials in shared diagnostics.
 
 ## Notes for review
 

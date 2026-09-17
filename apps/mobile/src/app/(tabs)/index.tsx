@@ -86,6 +86,9 @@ export default function SearchScreen() {
           <Button title="Try search again" secondary onPress={() => void search()} />
         </>
       )}
+      {(busy || Boolean(error)) && (
+        <Button title="Open saved research" secondary onPress={() => router.navigate('/saved')} />
+      )}
       {stale && results && <Notice>The company directory is cached and may be out of date.</Notice>}
       {results?.length === 0 && (
         <Card>

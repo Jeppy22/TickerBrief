@@ -139,7 +139,8 @@ export function money(value: number | undefined) {
 export const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.paper },
   content: {
-    padding: 22,
+    paddingHorizontal: 16,
+    paddingVertical: 22,
     paddingBottom: 48,
     gap: 18,
     width: '100%',
@@ -157,7 +158,8 @@ export const s = StyleSheet.create({
     textTransform: 'uppercase',
   },
   card: {
-    padding: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 20,
     borderRadius: 18,
     backgroundColor: colors.white,
     borderWidth: 1,

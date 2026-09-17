@@ -1,6 +1,21 @@
 # Verified status
 
-Updated: 2026-09-16. This project is in implementation; the beta is not complete.
+Updated: 2026-09-17. The first physical test is recorded below; native verification of the stabilization fixes is pending.
+
+## First iPhone test and stabilization
+
+Operator observations for **0.1.0 (2)** on **iPhone 17 Pro** (exact iOS version not supplied): research retrieval and SEC filing links worked; saving reports/notes and persistence after reopening worked; keyboard behavior was fine. Financial values sometimes wrapped their decimal portion or clipped, and the research back label exposed `(tabs)`. Airplane mode showed a connection error, but the screen/path is unknown. **Offline saved access on the iPhone is unconfirmed**, not a demonstrated storage failure.
+
+Stabilization changes:
+
+- Reproduced a compact signed value splitting into two lines at a 320-pixel browser width and 2.5× text. Reduced nested horizontal padding, separated prior-year amounts from labels/dates, and added shared amount rendering for live/saved reports and full source values. Values retain their sign, precision and units; the existing compact formatter and underlying data are unchanged. Font scaling stays enabled. Amounts use their own full-width line; when enlarged text exceeds that width, horizontal scrolling and a visible hint expose every digit without ellipses or forced shrinking. Source records additionally show the complete unrounded amount, with the original excerpt retained.
+- Set the installed Expo Router native-stack options `headerBackTitle: 'Back'` and `headerBackButtonDisplayMode: 'generic'`. Both report routes inherit them; the tabs group has a public title. Native back handling and gestures are unchanged. Browser checks verify the label and return destinations; native behavior still needs retesting.
+- Saved reports and source excerpts already read only the device library, with no API dependency. No storage bug was reproduced, and storage keys/schema/write behavior were left unchanged. Added a direct **Open saved research** action to waiting/failed search states; live-report waiting/error states already had one. Source screens explicitly explain that SEC links require connectivity while retained excerpts do not.
+- Focused browser checks passed for current/prior/source amounts at **320, 402 and 430 pixels**, each at **1×, 2× and 2.5× CSS text scaling**. They assert intact single-line values, no ellipses, sufficient text height and reachability of the final digit when scrolling. Screenshots were visually inspected. These are synthetic reports and browser scaling, not native Dynamic Type or physical iPhone verification.
+- A disk-backed Chromium profile passed two full browser-process restarts with external networking blocked: Saved Research → existing snapshot → business/financial source excerpts → note edit/save → restart → reopen, with both report versions unchanged. Saved-only paths attempted **zero external requests**. Fresh research and search each failed clearly and linked back to the saved library. Loopback Metro still supplied app assets; this does not claim a completely offline native launch or validate an iOS app update.
+- Validation: **10/10 synthetic browser scenarios passed** (3.4 minutes), **6/6 unit tests**, TypeScript, ESLint, formatting and Windows iOS Hermes export passed. The existing Metro process had file watching disabled and initially served the old UI; restarting it with a cleared cache resolved that verification setup issue. Browser back links were checked in the web implementation; iOS header rendering/gestures and Dynamic Type remain device retest items. No backend changes required another filing audit.
+
+The next production build will reuse the existing bundle, project, backend and credentials. Before starting it, EAS reported **Free**, **4/15 iOS and 4/30 total used** (11 iOS/26 total remaining), zero overage and no paid add-ons. AI remains disabled; no data-provider, Render or billing configuration changed. Build/upload/processing results will be recorded after completion.
 
 ## Current release milestones
 
@@ -12,7 +27,7 @@ Updated: 2026-09-16. This project is in implementation; the beta is not complete
 | Public privacy and support | **Published and verified anonymously over HTTPS**, 200 responses at **2026-09-17 00:14:16 UTC**. [Privacy](https://jeppy22.github.io/TickerBrief/privacy/), [support](https://jeppy22.github.io/TickerBrief/support/). [GitHub Pages deployment](https://github.com/Jeppy22/TickerBrief/actions/runs/35165627815) from `27670fd`; only `site/` is uploaded. [Checksums and evidence](verification/2026-09-17-public-pages.json). |
 | TestFlight upload | **FINISHED** at **2026-09-17 00:38:26 UTC**. [Submission `4bfd2bd0-3a28-4d94-823f-133e8b777472`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/4bfd2bd0-3a28-4d94-823f-133e8b777472) uploaded the exact existing build above to app **`6812926318`**, using the production profile, existing API key and `--no-auto-testflight-setup`. No rebuild or tester invitations. |
 | Apple processing / beta review | **Processing complete**, verified at **2026-09-17 00:46:21 UTC**: Apple's read-only status reports version **0.1.0 (2)** as **`VALID`**, internal **`READY_FOR_BETA_TESTING`**, external **`READY_FOR_BETA_SUBMISSION`**, not expired. Matched the exact EAS build/submission IDs. External beta review has not been requested or approved; the next step is private internal testing. [Upload/processing evidence](verification/2026-09-17-testflight-submission.json). |
-| Physical iPhone testing | **Not performed.** Prior hosted/browser checks and IPA inspection do not replace a TestFlight install and device checklist. |
+| Physical iPhone testing | **Partial operator verification on 0.1.0 (2), iPhone 17 Pro**: research, SEC links, saved reports/notes, reopening and keyboard passed. Exact iOS version unknown. Offline saved access unconfirmed. Readability/navigation defects reported; native verification of their fixes pending. |
 
 The public contact is now explicitly approved beyond its SEC use. Policy review covers local storage, research requests, Render logs, GitHub Pages visitor IP logging, external SEC links, disabled AI, support email and Apple's automatic TestFlight crash/usage collection. No fixed provider-wide retention period is invented; authenticated Render settings were not available. See [PRIVACY.md](PRIVACY.md). Local and anonymous public Chromium checks passed; mobile/desktop layouts were reviewed. Public changes do not alter the completed app binary or require another build.
 
@@ -79,7 +94,7 @@ The operator confirmed the existing App Store Connect API key was configured and
 
 ## Next task
 
-In App Store Connect → TickerBrief → TestFlight, create or select a private internal group with automatic distribution disabled, add **0.1.0 (2)**, and manually select only yourself as a tester. Install through TestFlight on an iPhone running iOS 16.4 or later, then execute the [device checklist and exact installation steps](BETA_TESTING.md#install-on-your-iphone). Record the device/iOS version and actual outcomes. No new build, upload, Render deployment or AI request is needed. Code is on `feat/private-beta`.
+Deliver the stabilization build to the **existing private internal group**, with automatic distribution disabled and no new invitations. Update over the existing installation, then execute the [device retest checklist](BETA_TESTING.md#device-retest-checklist), including preservation of existing snapshots/notes and offline saved access after a force-quit. Record the exact iOS version and outcomes. Code is on `feat/private-beta`; no Render deployment or AI request is needed.
 
 ## Acceptance audit
 
@@ -94,4 +109,4 @@ In App Store Connect → TickerBrief → TestFlight, create or select a private 
 | Hosted backend and TestFlight build | Hosted factual backend/browser acceptance, production iOS build, static IPA checks, upload and Apple processing passed. Operator confirmed saved review contact. Manual internal-tester setup and physical-device testing pending |
 | Remaining review/device steps identified | RELEASE.md separates signing, upload, Apple processing, beta review and device checks |
 
-The private beta is **not complete**. Live factual research, the hosted browser flow, production cloud build, public support/privacy pages, upload and Apple processing are verified. The build is ready for internal testing; physical-device verification remains pending. AI stays disabled and outside the current beta work.
+The private beta is **not complete**. Build 2 has partial operator verification on an iPhone. The stabilization changes require a new TestFlight delivery and native retest, especially updated-install storage preservation, value readability at larger text sizes, back gestures and saved access in airplane mode. AI stays disabled and outside the current beta work.
