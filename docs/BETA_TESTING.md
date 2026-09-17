@@ -1,12 +1,12 @@
 # Private TestFlight handoff
 
-**Visual iteration, 2026-09-17:** the later neutral/blue redesign is available only in the [local browser preview](design/2026-09-17/README.md). It is not included in build 3. No additional cloud build or upload was made. Review the before/after screenshots first; native visual checks remain pending a future explicitly requested build. The build-3 installation and stabilization checklist below remain valid.
+**Current update, 2026-09-17: 0.1.0 (4).** This release includes the [neutral/blue redesign](design/2026-09-17/README.md), [evidence refinement](design/2026-09-17/evidence/README.md) and completed stabilization fixes. The screenshots remain Chromium browser previews. Native visual and functional checks remain pending your physical iPhone retest.
 
-The stabilization release **0.1.0 (3)** has been built, uploaded to app **6812926318**, and processed by Apple: **`VALID` / `READY_FOR_BETA_TESTING`**, verified **2026-09-17 01:43:02 UTC**. [Build `3ba13f78-e80f-4231-9243-6cf2e4df33c0`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3ba13f78-e80f-4231-9243-6cf2e4df33c0), source **`ab7eda03b40e9e93ed2423f2a9fd9ecb9ea72073`**; [submission `5a5bff48-cd4d-426a-97d4-53d3875a9f3f`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/5a5bff48-cd4d-426a-97d4-53d3875a9f3f). [Verification evidence](verification/2026-09-17-beta-stabilization.json). The first release **0.1.0 (2)** was installed and partially tested by the operator. No new tester invitations, group changes or public links were created for this update; add build 3 to your existing group using the steps below.
+Build 4 finished successfully; its single upload is queued. Apple processing and assignment to the existing **Private Beta** internal group remain pending. [Build `bda208af-bcdb-45a2-8b58-45575437d6c1`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/bda208af-bcdb-45a2-8b58-45575437d6c1), source **`788ab66d809924ce9d0c078be686baf0911ff7ba`**; [submission `22a4179d-1048-48ae-b8cb-7d0798d9b107`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/22a4179d-1048-48ae-b8cb-7d0798d9b107). [Verification evidence](verification/2026-09-17-design-release.json). The first release **0.1.0 (2)** was installed and partially tested by the operator. Builds 2 and 3 were already in the existing group before this release; physical build-3 results have not been supplied.
 
 ## First physical observations
 
-The subsequent [evidence refinement](design/2026-09-17/evidence/README.md) is also local-only. After a future authorized build, retest compact Close in the safe-area header, return to both live/saved reports, readable metric names, grouped full values/units, and collapsed/expanded Technical details. In airplane mode, confirm saved structured records and genuine filing excerpts remain readable. These checks are **not performed on the iPhone** and do not apply to the existing build-3 UI.
+The redesign/evidence changes in build 4 have **not been verified on the iPhone**. Retest compact Close in the safe-area header, return to both live/saved reports, readable metric names, grouped full values/units, and collapsed/expanded Technical details. In airplane mode, confirm saved structured records and genuine filing excerpts remain readable.
 
 Device: **iPhone 17 Pro**, build **0.1.0 (2)**; exact iOS version not supplied. The operator reports successful research retrieval, SEC filing links, saving reports and personal notes, persistence after reopening, and normal keyboard behavior. Values sometimes wrap or clip, and the company screen's back label shows `(tabs)`.
 
@@ -14,11 +14,12 @@ Airplane mode produced a connection error, but it is unknown whether the user wa
 
 ## Device retest checklist
 
-1. Before updating, confirm at least one existing saved report and note and record their ticker/text privately. **Update through TestFlight over the existing installation; do not delete/reinstall TickerBrief or clear its storage.** Confirm the new build number, record the exact iOS version from Settings → General → About, and check the existing snapshots and notes are unchanged.
+1. Before updating, confirm at least one existing saved report and note and record their ticker/text privately. **Update through TestFlight over the existing installation; do not delete/reinstall TickerBrief or clear its storage.** Confirm **0.1.0 (4)**, record the exact iOS version from Settings → General → About, and check the existing snapshots and notes are unchanged.
 2. Open both live research and an existing saved snapshot. Check current and prior-year amounts, signs, units, reporting periods and decimal digits, including a negative amount where present. Inspect source details and their full reported values. Repeat with larger text under Settings → Accessibility → Display & Text Size → Larger Text. At extreme sizes, use the indicated horizontal swipe to read every digit; verify no ellipses or split decimals.
 3. Check the native **Back** button from a live report opened from Search, a saved report opened from Saved Research, and current research opened from a saved snapshot. Confirm each returns to the previous screen, including the native edge-swipe gesture.
 4. Turn on airplane mode **and ensure Wi-Fi is off**. Force-quit TickerBrief, reopen it, select **Saved Research**, then select an existing saved snapshot (not **Open current research**). Read its report and retained business/financial source excerpts. Edit a note, save it, force-quit/reopen again while still offline, and confirm the edit persists.
 5. While offline, try **Open current research** and a fresh company search. A connection error is expected; use **Open saved research** to return to the local library. Original SEC links require connectivity. Restore connectivity, retry live research, and confirm earlier snapshots/notes remain unchanged.
+6. Inspect the refreshed Search, Watchlist, Saved Research, Settings and live/saved reports at normal and larger text sizes. Open evidence from both report types: metric name, complete value/unit, dates and SEC action should be easy to read; **Technical details** should start collapsed and preserve the exact concept/raw data/link when expanded. Actual filing excerpts must remain distinct from structured records. Tap the compact **Close** control and verify the same return destination; check safe areas and VoiceOver labels.
 
 Record each result as pass/fail/unconfirmed with device model, iOS version, build number, ticker, exact screen/path and steps. Native verification of these fixes and survival across this app update are **pending until the operator retests**. No automated result is represented as a physical-device pass.
 
@@ -35,12 +36,12 @@ Both public pages were verified with anonymous HTTPS 200 responses. The policy d
 
 ## Install on your iPhone
 
-For this update, use the **existing private internal testing group and existing tester**. Build **0.1.0 (3)** has finished processing. No new invitations or public release are needed.
+For this update, use the **existing Private Beta internal testing group and existing tester**. Follow these steps once build **0.1.0 (4)** has finished processing and appears in that group. No new invitations or public release are needed.
 
 1. Open [App Store Connect → TickerBrief → TestFlight](https://appstoreconnect.apple.com/apps/6812926318/testflight/ios) under team **98BBY4NN94** and select your existing group under **Internal Testing**.
-2. Keep **Enable automatic distribution** disabled. In the group's **Builds** section, click **Add Builds**, select **0.1.0 (3)**, then **Next**. If build 3 is already listed in that group, proceed to the iPhone update step.
+2. Keep **Enable automatic distribution** disabled. If build **0.1.0 (4)** is already listed in the group's **Builds** section, proceed to the iPhone update step. Otherwise click **Add Builds**, select **0.1.0 (4)**, then **Next**.
 3. Paste the **Device retest checklist** above into **What to Test**, then click **Add**. Keep the group's existing tester list unchanged. Do not create a new group, invite testers, or enable a public link. These steps follow [Apple's internal-testing instructions](https://developer.apple.com/help/app-store-connect/test-a-beta-version/add-internal-testers).
-4. On your iPhone, open **TestFlight → TickerBrief → Update**. If necessary, open **Previous Builds → 0.1.0** and select **build 3**. Update over the installed build 2; do not uninstall the app. See [Apple's TestFlight instructions](https://testflight.apple.com/).
+4. On your iPhone, open **TestFlight → TickerBrief → Update**. If necessary, open **Previous Builds → 0.1.0** and select **build 4**. Update over the existing installation; do not uninstall the app. See [Apple's TestFlight instructions](https://testflight.apple.com/).
 5. Launch TickerBrief and run the device retest checklist. Record the exact device/iOS/build versions and actual results. The application needs no login. No Mac, Xcode or ad hoc device registration is required.
 
 ## Beta description
@@ -69,4 +70,4 @@ The operator's partial build-2 observations are recorded above. This complete ch
 - Financial facts, management excerpts and calculations are identified separately. Disabled model output is shown as unavailable; no demonstration research substitutes for live filings.
 - No payments, subscriptions, advertisements, trading or public social features are included.
 
-Build, upload and Apple processing are complete. External beta review has not been requested or approved; the current handoff is internal testing only. Follow [RELEASE.md](RELEASE.md) for the recorded upload and read-only monitoring commands. Keep build, upload, processing, review and physical-device outcomes separate. AI remains disabled and no billing settings changed.
+See [RELEASE.md](RELEASE.md) for current build, upload and processing status and read-only monitoring commands. External beta review has not been requested or approved; the handoff is internal testing only. Keep build, upload, processing, group availability and physical-device outcomes separate. AI remains disabled and no billing settings changed.

@@ -2,7 +2,7 @@
 
 The later [evidence-screen refinement](evidence/README.md) has updated default/expanded screenshots. The original whole-app screenshots below are retained as the earlier design comparison.
 
-**Chromium browser previews, not physical iPhone screenshots.** Baseline: `58f3cc1` on `feat/private-beta`, after stabilization was delivered as TestFlight 0.1.0 (3). The redesign has not been cloud-built or uploaded. Native review remains pending.
+**Chromium browser previews, not physical iPhone screenshots.** Baseline: `58f3cc1` on `feat/private-beta`, after stabilization was delivered as TestFlight 0.1.0 (3). The redesign and subsequent evidence cleanup are included in the later authorized **0.1.0 (4)** release; see [current status](../../STATUS.md#design-release--010-4). Native review remains pending.
 
 ## Before and after
 

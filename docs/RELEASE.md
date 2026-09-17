@@ -1,8 +1,8 @@
 # Private iPhone beta release runbook
 
-**Local design review:** changes after build 3 are documented in [the visual review](design/2026-09-17/README.md). No further cloud build is authorized in this iteration. The release record below describes the existing binary, not the unbuilt redesign.
+**Current release: 0.1.0 (4).** The operator authorized delivery of the completed [redesign](design/2026-09-17/README.md) and [evidence cleanup](design/2026-09-17/evidence/README.md), superseding the earlier local-preview restriction. Source **`788ab66d809924ce9d0c078be686baf0911ff7ba`** includes `c187c07` and all subsequent committed work. [Build `bda208af-bcdb-45a2-8b58-45575437d6c1`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/bda208af-bcdb-45a2-8b58-45575437d6c1) finished successfully. [Submission `22a4179d-1048-48ae-b8cb-7d0798d9b107`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/22a4179d-1048-48ae-b8cb-7d0798d9b107) is queued. Apple processing and assignment to the existing **Private Beta** internal group are pending. Physical iPhone verification remains pending; [the device checklist](BETA_TESTING.md#device-retest-checklist) is separate from automated/browser evidence.
 
-Release state: stabilization **0.1.0 (3)** is **built, uploaded and processed**, ready for internal testing. [Build `3ba13f78-e80f-4231-9243-6cf2e4df33c0`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3ba13f78-e80f-4231-9243-6cf2e4df33c0), source **`ab7eda03b40e9e93ed2423f2a9fd9ecb9ea72073`**. [Submission `5a5bff48-cd4d-426a-97d4-53d3875a9f3f`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/5a5bff48-cd4d-426a-97d4-53d3875a9f3f) used the exact build and existing credentials. Apple reports `VALID` / `READY_FOR_BETA_TESTING`. Use the existing internal group and update over the installed app as described in [BETA_TESTING.md](BETA_TESTING.md#install-on-your-iphone). The operator's build-2 observations and automated checks are separate in [STATUS.md](STATUS.md); native fixes, offline saved access and storage survival across this update require device retesting. No external beta review or public release was requested.
+Historical stabilization **0.1.0 (3)**: [build `3ba13f78-e80f-4231-9243-6cf2e4df33c0`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3ba13f78-e80f-4231-9243-6cf2e4df33c0), source **`ab7eda03b40e9e93ed2423f2a9fd9ecb9ea72073`**, and [submission `5a5bff48-cd4d-426a-97d4-53d3875a9f3f`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/5a5bff48-cd4d-426a-97d4-53d3875a9f3f) succeeded. Apple now reports build 3 as `VALID` / `IN_BETA_TESTING`, and it was already in Private Beta before this release. The operator's physical observations still concern build 2 only. No external beta review or public release was requested.
 
 ## Known identities
 
@@ -14,7 +14,7 @@ Release state: stabilization **0.1.0 (3)** is **built, uploaded and processed**,
 - Registered bundle ID: **`com.jeppyinvesting.tickerbrief`**, confirmed by the operator and configured through `IOS_BUNDLE_IDENTIFIER` locally and in every EAS profile.
 - App Store Connect Apple ID: **`6812926318`**, confirmed by the operator and configured as `submit.production.ios.ascAppId`. Build signing and upload authentication were used successfully. The [manual handoff](IOS_READINESS.md#manual-handoff) now covers installing the processed build.
 
-EAS usage was checked before and after stabilization build 3 on **2026-09-17 UTC**: Free plan, **5/15 iOS builds used (10 remaining)**, **5/30 total builds used (25 remaining)**, zero overage charges and no paid add-ons. Exactly one build was started for this update. Period ends October 1. Recheck before any future build; adding this processed build to the existing group does not require a rebuild or upload.
+EAS usage was checked before and after build 4 on **2026-09-17 UTC**: Free plan, **5 → 6 of 15 iOS builds used (9 remaining)**, **5 → 6 of 30 total builds used (24 remaining)**, zero overage charges and no paid add-ons. Exactly one build was started for this release. Period ends October 1. Recheck before any future build; installing this version does not require a rebuild or upload.
 
 ## Hosted factual backend
 
@@ -91,6 +91,27 @@ The root `.easignore` preserves the root/mobile Git exclusions and omits backend
 
 Use the exact successful build ID, not an unrelated `--latest` artifact. Submission targets the configured app `6812926318`; EAS Submit authentication may still be required separately from build signing. Do not start either build before checking the Free plan and remaining iOS quota. Never accept a paid-build upgrade.
 
+### Design release record (0.1.0 build 4)
+
+These commands were executed once from `apps/mobile` in PowerShell. They are an audit record, **not commands to rerun for installation**:
+
+```powershell
+npx.cmd eas-cli@latest build --platform ios --profile production --non-interactive --freeze-credentials --no-wait
+npx.cmd eas-cli@latest submit --platform ios --profile production --id bda208af-bcdb-45a2-8b58-45575437d6c1 --no-auto-testflight-setup --non-interactive
+```
+
+Build finished **2026-09-17 13:59:41 UTC**, source **788ab66**, remote build number **4**. Exact-source validation was reused: 9 unit tests, TypeScript/lint/format, 13 existing browser scenarios plus the focused evidence regression, and iOS Hermes export. The exact IPA passed static identity/profile/backend/evidence/privacy checks on Windows. This is not native device verification. Existing certificate/profile and upload key were reused; storage, backend, Render deployment and AI settings were unchanged. [Sanitized release receipt](verification/2026-09-17-design-release.json).
+
+Read-only monitoring:
+
+```powershell
+npx.cmd eas-cli@latest build:view bda208af-bcdb-45a2-8b58-45575437d6c1
+npx.cmd eas-cli@latest submit:view 22a4179d-1048-48ae-b8cb-7d0798d9b107
+npx.cmd eas-cli@latest submit:status --platform ios --profile production --json --non-interactive
+```
+
+The existing **Private Beta** internal group was verified before assignment: one tester, automatic distribution disabled, builds 2 and 3 present. Group membership must remain unchanged. Do not create invitations, use automatic group setup, enable a public link or submit an App Store release.
+
 ### Stabilization release record (0.1.0 build 3)
 
 These commands completed successfully from `apps/mobile` in PowerShell. They are records, **not commands to rerun for installation**:
@@ -110,7 +131,7 @@ npx.cmd eas-cli@latest submit:view 5a5bff48-cd4d-426a-97d4-53d3875a9f3f
 npx.cmd eas-cli@latest submit:status --platform ios --profile production --json --non-interactive
 ```
 
-The next action is **existing Internal Testing group → Add Builds → 0.1.0 (3)**, then update in place through TestFlight. Keep automatic distribution disabled and the existing tester list unchanged.
+The operator subsequently added build 3 to the existing **Private Beta** internal group; read-only Apple verification before build 4 confirmed it was already `IN_BETA_TESTING`. Keep this historical record separate from the current release above.
 
 ### First release upload record (0.1.0 build 2)
 

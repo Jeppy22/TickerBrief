@@ -1,6 +1,6 @@
 # Evidence screen review
 
-**Local Chromium browser previews only.** These changes are not in TestFlight 0.1.0 (3); no new EAS build was started. Safe-area placement, native dismissal, VoiceOver and Dynamic Type still need physical iPhone verification after a future authorized build.
+**Chromium browser previews only.** These changes are included in the subsequently authorized **0.1.0 (4)** release; see [the release status](../../../STATUS.md#design-release--010-4). These screenshots are not iPhone captures. Safe-area placement, native dismissal, VoiceOver and Dynamic Type still need physical iPhone verification.
 
 | View | Screenshot |
 | --- | --- |

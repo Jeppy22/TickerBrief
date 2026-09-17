@@ -1,0 +1,120 @@
+{
+  "sourceCommit": "788ab66d809924ce9d0c078be686baf0911ff7ba",
+  "branch": "feat/private-beta",
+  "includedCommits": [
+    "c187c07",
+    "afe153f",
+    "788ab66"
+  ],
+  "preflight": {
+    "workingTreeClean": true,
+    "sourceMatchesOrigin": true,
+    "matchingBuildOrSubmissionAlreadyExists": false,
+    "previousRemoteBuildNumber": "3",
+    "appleTeamId": "98BBY4NN94",
+    "bundleIdentifier": "com.jeppyinvesting.tickerbrief",
+    "ascAppId": "6812926318",
+    "expoProjectId": "ba290e73-7370-4c6e-b557-1ea2e21987d0",
+    "backend": "https://tickerbrief-api.onrender.com",
+    "healthSecConfigured": true,
+    "healthAiEnabled": false,
+    "storageSchemaAndKeysChanged": false,
+    "backendCodeChanged": false,
+    "renderConfigurationChanged": false
+  },
+  "validationReusedForExactSource": {
+    "typescript": "passed",
+    "eslint": "passed",
+    "formatting": "passed",
+    "unitTestsPassed": 9,
+    "existingBrowserScenariosPassed": 13,
+    "additionalEvidenceRegression": "passed in focused rerun after expanded-state fix; not a single full 14-test run",
+    "windowsIosHermesExport": "passed",
+    "widths": [
+      320,
+      402,
+      430
+    ],
+    "browserCssTextScales": [
+      1,
+      2,
+      2.5
+    ],
+    "offlineSavedSourcesAndNotesAfterBrowserRestarts": "passed; zero external saved-only requests",
+    "limits": [
+      "Prior passing checks reused because the source commit is unchanged",
+      "Browser simulations and static export do not verify native Dynamic Type, gestures or safe areas",
+      "The full hosted financial audit was not repeated for this UI-only release",
+      "Physical iPhone testing and storage survival across the installed update remain pending"
+    ]
+  },
+  "freeAllowanceBeforeBuild": {
+    "plan": "Free",
+    "iosUsed": 5,
+    "iosLimit": 15,
+    "totalUsed": 5,
+    "totalLimit": 30,
+    "overageCents": 0,
+    "addons": []
+  },
+  "freeAllowanceAfterBuild": {
+    "plan": "Free",
+    "iosUsed": 6,
+    "iosLimit": 15,
+    "totalUsed": 6,
+    "totalLimit": 30,
+    "overageCents": 0,
+    "addons": []
+  },
+  "build": {
+    "id": "bda208af-bcdb-45a2-8b58-45575437d6c1",
+    "version": "0.1.0",
+    "buildNumber": "4",
+    "status": "FINISHED",
+    "sourceCommit": "788ab66d809924ce9d0c078be686baf0911ff7ba",
+    "createdAt": "2026-09-17T13:53:50.729Z",
+    "completedAt": "2026-09-17T13:59:41.503Z",
+    "dashboardUrl": "https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/bda208af-bcdb-45a2-8b58-45575437d6c1",
+    "credentialsFrozen": true,
+    "newBuildCount": 1,
+    "ipaSha256": "280b360c2768096dd040fe831c2275116047153a6f324e0efa5f8cf07eb23a53"
+  },
+  "ipaInspection": {
+    "bundleIdentifier": "com.jeppyinvesting.tickerbrief",
+    "version": "0.1.0",
+    "buildNumber": "4",
+    "appleTeamId": "98BBY4NN94",
+    "minimumIosVersion": "16.4",
+    "appStoreProfile": true,
+    "nonExemptEncryption": false,
+    "hostedBackendInBundle": true,
+    "evidenceCleanupInBundle": true,
+    "signatureResourcePresent": true,
+    "privacyTracking": false,
+    "privacyApiReasons": [
+      "35F9.1",
+      "C617.1",
+      "CA92.1"
+    ],
+    "method": "Static inspection of exact EAS IPA on Windows; not cryptographic codesign verification or a physical device test"
+  },
+  "submission": {
+    "id": "22a4179d-1048-48ae-b8cb-7d0798d9b107",
+    "status": "IN_QUEUE",
+    "buildId": "bda208af-bcdb-45a2-8b58-45575437d6c1",
+    "ascAppId": "6812926318",
+    "profile": "production",
+    "autoTestflightSetup": false,
+    "dashboardUrl": "https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/22a4179d-1048-48ae-b8cb-7d0798d9b107",
+    "createdAt": "2026-09-17T14:01:08.072Z",
+    "completedAt": null,
+    "error": null
+  },
+  "constraints": {
+    "aiRequestsMade": false,
+    "billingChanged": false,
+    "newTesterInvitations": false,
+    "publicRelease": false,
+    "physicalIphoneVerification": "pending operator retest"
+  }
+}

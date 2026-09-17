@@ -1,8 +1,20 @@
 # Verified status
 
-Updated: 2026-09-17. The visual redesign is ready for local review; TestFlight remains 0.1.0 (3). Native verification of both stabilization and the later design is pending.
+Updated: 2026-09-17. Production **0.1.0 (4)** has finished building from `788ab66`; upload is queued. Native verification of stabilization, redesign and evidence refinements remains pending.
 
-## Evidence screen refinement — local preview only
+## Design release — 0.1.0 (4)
+
+- The operator explicitly authorized this cloud release, superseding the earlier local-preview restriction. The clean, pushed source **`788ab66d809924ce9d0c078be686baf0911ff7ba`** includes redesign **`c187c07`**, web startup recovery **`afe153f`** and evidence cleanup **`788ab66`**, preserving the stabilization fixes. No social features or other app changes were added for this release.
+- Before starting, EAS reported **Free**, **5/15 iOS** and **5/30 total** builds used, zero overage and no paid add-ons. No existing build/submission matched this source; remote build number was 3. Exactly one production build incremented it to **4**. Afterward: **6/15 iOS**, **6/30 total**, still zero overage/add-ons.
+- Resolved production configuration matches team **98BBY4NN94**, bundle **com.jeppyinvesting.tickerbrief**, app **6812926318**, existing Expo project and **https://tickerbrief-api.onrender.com**. Hosted health returned **sec_configured=true**, **ai_enabled=false**. Backend/Render configuration, saved storage keys/schema, notes and source data were unchanged.
+- Reused passing verification for the exact source: **9 unit tests**, TypeScript, ESLint, formatting, **13 existing browser scenarios plus the focused evidence regression**, and Windows iOS Hermes export. The evidence regression passed after the expanded-state fix; this is not a claim of one full 14-test suite run. Financial layouts, retry/loading states and saved sources/notes across offline browser restarts were already covered. No new live financial audit or AI request was needed for this UI-only release.
+- [Build `bda208af-bcdb-45a2-8b58-45575437d6c1`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/bda208af-bcdb-45a2-8b58-45575437d6c1) **FINISHED at 13:59:41 UTC**, version **0.1.0 (4)**. Existing signing credentials were frozen/reused. Static inspection of its exact IPA confirmed identity, App Store profile, hosted backend, evidence changes, encryption declaration and privacy manifest. Windows inspection is not cryptographic codesign verification or a physical test.
+- [Submission `22a4179d-1048-48ae-b8cb-7d0798d9b107`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/22a4179d-1048-48ae-b8cb-7d0798d9b107) targets the exact successful build and existing app, using production and **`--no-auto-testflight-setup`**. Upload is queued; Apple processing and group assignment are pending.
+- Read-only Apple access verified the existing **Private Beta** internal group contains one tester, builds 2/3, and has automatic distribution disabled. No membership or invitation changes have been made.
+
+[Sanitized release receipt](verification/2026-09-17-design-release.json). All screenshots below remain browser evidence. Physical iPhone testing, native text/safe-area/gesture behavior, offline saved reopening and saved-data survival across the update remain **pending the operator's retest**.
+
+## Evidence screen refinement — implementation and browser verification
 
 - Replaced the full-width Close evidence action with a compact **Close** control in a fixed header inside the existing safe-area modal. The target is at least 48 points high/60 wide; the accessible label, dismissal callback, return destination and native modal close handling are preserved.
 - Added a shared mapping for all financial concepts used by the current normalizer, including **NetIncomeLoss → Net income (loss)**. Unknown/custom concepts get a neutral heading and explanation; original identifiers remain in Technical details.
@@ -12,7 +24,7 @@ Updated: 2026-09-17. The visual redesign is ready for local review; TestFlight r
 - [Browser screenshots and reproduction notes](design/2026-09-17/evidence/README.md) show default/expanded details using an unchanged, previously retrieved real RKLB report. Saved previews block API requests. Normal 402-pixel and enlarged 320/430-pixel layouts were visually inspected; these are browser previews, not physical iPhone results or a new hosted financial audit.
 - Validation: **9/9 unit tests**, TypeScript, ESLint and formatting passed. All **13 existing browser scenarios passed**, including values at 320/402/430 pixels with 1×/2×/2.5× CSS text scaling and full offline library restarts. The new evidence scenario initially caught a missing browser expanded-state attribute; adding the installed platform's supported `aria-expanded` fixed it, and the focused rerun passed. It verifies the supplied negative-value example, exact SEC link targets (intercepted locally), collapsed raw data, actual excerpt labeling, compact Close, return destinations and unchanged saved library/notes after offline reopening. The live suite was updated to expand Technical details before asserting exact raw records; it was not rerun because no hosted behavior changed.
 
-This iteration remains local: **no EAS build, upload, tester invitation, public release, deployment, billing change or live AI request**. TestFlight remains **0.1.0 (3)**. Native safe areas, dismissal and accessibility behavior remain pending.
+The evidence iteration originally stopped at local preview with no cloud build. Its completed changes are now included in build **0.1.0 (4)** above. Native safe areas, dismissal and accessibility behavior remain pending. No public release, deployment, billing change or live AI request occurred.
 
 The Windows iOS Hermes export also passed with the shared evidence component included. This is a JavaScript bundle check, not a signed native build or physical-device verification.
 
@@ -24,9 +36,9 @@ Added Expo's supported `public/index.html` shell for the existing single-page we
 
 Validation: **2/2 focused browser regressions passed**, simulating a held bundle and an aborted bundle followed by a same-page reload. Both recovered to Search, removed the startup shell, retained the exact stored library and opened the existing synthetic snapshot's notes with API requests blocked. TypeScript, ESLint, formatting and the local production web export passed. These are browser simulations, not a claim that the original tab's failure or physical iPhone behavior was reproduced. No cloud build was started.
 
-## Visual redesign — browser review only
+## Visual redesign — implementation and browser verification
 
-The previous stabilization delivery was complete before this iteration began, at preparation commit **`58f3cc1`** on `feat/private-beta`. Build **0.1.0 (3)** is already uploaded and processed, as recorded below. **No additional EAS build, upload, tester invitation or deployment was started for the redesign.** These visual changes are not in that TestFlight binary.
+The previous stabilization delivery was complete before this iteration began, at preparation commit **`58f3cc1`** on `feat/private-beta`. The redesign was initially reviewed locally and is not in the historical build-3 binary. The subsequently authorized **build 4** now includes these visual changes.
 
 - Added central semantic color, typography, spacing and radius tokens. Applied the requested neutral page/white surface palette, dark text and blue actions across Search, Watchlist, Saved Research, Settings, live/saved reports and evidence. Inputs, disabled actions and explanatory error/warning/success states use explicit accessible colors. Native system fonts and accessibility scaling remain enabled.
 - Reduced the main heading to 28 points, retained comfortable 16/24 body text and tabular financial numerals. Narrative/settings content uses sections and dividers; reporting periods, saved entries, notes and individual evidence records retain distinct containers. Related secondary actions share a row when space permits and stack for larger native text.
@@ -54,7 +66,7 @@ Stabilization changes:
 
 The stabilization build reused the existing bundle, project, backend and credentials. Before starting it, EAS reported **Free**, **4/15 iOS and 4/30 total used** (11 iOS/26 total remaining). After the single successful build: **5/15 iOS and 5/30 total used** (10 iOS/25 total remaining), zero overage and no paid add-ons. Hosted health confirmed SEC configured and AI disabled before building. No data-provider, Render or billing configuration changed. [Sanitized stabilization evidence](verification/2026-09-17-beta-stabilization.json).
 
-## Current release milestones
+## Historical build-2/3 release milestones
 
 | Milestone | Verified result |
 | --- | --- |
@@ -125,15 +137,15 @@ The operator confirmed the existing App Store Connect API key was configured and
 
 - SEC contact authorization is resolved: the user supplied and explicitly authorized the local identifying contact. Live retrieval and filing verification succeeded. No inferred account contact is used.
 - AI credentials and free-tier eligibility are not verified. Live generation stays disabled.
-- Expo owner/project remain `jeppy22` / `ba290e73-7370-4c6e-b557-1ea2e21987d0`. Signing/upload authentication, review contact, public privacy/support URLs and feedback contact are resolved. The operator is already an internal tester. Add the processed stabilization build to the existing private group and retest on the iPhone; no new invitation or rebuild is needed.
+- Expo owner/project remain `jeppy22` / `ba290e73-7370-4c6e-b557-1ea2e21987d0`. Signing/upload authentication, review contact, public privacy/support URLs and feedback contact are resolved. The operator is already in the existing **Private Beta** internal group. Current build-4 delivery is tracked above; no new invitation is needed.
 - Hosted report retrieval, the filing audit and direct browser acceptance pass after the operator's CORS correction. No authenticated Render management connection was used; credentials and unrelated blockers were not rechecked. The blueprint preserves the applied allowlist, Free plan and manual deployment policy.
 - npm audit now reports **zero vulnerabilities**, after scoped patched dependencies plus a committed, tested CommonJS compatibility patch. See DEPENDENCIES.md.
 
 ## Next task
 
-Review the [local visual redesign](design/2026-09-17/README.md) before requesting another cloud build. No build is authorized during this visual iteration; the app version and existing TestFlight release remain unchanged.
+Complete the single build-4 submission and Apple processing, then add the exact processed build to **Private Beta** with automatic distribution disabled and membership unchanged. The earlier local-only design restriction has been superseded by the operator's release authorization.
 
-In App Store Connect → TickerBrief → TestFlight → **your existing Internal Testing group → Add Builds**, select **0.1.0 (3)**, enter the retest notes and **Add**. Keep automatic distribution disabled and the tester list unchanged. Then use **TestFlight → TickerBrief → Update** over the existing installation and execute the [device retest checklist](BETA_TESTING.md#device-retest-checklist), including existing snapshots/notes and offline saved access after a force-quit. Record the exact iOS version and outcomes. Code is on `feat/private-beta`; no new build, upload, Render deployment or AI request is needed.
+Once build **0.1.0 (4)** is available to that group, use **TestFlight → TickerBrief → Update** over the existing installation and execute the [device retest checklist](BETA_TESTING.md#device-retest-checklist), including existing snapshots/notes and offline saved access after a force-quit. Record the exact iOS version and outcomes. Code is on `feat/private-beta`; do not start another build/upload or change Render/AI settings to install this release.
 
 ## Acceptance audit
 
@@ -145,7 +157,7 @@ In App Store Connect → TickerBrief → TestFlight → **your existing Internal
 | Watchlist, snapshots, notes survive restart | Local/hosted-data browser restarts and synthetic offline note editing passed. Operator confirms build-2 report/notes persistence after reopening; native offline saved access and persistence across the update remain unconfirmed |
 | Honest missing/offline/loading/error states | Seven synthetic browser scenarios pass, including delayed responses, manual retries, saving during refresh, failed writes and offline note edits |
 | Relevant checks documented | Hosted API: healthy with AI disabled, 50/50 filing facts and 3/3 hosted browser flows passed after CORS correction. Current mobile configuration: official EAS schema and resolved submission/build profile validation, lint/types/format, EAS profile assertions and iOS/web exports with bundled-URL checks. Prior local evidence: 34 backend tests, 3 live and 7 synthetic browser flows, 6 mobile unit tests, Doctor, dependency audit and clean installation |
-| Hosted backend and TestFlight build | Hosted factual backend/browser acceptance and build-2 delivery passed. Stabilization build 3, static IPA checks, upload and Apple processing passed. Existing-group assignment and native retest remain manual |
+| Hosted backend and TestFlight build | Hosted factual/backend/browser acceptance and prior build-2/3 delivery passed. Current build 4 and static IPA checks passed; the single submission is queued. Apple processing/group availability are tracked above; native retest remains pending |
 | Remaining review/device steps identified | RELEASE.md separates signing, upload, Apple processing, beta review and device checks |
 
-The private beta is **not complete**. Build 2 has partial operator verification on an iPhone; stabilization build **0.1.0 (3)** is built, uploaded and processed, ready to add to the existing internal group. Native retest remains pending, especially updated-install storage preservation, value readability at larger text sizes, back gestures and saved access in airplane mode. AI stays disabled and outside the current beta work.
+Physical acceptance of the private beta is **not complete**. Build 2 has partial operator verification on an iPhone; current **0.1.0 (4)** delivery is tracked above. Native retest remains pending, especially updated-install storage preservation, value readability at larger text sizes, compact evidence controls, back gestures and saved access in airplane mode. AI stays disabled and outside the current beta work.

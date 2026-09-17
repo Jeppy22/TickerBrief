@@ -1,8 +1,8 @@
 # iOS beta readiness
 
-Updated September 17, 2026 UTC. Stabilization **0.1.0 (3)** is built, uploaded and processed (`VALID` / `READY_FOR_BETA_TESTING`). [Receipts and verification](verification/2026-09-17-beta-stabilization.json). The operator tested part of the original build-2 flow on an iPhone 17 Pro; its exact iOS version and offline saved access remain unconfirmed. Build-3 native fixes and preservation of data across the update require device retesting.
+Updated September 17, 2026 UTC. The current redesign/evidence release **0.1.0 (4)** has finished its cloud build; upload, processing and internal-group status are tracked in [STATUS.md](STATUS.md#design-release--010-4) and [the release receipt](verification/2026-09-17-design-release.json). The operator tested part of the original build-2 flow on an iPhone 17 Pro; its exact iOS version and offline saved access remain unconfirmed. Stabilization, visual changes and preservation of data across the update require device retesting.
 
-## Established configuration and build
+## Established configuration and original build history
 
 - Expo owner `jeppy22`, slug `tickerbrief`, project `ba290e73-7370-4c6e-b557-1ea2e21987d0` are unchanged.
 - Apple team **`98BBY4NN94`**, bundle **`com.jeppyinvesting.tickerbrief`**, App Store Connect app **`6812926318`**.
@@ -25,21 +25,21 @@ Updated September 17, 2026 UTC. Stabilization **0.1.0 (3)** is built, uploaded a
 | Upload permission | Verified by successful upload to app `6812926318`. No further authentication action is currently needed. |
 | Public privacy/support | Published, anonymously verified: [privacy](https://jeppy22.github.io/TickerBrief/privacy/), [support](https://jeppy22.github.io/TickerBrief/support/). Public contact is explicitly approved. |
 | Review information | Operator confirmed private review name/email/phone are saved in App Store Connect. Beta description, notes and checklist are in [BETA_TESTING.md](BETA_TESTING.md). |
-| Apple processing and beta review | Processing complete and ready for internal testing. External beta review has not been requested or approved. |
-| Internal tester access | The operator is already testing build 2. Manually add processed build **0.1.0 (3)** to that existing private internal group. No new group or invitations were created by the submission. |
+| Apple processing and beta review | Builds 2/3 are processed; current build-4 status is in STATUS.md. External beta review has not been requested or approved. |
+| Internal tester access | Existing **Private Beta** internal group, one tester, automatic distribution disabled. Builds 2/3 were already present before this release. Build-4 assignment is tracked separately in STATUS.md; preserve membership and do not create invitations. |
 | Physical iPhone | Operator verified research, SEC links, saving/reopening reports and notes, and keyboard behavior on build 2. Value layout and back-label defects prompted the stabilization update. Offline saved access, Dynamic Type, native gestures and preservation across the update require retesting. |
 
 ## Manual handoff
 
-Processing is complete. Open [TickerBrief in App Store Connect](https://appstoreconnect.apple.com/apps/6812926318/testflight/ios). Follow [the exact existing-group and iPhone update steps](BETA_TESTING.md#install-on-your-iphone): select the existing private internal group, keep automatic distribution disabled, and add **0.1.0 (3)**. Keep the existing tester list unchanged. Update through TestFlight over the installed app; do not uninstall or clear storage. No Mac, Xcode or ad hoc device registration is needed.
+Once build 4 is processed and assigned, follow [the exact existing-group and iPhone update steps](BETA_TESTING.md#install-on-your-iphone). The existing group is **Private Beta**; keep automatic distribution disabled and membership unchanged. If **0.1.0 (4)** is already listed, no dashboard mutation or invitation is needed. Update through TestFlight over the installed app; do not uninstall or clear storage. No Mac, Xcode or ad hoc device registration is needed. [App Store Connect](https://appstoreconnect.apple.com/apps/6812926318/testflight/ios).
 
 Record the exact iOS version and run the [device retest checklist](BETA_TESTING.md#device-retest-checklist). Browser checks and Apple's processing result do not verify native fixes, storage survival across an update or fully offline reopening.
 
-The upload is complete. For read-only status, from your VS Code PowerShell terminal:
+For read-only status, from your VS Code PowerShell terminal:
 
 ```powershell
 Set-Location 'C:\Users\JEMJR\OneDrive\Desktop\TickerBrief\apps\mobile'
-npx.cmd eas-cli@latest submit:view 5a5bff48-cd4d-426a-97d4-53d3875a9f3f
+npx.cmd eas-cli@latest submit:view 22a4179d-1048-48ae-b8cb-7d0798d9b107
 npx.cmd eas-cli@latest submit:status --platform ios --profile production --json --non-interactive
 ```
 
