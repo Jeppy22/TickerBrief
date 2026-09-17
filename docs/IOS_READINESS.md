@@ -1,6 +1,6 @@
 # iOS beta readiness
 
-Updated September 16, 2026 (cloud timestamps use September 17 UTC). The production build, upload and Apple processing succeeded. The build is ready for internal testing; physical iPhone testing remains incomplete.
+Updated September 17, 2026 UTC. Stabilization **0.1.0 (3)** is built, uploaded and processed (`VALID` / `READY_FOR_BETA_TESTING`). [Receipts and verification](verification/2026-09-17-beta-stabilization.json). The operator tested part of the original build-2 flow on an iPhone 17 Pro; its exact iOS version and offline saved access remain unconfirmed. Build-3 native fixes and preservation of data across the update require device retesting.
 
 ## Established configuration and build
 
@@ -26,20 +26,20 @@ Updated September 16, 2026 (cloud timestamps use September 17 UTC). The producti
 | Public privacy/support | Published, anonymously verified: [privacy](https://jeppy22.github.io/TickerBrief/privacy/), [support](https://jeppy22.github.io/TickerBrief/support/). Public contact is explicitly approved. |
 | Review information | Operator confirmed private review name/email/phone are saved in App Store Connect. Beta description, notes and checklist are in [BETA_TESTING.md](BETA_TESTING.md). |
 | Apple processing and beta review | Processing complete and ready for internal testing. External beta review has not been requested or approved. |
-| Internal tester access | Operator must manually add only themselves to a private internal group and add build 0.1.0 (2). No group or invitations were created by this submission. |
-| Physical iPhone | Not tested. TestFlight does not require the ad hoc UDID-registration path used for development/preview builds. |
+| Internal tester access | The operator is already testing build 2. Manually add processed build **0.1.0 (3)** to that existing private internal group. No new group or invitations were created by the submission. |
+| Physical iPhone | Operator verified research, SEC links, saving/reopening reports and notes, and keyboard behavior on build 2. Value layout and back-label defects prompted the stabilization update. Offline saved access, Dynamic Type, native gestures and preservation across the update require retesting. |
 
 ## Manual handoff
 
-Open [TickerBrief in App Store Connect](https://appstoreconnect.apple.com/apps/6812926318/testflight/ios). Follow [the exact internal-tester and iPhone installation steps](BETA_TESTING.md#install-on-your-iphone): create or select a private internal group, keep automatic distribution disabled, add **0.1.0 (2)** and manually select only your own App Store Connect user. Install TestFlight on an iPhone running iOS 16.4 or later, accept your invitation and install TickerBrief. No Mac, Xcode or ad hoc device registration is needed.
+Processing is complete. Open [TickerBrief in App Store Connect](https://appstoreconnect.apple.com/apps/6812926318/testflight/ios). Follow [the exact existing-group and iPhone update steps](BETA_TESTING.md#install-on-your-iphone): select the existing private internal group, keep automatic distribution disabled, and add **0.1.0 (3)**. Keep the existing tester list unchanged. Update through TestFlight over the installed app; do not uninstall or clear storage. No Mac, Xcode or ad hoc device registration is needed.
 
-Record the device model/iOS version and run the physical checklist in [BETA_TESTING.md](BETA_TESTING.md#what-to-test). Browser checks and Apple's processing result do not verify on-device research, notes or offline reopening.
+Record the exact iOS version and run the [device retest checklist](BETA_TESTING.md#device-retest-checklist). Browser checks and Apple's processing result do not verify native fixes, storage survival across an update or fully offline reopening.
 
 The upload is complete. For read-only status, from your VS Code PowerShell terminal:
 
 ```powershell
 Set-Location 'C:\Users\JEMJR\OneDrive\Desktop\TickerBrief\apps\mobile'
-npx.cmd eas-cli@latest submit:view 4bfd2bd0-3a28-4d94-823f-133e8b777472
+npx.cmd eas-cli@latest submit:view 5a5bff48-cd4d-426a-97d4-53d3875a9f3f
 npx.cmd eas-cli@latest submit:status --platform ios --profile production --json --non-interactive
 ```
 

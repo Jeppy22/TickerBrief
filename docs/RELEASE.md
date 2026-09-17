@@ -1,6 +1,6 @@
 # Private iPhone beta release runbook
 
-Release state: the first production build **`3797cb4d-c4f0-425d-8910-af53165d726c`**, version **0.1.0 (2)**, source **`4bed83a9a9547ad25fd2ce23bb67c0e4c4fac408`**, was built, uploaded, processed and physically tested in part by the operator. [Original build dashboard](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3797cb4d-c4f0-425d-8910-af53165d726c). The stabilization update addresses value readability and back labels; its build/upload/processing results are tracked in [STATUS.md](STATUS.md). Use the existing internal group and update over the installed app as described in [BETA_TESTING.md](BETA_TESTING.md#install-on-your-iphone). Offline saved access and native behavior of the fixes require device retesting. External beta review has not been requested. Hosted factual API/browser gates remain passed.
+Release state: stabilization **0.1.0 (3)** is **built, uploaded and processed**, ready for internal testing. [Build `3ba13f78-e80f-4231-9243-6cf2e4df33c0`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3ba13f78-e80f-4231-9243-6cf2e4df33c0), source **`ab7eda03b40e9e93ed2423f2a9fd9ecb9ea72073`**. [Submission `5a5bff48-cd4d-426a-97d4-53d3875a9f3f`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/5a5bff48-cd4d-426a-97d4-53d3875a9f3f) used the exact build and existing credentials. Apple reports `VALID` / `READY_FOR_BETA_TESTING`. Use the existing internal group and update over the installed app as described in [BETA_TESTING.md](BETA_TESTING.md#install-on-your-iphone). The operator's build-2 observations and automated checks are separate in [STATUS.md](STATUS.md); native fixes, offline saved access and storage survival across this update require device retesting. No external beta review or public release was requested.
 
 ## Known identities
 
@@ -12,7 +12,7 @@ Release state: the first production build **`3797cb4d-c4f0-425d-8910-af53165d726
 - Registered bundle ID: **`com.jeppyinvesting.tickerbrief`**, confirmed by the operator and configured through `IOS_BUNDLE_IDENTIFIER` locally and in every EAS profile.
 - App Store Connect Apple ID: **`6812926318`**, confirmed by the operator and configured as `submit.production.ios.ascAppId`. Build signing and upload authentication were used successfully. The [manual handoff](IOS_READINESS.md#manual-handoff) now covers installing the processed build.
 
-EAS usage was checked before and after the build on **2026-09-16** (local date): Free plan, now **4/15 iOS builds used (11 remaining)**, **4/30 total builds used (26 remaining)**, no overage charges or paid add-ons. Period ends October 1. Recheck before any future build; uploading this existing build does not require a rebuild.
+EAS usage was checked before and after stabilization build 3 on **2026-09-17 UTC**: Free plan, **5/15 iOS builds used (10 remaining)**, **5/30 total builds used (25 remaining)**, zero overage charges and no paid add-ons. Exactly one build was started for this update. Period ends October 1. Recheck before any future build; adding this processed build to the existing group does not require a rebuild or upload.
 
 ## Hosted factual backend
 
@@ -88,6 +88,27 @@ For automation after signing is configured, use `npx.cmd eas-cli@latest build --
 The root `.easignore` preserves the root/mobile Git exclusions and omits backend/docs from the upload. It also prevents EAS's recursive `.gitignore` discovery from touching an inaccessible Windows pytest cache. To check archive creation without using build quota, run `npx.cmd eas-cli@latest build:inspect --platform ios --profile production --stage archive --output ../../artifacts/eas-archive-CHECK_NAME` with a new output directory name. This is an archive inspection only; it does not require local Xcode.
 
 Use the exact successful build ID, not an unrelated `--latest` artifact. Submission targets the configured app `6812926318`; EAS Submit authentication may still be required separately from build signing. Do not start either build before checking the Free plan and remaining iOS quota. Never accept a paid-build upgrade.
+
+### Stabilization release record (0.1.0 build 3)
+
+These commands completed successfully from `apps/mobile` in PowerShell. They are records, **not commands to rerun for installation**:
+
+```powershell
+npx.cmd eas-cli@latest build --platform ios --profile production --non-interactive --freeze-credentials --no-wait
+npx.cmd eas-cli@latest submit --platform ios --profile production --id 3ba13f78-e80f-4231-9243-6cf2e4df33c0 --no-auto-testflight-setup --non-interactive
+```
+
+Build finished **2026-09-17 01:36:48 UTC**; upload finished **01:39:54 UTC**; Apple processing verified complete at **01:43:02 UTC**. [Sanitized receipts, IPA hash, identity checks and validation](verification/2026-09-17-beta-stabilization.json). No signing certificates were replaced, and no group/tester mutations or public release were performed.
+
+Read-only monitoring, if needed:
+
+```powershell
+npx.cmd eas-cli@latest build:view 3ba13f78-e80f-4231-9243-6cf2e4df33c0
+npx.cmd eas-cli@latest submit:view 5a5bff48-cd4d-426a-97d4-53d3875a9f3f
+npx.cmd eas-cli@latest submit:status --platform ios --profile production --json --non-interactive
+```
+
+The next action is **existing Internal Testing group → Add Builds → 0.1.0 (3)**, then update in place through TestFlight. Keep automatic distribution disabled and the existing tester list unchanged.
 
 ### First release upload record (0.1.0 build 2)
 

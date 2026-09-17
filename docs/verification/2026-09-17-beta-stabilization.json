@@ -1,0 +1,159 @@
+{
+  "recordedAtUtc": "2026-09-17T01:32:19.0049409Z",
+  "sourceCommit": "ab7eda03b40e9e93ed2423f2a9fd9ecb9ea72073",
+  "physicalObservations": {
+    "source": "Operator report",
+    "device": "iPhone 17 Pro",
+    "iosVersion": null,
+    "version": "0.1.0",
+    "buildNumber": "2",
+    "passed": [
+      "research retrieval",
+      "SEC filing links",
+      "saving reports and personal notes",
+      "saved data after reopening",
+      "keyboard behavior"
+    ],
+    "defects": [
+      "financial amounts wrap or clip",
+      "research back label exposes (tabs)"
+    ],
+    "offlineSavedAccess": "unconfirmed; the connection-error screen/path was not established"
+  },
+  "reproduction": {
+    "kind": "Synthetic browser simulation",
+    "width": 320,
+    "textScale": 2.5,
+    "amount": "-$987.65B",
+    "beforeLineCount": 2,
+    "beforeAvailableWidth": 234,
+    "failedSearchSavedShortcutCountBefore": 0
+  },
+  "validation": {
+    "typescript": "passed",
+    "eslint": "passed",
+    "formatting": "passed",
+    "unitTestsPassed": 6,
+    "browserScenariosPassed": 10,
+    "browserSuiteDuration": "3.4 minutes",
+    "iosHermesExport": "passed on Windows",
+    "hostedUrlInExport": true,
+    "newAmountLayoutInExport": true,
+    "layoutWidths": [
+      320,
+      402,
+      430
+    ],
+    "browserCssTextScales": [
+      1,
+      2,
+      2.5
+    ],
+    "checked": [
+      "current and prior signed compact amounts",
+      "complete unrounded source values",
+      "single-line amounts without ellipses",
+      "text height and reachability of every trailing digit",
+      "Back label and return destinations for live and saved screens",
+      "two browser-process restarts with disk-backed profile",
+      "saved source excerpts and offline note edit persistence",
+      "two unchanged saved report versions",
+      "fresh search and research errors offer saved library access"
+    ],
+    "savedOnlyExternalRequestCount": 0,
+    "screenshotsVisuallyInspected": [
+      "amounts-320-2.5x.png",
+      "amounts-402-1x.png",
+      "sources-320-1x.png",
+      "sources-320-2.5x.png",
+      "saved-after-offline-restart.png"
+    ],
+    "limits": [
+      "Synthetic fixtures, not new live filing verification",
+      "Metro served loopback assets; not a fully offline native launch",
+      "CSS scaling is not native Dynamic Type",
+      "iOS back gestures and saved-data preservation across an app update await physical retest"
+    ]
+  },
+  "constraints": {
+    "backend": "https://tickerbrief-api.onrender.com",
+    "healthSecConfigured": true,
+    "healthAiEnabled": false,
+    "storageKeyAndSchemaChanged": false,
+    "backendCodeChanged": false,
+    "renderConfigChanged": false,
+    "aiRequestsMade": false,
+    "billingChanged": false,
+    "newTesterInvitations": false,
+    "publicRelease": false
+  },
+  "freeAllowanceBeforeBuild": {
+    "plan": "Free",
+    "iosUsed": 4,
+    "iosLimit": 15,
+    "totalUsed": 4,
+    "totalLimit": 30,
+    "overageCents": 0,
+    "addons": []
+  },
+  "build": {
+    "id": "3ba13f78-e80f-4231-9243-6cf2e4df33c0",
+    "version": "0.1.0",
+    "buildNumber": "3",
+    "status": "FINISHED",
+    "createdAt": "2026-09-17T01:30:34.776Z",
+    "sourceCommit": "ab7eda03b40e9e93ed2423f2a9fd9ecb9ea72073",
+    "dashboardUrl": "https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3ba13f78-e80f-4231-9243-6cf2e4df33c0",
+    "credentialsFrozen": true,
+    "completedAt": "2026-09-17T01:36:48.006Z",
+    "ipaSha256": "7fee8a79eefbdbcc3548dcc7090ce466a146587296a29ddf11d24e7ec143283b"
+  },
+  "ipaInspection": {
+    "bundleIdentifier": "com.jeppyinvesting.tickerbrief",
+    "version": "0.1.0",
+    "buildNumber": "3",
+    "appleTeamId": "98BBY4NN94",
+    "minimumIosVersion": "16.4",
+    "appStoreProfile": true,
+    "hostedBackendAndUpdatedUiInHermesBundle": true,
+    "nonExemptEncryption": false,
+    "method": "Static inspection of exact EAS IPA on Windows; not a native device test or cryptographic codesign verification"
+  },
+  "freeAllowanceAfterBuild": {
+    "plan": "Free",
+    "iosUsed": 5,
+    "iosLimit": 15,
+    "totalUsed": 5,
+    "totalLimit": 30,
+    "overageCents": 0,
+    "addons": []
+  },
+  "submission": {
+    "id": "5a5bff48-cd4d-426a-97d4-53d3875a9f3f",
+    "status": "FINISHED",
+    "createdAt": "2026-09-17T01:39:42.534Z",
+    "completedAt": "2026-09-17T01:39:54.795Z",
+    "buildId": "3ba13f78-e80f-4231-9243-6cf2e4df33c0",
+    "sourceCommit": "ab7eda03b40e9e93ed2423f2a9fd9ecb9ea72073",
+    "version": "0.1.0",
+    "buildNumber": "3",
+    "ascAppId": "6812926318",
+    "profile": "production",
+    "autoTestflightSetup": false,
+    "dashboardUrl": "https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/5a5bff48-cd4d-426a-97d4-53d3875a9f3f",
+    "error": null
+  },
+  "apple": {
+    "verifiedAtUtc": "2026-09-17T01:43:02.7358086Z",
+    "ascAppId": "6812926318",
+    "appVersion": "0.1.0",
+    "buildNumber": "3",
+    "processingState": "VALID",
+    "internalState": "READY_FOR_BETA_TESTING",
+    "externalState": "READY_FOR_BETA_SUBMISSION",
+    "uploadedDate": "2026-09-16T18:40:38-07:00",
+    "expired": false,
+    "easSubmissionId": "5a5bff48-cd4d-426a-97d4-53d3875a9f3f",
+    "easBuildId": "3ba13f78-e80f-4231-9243-6cf2e4df33c0"
+  }
+}

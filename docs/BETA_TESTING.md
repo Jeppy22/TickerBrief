@@ -1,6 +1,6 @@
 # Private TestFlight handoff
 
-The first release **0.1.0 (2)**, ID **`3797cb4d-c4f0-425d-8910-af53165d726c`**, was uploaded, processed and installed by the operator. [Original submission receipt](verification/2026-09-17-testflight-submission.json). A stabilization build is being prepared for the existing private testing group; its delivery will be recorded here after completion. The operator confirmed private review contact details are saved. No new tester invitations or public links are part of this update.
+The stabilization release **0.1.0 (3)** has been built, uploaded to app **6812926318**, and processed by Apple: **`VALID` / `READY_FOR_BETA_TESTING`**, verified **2026-09-17 01:43:02 UTC**. [Build `3ba13f78-e80f-4231-9243-6cf2e4df33c0`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3ba13f78-e80f-4231-9243-6cf2e4df33c0), source **`ab7eda03b40e9e93ed2423f2a9fd9ecb9ea72073`**; [submission `5a5bff48-cd4d-426a-97d4-53d3875a9f3f`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/5a5bff48-cd4d-426a-97d4-53d3875a9f3f). [Verification evidence](verification/2026-09-17-beta-stabilization.json). The first release **0.1.0 (2)** was installed and partially tested by the operator. No new tester invitations, group changes or public links were created for this update; add build 3 to your existing group using the steps below.
 
 ## First physical observations
 
@@ -31,12 +31,12 @@ Both public pages were verified with anonymous HTTPS 200 responses. The policy d
 
 ## Install on your iPhone
 
-For this update, use the **existing private internal testing group and existing tester**. The new build number will be recorded at the top of this document when processing completes. No new invitations or public release are needed.
+For this update, use the **existing private internal testing group and existing tester**. Build **0.1.0 (3)** has finished processing. No new invitations or public release are needed.
 
 1. Open [App Store Connect → TickerBrief → TestFlight](https://appstoreconnect.apple.com/apps/6812926318/testflight/ios) under team **98BBY4NN94** and select your existing group under **Internal Testing**.
-2. Keep **Enable automatic distribution** disabled. In the group's **Builds** section, click **Add Builds**, select the processed stabilization build recorded above, then **Next**.
+2. Keep **Enable automatic distribution** disabled. In the group's **Builds** section, click **Add Builds**, select **0.1.0 (3)**, then **Next**. If build 3 is already listed in that group, proceed to the iPhone update step.
 3. Paste the **Device retest checklist** above into **What to Test**, then click **Add**. Keep the group's existing tester list unchanged. Do not create a new group, invite testers, or enable a public link. These steps follow [Apple's internal-testing instructions](https://developer.apple.com/help/app-store-connect/test-a-beta-version/add-internal-testers).
-4. On your iPhone, open **TestFlight → TickerBrief → Update**. If necessary, open **Previous Builds** and select the new **0.1.0** build number. Update over the installed build 2; do not uninstall the app. See [Apple's TestFlight instructions](https://testflight.apple.com/).
+4. On your iPhone, open **TestFlight → TickerBrief → Update**. If necessary, open **Previous Builds → 0.1.0** and select **build 3**. Update over the installed build 2; do not uninstall the app. See [Apple's TestFlight instructions](https://testflight.apple.com/).
 5. Launch TickerBrief and run the device retest checklist. Record the exact device/iOS/build versions and actual results. The application needs no login. No Mac, Xcode or ad hoc device registration is required.
 
 ## Beta description
