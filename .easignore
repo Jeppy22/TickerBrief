@@ -43,3 +43,5 @@ yarn-error.*
 /services/
 /docs/
 /render.yaml
+/site/
+/.github/
