@@ -12,6 +12,8 @@ Updated: 2026-09-16. This project is in implementation; the beta is not complete
 
 ## Implemented and checked
 
+- Production build preparation after operator-completed signing: resolved team `98BBY4NN94`, bundle `com.jeppyinvesting.tickerbrief`, submission app `6812926318` and hosted HTTPS backend. The Free account still had 12 iOS/27 total builds available, with no existing iOS build in this project. Hosted health confirmed SEC configured and AI disabled.
+- The initial build command found the existing remote distribution certificate and active provisioning profile, but failed **before creating a cloud build** while EAS scanned `services/api/.pytest_cache` (`EPERM` on Windows). Added root `.easignore`, preserving root/mobile secret and generated-file exclusions and excluding backend/docs from the mobile archive. The official `build:inspect --stage archive` check passed; required mobile config, lockfile, assets and dependency patches are included, and backend/private configuration/signing files are absent. No certificate was changed or revoked. This is archive verification, not a native build.
 - FastAPI company search and reports from SEC company directory, submissions, company facts, and business-section excerpts. No live fixture fallback.
 - Exact USD annual and fiscal-year-to-date normalization, comparable periods, explicit missing data, restatements/amendments, duplicate conflict handling, inspectable source records, and calculated changes.
 - SEC cache, stale timestamps, shared two-request/second throttle, 403/429 cooldown, global API request ceiling. Deployment must use one worker/instance.

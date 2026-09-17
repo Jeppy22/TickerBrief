@@ -83,6 +83,10 @@ npx.cmd eas-cli@latest build --platform ios --profile production
 npx.cmd eas-cli@latest submit --platform ios --profile production --id YOUR_SUCCESSFUL_BUILD_ID
 ```
 
+For automation after signing is configured, use `npx.cmd eas-cli@latest build --platform ios --profile production --non-interactive --freeze-credentials --no-wait`. The credential freeze prevents changes to existing signing credentials; noninteractive mode does not revalidate them against Apple. Record the returned build ID and follow it with `npx.cmd eas-cli@latest build:view BUILD_ID`. Do not rerun the build command to check progress.
+
+The root `.easignore` preserves the root/mobile Git exclusions and omits backend/docs from the upload. It also prevents EAS's recursive `.gitignore` discovery from touching an inaccessible Windows pytest cache. To check archive creation without using build quota, run `npx.cmd eas-cli@latest build:inspect --platform ios --profile production --stage archive --output ../../artifacts/eas-archive-CHECK_NAME` with a new output directory name. This is an archive inspection only; it does not require local Xcode.
+
 Use the exact successful build ID, not an unrelated `--latest` artifact. Submission targets the configured app `6812926318`; EAS Submit authentication may still be required separately from build signing. Do not start either build before checking the Free plan and remaining iOS quota. Never accept a paid-build upgrade.
 
 ## Privacy and beta information

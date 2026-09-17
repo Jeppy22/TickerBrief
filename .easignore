@@ -1,0 +1,45 @@
+# EAS reads this at the Git repository root and does not merge .gitignore files.
+# Keep the root and mobile exclusions below in sync with their .gitignore files.
+.git/
+node_modules/
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.expo/
+dist/
+.env
+.env.*
+!.env.example
+*.log
+*.sqlite*
+.cache/
+artifacts/
+test-results/
+playwright-report/
+*.p8
+*.p12
+*.pem
+*.mobileprovision
+.DS_Store
+
+# Additional mobile .gitignore rules.
+web-build/
+expo-env.d.ts
+.kotlin/
+*.orig.*
+*.jks
+*.key
+.metro-health-check*
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+*.tsbuildinfo
+/apps/mobile/example/
+/apps/mobile/ios/
+/apps/mobile/android/
+
+# The mobile cloud build does not need backend files or release evidence.
+/services/
+/docs/
+/render.yaml
