@@ -1,0 +1,19 @@
+{
+  "verifiedAt": "2026-09-17T00:14:16.377Z",
+  "pages": [
+    {
+      "url": "https://jeppy22.github.io/TickerBrief/privacy/",
+      "status": 200,
+      "anonymous": true,
+      "sha256": "62e9592b42f7db92c19ddbc1bb4ba64b805c4cd4f6a76048286c3ffb2a69b0c2"
+    },
+    {
+      "url": "https://jeppy22.github.io/TickerBrief/support/",
+      "status": 200,
+      "anonymous": true,
+      "sha256": "e631480aabda8ef50b110a90b1ae4dfcddcc28d8906c958b72630c7f610fd385"
+    }
+  ],
+  "repositoryFilesNotPublished": true,
+  "physicalIphoneTest": false
+}

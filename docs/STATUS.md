@@ -2,6 +2,22 @@
 
 Updated: 2026-09-16. This project is in implementation; the beta is not complete.
 
+## Current release milestones
+
+| Milestone | Verified result |
+| --- | --- |
+| Production iOS cloud build | **FINISHED** at **2026-09-17 00:07:19 UTC** (September 16 locally). Version **0.1.0 (2)**, [build `3797cb4d-c4f0-425d-8910-af53165d726c`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3797cb4d-c4f0-425d-8910-af53165d726c), source commit **`4bed83a9a9547ad25fd2ce23bb67c0e4c4fac408`**. One cloud build was created; the prior archive failure created none. |
+| IPA inspection on Windows | Correct team `98BBY4NN94`, bundle `com.jeppyinvesting.tickerbrief`, App Store profile, iPhone-only/iOS 16.4+, version/build and non-exempt-encryption declaration. Hermes bundle contains the hosted API and no previous localhost API. Combined privacy manifest includes file timestamp `C617.1`, user defaults `CA92.1`, system boot time `35F9.1`; tracking false. This is static inspection, not Apple validation or cryptographic codesign verification. [Artifact hash and evidence](verification/2026-09-17-ios-build.json). |
+| Free allowance | Before build: 3/15 iOS and 3/30 total used. After build: **4/15 iOS, 4/30 total**, Free plan, zero overage and no paid add-ons. No signing certificate was changed/revoked. |
+| Public privacy and support | **Published and verified anonymously over HTTPS**, 200 responses at **2026-09-17 00:14:16 UTC**. [Privacy](https://jeppy22.github.io/TickerBrief/privacy/), [support](https://jeppy22.github.io/TickerBrief/support/). [GitHub Pages deployment](https://github.com/Jeppy22/TickerBrief/actions/runs/35165627815) from `27670fd`; only `site/` is uploaded. [Checksums and evidence](verification/2026-09-17-public-pages.json). |
+| TestFlight upload | **Not started.** Read-only EAS metadata confirms the signing linkage but no submission API key is assigned to this app. Operator is completing upload credentials and saving review contact information directly in App Store Connect. |
+| Apple processing / beta review | **Not started or verified**; requires a successful upload first. No public release or tester invitations. |
+| Physical iPhone testing | **Not performed.** Prior hosted/browser checks and IPA inspection do not replace a TestFlight install and device checklist. |
+
+The public contact is now explicitly approved beyond its SEC use. Policy review covers local storage, research requests, Render logs, GitHub Pages visitor IP logging, external SEC links, disabled AI, support email and Apple's automatic TestFlight crash/usage collection. No fixed provider-wide retention period is invented; authenticated Render settings were not available. See [PRIVACY.md](PRIVACY.md). Local and anonymous public Chromium checks passed; mobile/desktop layouts were reviewed. Public changes do not alter the completed app binary or require another build.
+
+EAS CLI 24.7.0 defaults to automatic internal TestFlight group setup, which can invite admin users. The release commands now explicitly use **`--no-auto-testflight-setup`**, omit `--groups`, and retain the exact successful build ID to comply with private distribution and no automatic invitations.
+
 ## Established
 
 - Inspected the Windows workspace: initially empty, no existing instructions or changes.
@@ -46,22 +62,22 @@ Updated: 2026-09-16. This project is in implementation; the beta is not complete
 - Reproduced an export-cache issue: the initial successful exports retained the previous API configuration. Both iOS Hermes and web exports rebuilt successfully with `--clear`; their bundles contain the hosted HTTPS URL and no previous localhost API URL. Both npm export scripts now clear Metro's cache by default. This configuration fix does not change application networking or financial verification criteria.
 - **Registered iOS identity configured:** operator-supplied Apple Team ID **`98BBY4NN94`** and bundle **`com.jeppyinvesting.tickerbrief`**. The existing `IOS_BUNDLE_IDENTIFIER` setting is populated in ignored mobile `.env`, its public example and all three EAS profiles; `ios.appleTeamId` selects the supplied team. Expo owner/project, hosted HTTPS URL, Render configuration, distribution modes and version settings are preserved.
 - Actual Expo CLI configuration checks passed for local mode and each EAS profile with `EAS_BUILD=true`, resolving the correct bundle/team/owner/project. TypeScript, ESLint and formatting passed. No app UI/backend changes required another financial audit or browser run.
-- A single read-only EAS metadata lookup using the existing Expo session found **no EAS identifier record for this bundle under `jeppy22`**. This is separate from the operator-confirmed Apple registration; EAS signing setup still needs the official Apple authentication/credential flow. No private signing files were fetched, no credentials were created/revoked, and no cloud build or submission started.
+- Before the operator completed signing, a read-only EAS lookup found no identifier record for this bundle under `jeppy22`. The subsequent signing linkage and successful cloud build supersede that earlier prerequisite, as recorded in the current milestones above.
 - **App Store Connect record configured:** the operator supplied numeric Apple ID **`6812926318`** for the existing bundle/team. Set `submit.production.ios.ascAppId` to that value. EAS's own schema/resolver validated the production submission profile and retained store distribution, remote credentials, the registered bundle and hosted API. This is local configuration validation, not an authenticated Apple record lookup, upload or physical-device check.
 - **Free EAS quota checked on 2026-09-16:** CLI 24.7.0 reports **3/15 iOS builds used (12 remaining)** and **3/30 total used (27 remaining)**, one concurrent build, no overage charges and no paid add-ons; billing period ends October 1. No build started or quota consumed by this setup.
-- Ran `npx.cmd eas-cli@latest credentials:configure-build --platform ios --profile production` from `apps/mobile`. It selected production and reached **Do you want to log in to your Apple account?**. Cancelled before authentication for the operator to complete the official local login/2FA flow. Signing remains unverified; no credentials were created or revoked. [Exact handoff and credential-reuse guidance](IOS_READINESS.md#manual-handoff).
+- The initial `credentials:configure-build` handoff stopped at Apple login. The operator subsequently completed authentication/signing, and the cloud build reused those credentials successfully. The current manual handoff concerns separate **upload** credentials only.
 
 ## External prerequisites
 
 - SEC contact authorization is resolved: the user supplied and explicitly authorized the local identifying contact. Live retrieval and filing verification succeeded. No inferred account contact is used.
 - AI credentials and free-tier eligibility are not verified. Live generation stays disabled.
-- Expo CLI is signed in as `jeppy22`; GitHub CLI as `Jeppy22`. EAS project `ba290e73-7370-4c6e-b557-1ea2e21987d0` was created and its link verified. Owner remains `jeppy22`. Registered bundle/team and numeric App Store Connect app ID are supplied and configured. Free quota is available as recorded above; recheck immediately before a build if signing is completed in a later session. Apple authentication, membership/signing permissions and EAS signing credentials remain pending. No cloud build started.
+- Expo owner/project remain `jeppy22` / `ba290e73-7370-4c6e-b557-1ea2e21987d0`. The operator completed signing and the production build succeeded. Separate EAS Submit credentials and confirmation that private review-contact fields are saved remain pending. Public privacy/support URLs and feedback contact are resolved. Do not rebuild for upload or website/documentation changes.
 - Hosted report retrieval, the filing audit and direct browser acceptance pass after the operator's CORS correction. No authenticated Render management connection was used; credentials and unrelated blockers were not rechecked. The blueprint preserves the applied allowlist, Free plan and manual deployment policy.
 - npm audit now reports **zero vulnerabilities**, after scoped patched dependencies plus a committed, tested CommonJS compatibility patch. See DEPENDENCIES.md.
 
 ## Next task
 
-In your own PowerShell terminal, run `npx.cmd eas-cli@latest credentials:configure-build --platform ios --profile production` from `apps/mobile` and complete Apple login/2FA for team **`98BBY4NN94`**. Reuse valid existing signing credentials for **`com.jeppyinvesting.tickerbrief`**; the App Store Connect app **`6812926318`** is already configured. See the [exact prompt guide](IOS_READINESS.md#manual-handoff). After signing is ready and Free quota is verified, run the production EAS cloud build using [RELEASE.md](RELEASE.md). Hosted backend/browser gates remain passed and require no Render action. AI stays disabled. Approved privacy/review contacts, a public privacy-policy URL and physical-device testing remain external. Do not repeat unchanged account checks. Code is on `feat/private-beta`.
+Complete the separate upload-credential handoff in [IOS_READINESS.md](IOS_READINESS.md#manual-handoff): `npx.cmd eas-cli@latest credentials --platform ios`, production → App Store Connect: Manage your API Key → Set up your project to use an API Key for EAS Submit. Reuse a valid key for team `98BBY4NN94`. Save the verified URLs, approved feedback email and private review-contact fields in App Store Connect and confirm completion. Then upload build **`3797cb4d-c4f0-425d-8910-af53165d726c`** to app **`6812926318`** with **`--no-auto-testflight-setup`**, following [RELEASE.md](RELEASE.md). No new build, Render deployment or AI request is needed. Code is on `feat/private-beta`.
 
 ## Acceptance audit
 
@@ -73,7 +89,7 @@ In your own PowerShell terminal, run `npx.cmd eas-cli@latest credentials:configu
 | Watchlist, snapshots, notes survive restart | Local and hosted-data browser restarts passed for all three companies with API blocked; offline note editing and hosted retry passed; physical iPhone pending |
 | Honest missing/offline/loading/error states | Seven synthetic browser scenarios pass, including delayed responses, manual retries, saving during refresh, failed writes and offline note edits |
 | Relevant checks documented | Hosted API: healthy with AI disabled, 50/50 filing facts and 3/3 hosted browser flows passed after CORS correction. Current mobile configuration: official EAS schema and resolved submission/build profile validation, lint/types/format, EAS profile assertions and iOS/web exports with bundled-URL checks. Prior local evidence: 34 backend tests, 3 live and 7 synthetic browser flows, 6 mobile unit tests, Doctor, dependency audit and clean installation |
-| Hosted backend and TestFlight build | Hosted factual backend/browser acceptance passed; bundle/team/App Store Connect ID configured; Free build quota available; interactive Apple signing pending; no TestFlight build |
+| Hosted backend and TestFlight build | Hosted factual backend/browser acceptance passed; production iOS cloud build and static IPA checks passed; upload authentication/review-contact confirmation, Apple processing and physical-device testing pending |
 | Remaining review/device steps identified | RELEASE.md separates signing, upload, Apple processing, beta review and device checks |
 
-This goal is **not complete**. Live factual research and the core browser flow are verified against the hosted service. Live AI quality, a signed binary and physical-device verification remain unproven.
+The private beta is **not complete**. Live factual research, the hosted browser flow, production cloud build and public support/privacy pages are verified. TestFlight upload, Apple processing and physical-device verification remain pending. AI stays disabled and outside the current beta work.

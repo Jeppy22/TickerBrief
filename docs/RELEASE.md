@@ -1,6 +1,6 @@
 # Private iPhone beta release runbook
 
-Release state: the hosted factual API passed its 50/50 source-fact audit and all three hosted browser flows passed after the deployed CORS correction. See [HOSTED_VERIFICATION.md](HOSTED_VERIFICATION.md). No signed iOS build, TestFlight upload, Apple processing, beta review, or physical-device test has been verified.
+Release state: production iOS build **`3797cb4d-c4f0-425d-8910-af53165d726c`** succeeded, version **0.1.0 (2)**, source **`4bed83a9a9547ad25fd2ce23bb67c0e4c4fac408`**. [Build dashboard](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3797cb4d-c4f0-425d-8910-af53165d726c). Static IPA inspection passed on Windows; no local Xcode was used. TestFlight upload, Apple processing, beta review and physical-device testing remain pending. Hosted factual API/browser gates remain passed. See [STATUS.md](STATUS.md) for distinct milestones.
 
 ## Known identities
 
@@ -10,9 +10,9 @@ Release state: the hosted factual API passed its 50/50 source-fact audit and all
 - Public app: **TickerBrief**. Tagline: **Stock research, clearly explained.**
 - Apple Team ID: **`98BBY4NN94`**, supplied by the operator and configured as `ios.appleTeamId`.
 - Registered bundle ID: **`com.jeppyinvesting.tickerbrief`**, confirmed by the operator and configured through `IOS_BUNDLE_IDENTIFIER` locally and in every EAS profile.
-- App Store Connect Apple ID: **`6812926318`**, confirmed by the operator and configured as `submit.production.ios.ascAppId`. Signing still requires the [local Apple authentication handoff](IOS_READINESS.md#manual-handoff).
+- App Store Connect Apple ID: **`6812926318`**, confirmed by the operator and configured as `submit.production.ios.ascAppId`. Build signing is complete; separate upload credentials require the [manual handoff](IOS_READINESS.md#manual-handoff).
 
-EAS account usage was checked through the signed-in CLI on **2026-09-16**: Free plan, **3/15 iOS builds used (12 remaining)**, **3/30 total builds used (27 remaining)**, one concurrent build, no overage charges or paid add-ons. The current billing period ends October 1. This is a point-in-time check; check again immediately before a build if signing is completed in a later session.
+EAS usage was checked before and after the build on **2026-09-16** (local date): Free plan, now **4/15 iOS builds used (11 remaining)**, **4/30 total builds used (26 remaining)**, no overage charges or paid add-ons. Period ends October 1. Recheck before any future build; uploading this existing build does not require a rebuild.
 
 ## Hosted factual backend
 
@@ -36,7 +36,7 @@ The Dockerfile is an alternative deployment artifact; it has not been built here
 
 ## Apple and EAS
 
-See [the local iOS configuration review and exact missing Apple prerequisites](IOS_READINESS.md). Hosted report retrieval and the browser flow are verified. Team, bundle and App Store Connect app are configured; signing authentication and approved privacy/review information remain.
+See [the iOS configuration review and upload handoff](IOS_READINESS.md). Team, bundle, App Store Connect app and build signing are configured. Separate upload authentication and confirmation of saved review information remain. Public privacy/support pages are published.
 
 Use the existing project and ownership. From `apps/mobile` in PowerShell:
 
@@ -61,13 +61,13 @@ $env:IOS_BUNDLE_IDENTIFIER = 'com.jeppyinvesting.tickerbrief'
 
 The EAS project ID and owner are already committed in app configuration. Do not move ownership or replace the linked project. No provider credentials belong in EAS public variables.
 
-Complete signing setup before starting a build:
+Signing setup was completed by the operator and reused successfully by the build. For a future credential repair only:
 
 ```powershell
 npx.cmd eas-cli@latest credentials:configure-build --platform ios --profile production
 ```
 
-This command was run with EAS CLI 24.7.0 and reached **Do you want to log in to your Apple account?**; it was cancelled there for the operator to authenticate locally. Answer Yes in your own terminal, enter your authorized Apple Account and 2FA locally, and select team `98BBY4NN94`. Confirm bundle `com.jeppyinvesting.tickerbrief`. Reuse valid existing distribution certificates and matching App Store provisioning profiles; generate only missing credentials. Do not revoke certificates used by other apps. Wait for **All credentials are ready to build**. This credential command does not start a build. See the [detailed handoff](IOS_READINESS.md#manual-handoff).
+Use team `98BBY4NN94` and bundle `com.jeppyinvesting.tickerbrief`. Reuse valid distribution credentials and do not revoke certificates. No signing repair or new cloud build is currently needed.
 
 For a physical-device development build, register the device through EAS when needed, then build within the verified free quota:
 
@@ -80,7 +80,7 @@ For App Store distribution to TestFlight (no public release):
 
 ```powershell
 npx.cmd eas-cli@latest build --platform ios --profile production
-npx.cmd eas-cli@latest submit --platform ios --profile production --id YOUR_SUCCESSFUL_BUILD_ID
+npx.cmd eas-cli@latest submit --platform ios --profile production --id YOUR_SUCCESSFUL_BUILD_ID --no-auto-testflight-setup
 ```
 
 For automation after signing is configured, use `npx.cmd eas-cli@latest build --platform ios --profile production --non-interactive --freeze-credentials --no-wait`. The credential freeze prevents changes to existing signing credentials; noninteractive mode does not revalidate them against Apple. Record the returned build ID and follow it with `npx.cmd eas-cli@latest build:view BUILD_ID`. Do not rerun the build command to check progress.
@@ -89,14 +89,24 @@ The root `.easignore` preserves the root/mobile Git exclusions and omits backend
 
 Use the exact successful build ID, not an unrelated `--latest` artifact. Submission targets the configured app `6812926318`; EAS Submit authentication may still be required separately from build signing. Do not start either build before checking the Free plan and remaining iOS quota. Never accept a paid-build upgrade.
 
+### Next upload: reuse the successful build
+
+First complete the [upload API-key handoff](IOS_READINESS.md#manual-handoff) and save the review metadata described below. Then, from `apps/mobile` in PowerShell:
+
+```powershell
+npx.cmd eas-cli@latest submit --platform ios --profile production --id 3797cb4d-c4f0-425d-8910-af53165d726c --no-auto-testflight-setup
+```
+
+EAS CLI 24.7.0 enables automatic TestFlight group setup by default, including inviting admin users when it creates a group. The explicit negative flag prevents that behavior. Do not pass `--groups`, create a public link, enable automatic tester notifications, or release publicly. After upload, record the submission ID/receipt separately and wait for Apple processing in app `6812926318` → TestFlight. Investigate Apple's actual warnings/errors before taking any corrective action; a successful EAS build is not Apple acceptance.
+
 ## Privacy and beta information
 
-- Read [PRIVACY.md](PRIVACY.md) against the deployed configuration. Publish a stable public privacy-policy URL and a support contact before submission; the operator/contact has not been supplied for publication yet.
+- Public pages are published and anonymously HTTPS-verified: [Privacy Policy URL](https://jeppy22.github.io/TickerBrief/privacy/) and [Support URL](https://jeppy22.github.io/TickerBrief/support/). The contact on those pages is approved for support/privacy and beta feedback. [PRIVACY.md](PRIVACY.md) records verified processing and provider-retention limitations.
 - Device-local watchlists/notes are not transmitted. Company searches, request IPs and infrastructure logs need accurate disclosure for the actual host; model-enabled operation sends public company evidence. Do not blindly select “Data Not Collected” without considering final logging/diagnostics behavior.
-- AsyncStorage includes a dependency privacy manifest for file timestamp access (`C617.1` inspected in this checkout). Inspect the final cloud build's combined privacy manifest and App Store Connect warnings; a dependency file alone is not proof the final archive complies.
+- The actual IPA's combined privacy manifest was inspected: `C617.1`, `CA92.1`, `35F9.1`, tracking false. [Archive evidence](verification/2026-09-17-ios-build.json). These declarations do not alone prove Apple compliance or determine questionnaire answers; inspect App Store Connect warnings after upload.
 - This app uses standard HTTPS and no custom encryption. App config declares no non-exempt encryption; verify the final archive/features remain consistent with that declaration.
 - Prepare beta description, what to test, feedback email, review contact and export-compliance answers. Reviewers do not need an app login because there are no accounts. Explain the SEC coverage limits and disabled interpretation if still disabled.
-- [BETA_TESTING.md](BETA_TESTING.md) contains draft beta description, tester steps and review notes. Supply the approved contacts and policy URL before submission; its device checklist is explicitly unperformed.
+- [BETA_TESTING.md](BETA_TESTING.md) contains beta description, tester steps, URLs and review notes. In App Store Connect → TickerBrief → TestFlight → Test Information, save the approved feedback address, beta description and review contact name/email/phone directly. Use no-login review notes. Set the privacy URL under App Privacy and the support URL in the applicable app-version metadata. Operator confirmation of these private review fields remains pending; the device checklist is explicitly unperformed.
 - [External testing](https://developer.apple.com/help/app-store-connect/test-a-beta-version/invite-external-testers/) can require Beta App Review. Do not create tester invitations or a public link automatically.
 
 ## Record distinct release gates

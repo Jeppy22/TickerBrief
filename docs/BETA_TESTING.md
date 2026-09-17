@@ -1,6 +1,17 @@
 # Private TestFlight handoff — draft
 
-This text is prepared for the first private iPhone beta. It has not been submitted to Apple, and no tester invitations or public link have been created. Build ID, supported device results, approved feedback/review contact and privacy-policy URL remain pending.
+This text is prepared for the first private iPhone beta. It has not been submitted to Apple, and no tester invitations or public link have been created. The production build is **0.1.0 (2)**, ID **`3797cb4d-c4f0-425d-8910-af53165d726c`**, source **`4bed83a9a9547ad25fd2ce23bb67c0e4c4fac408`**. Upload authentication and confirmation of saved private review-contact fields remain pending; physical-device results are not yet available.
+
+## App Store Connect fields
+
+- App: **6812926318**, bundle **com.jeppyinvesting.tickerbrief**, team **98BBY4NN94**.
+- Privacy Policy URL: **https://jeppy22.github.io/TickerBrief/privacy/**.
+- Support URL: **https://jeppy22.github.io/TickerBrief/support/**.
+- Beta Feedback Email: use the operator-approved public address displayed on the support page.
+- Beta review name/email/phone: operator enters directly in App Store Connect; do not commit private contact fields.
+- Sign-in required: **No**. Use the review notes below; no demonstration account is needed.
+
+Both public pages were verified with anonymous HTTPS 200 responses. The policy discloses GitHub Pages visitor IP logging and Apple's automatic TestFlight collection as well as app/backend processing. No fixed provider-wide log deletion period is asserted.
 
 ## Beta description
 
@@ -28,4 +39,4 @@ The physical-device steps above are **pending**, not completed results. Record d
 - Financial facts, management excerpts and calculations are identified separately. Disabled model output is shown as unavailable; no demonstration research substitutes for live filings.
 - No payments, subscriptions, advertisements, trading or public social features are included.
 
-Before submission, the operator must supply approved beta feedback/review contact details and a public privacy-policy URL, confirm the intended Apple team/app/signing details, and review the actual archive's privacy and export-compliance information. Follow [RELEASE.md](RELEASE.md); keep build, upload, processing, review and physical-device outcomes separate.
+Before submission, the operator must configure the separate EAS Submit key and confirm the private review-contact fields are saved. Public contact/URLs and team/app/build signing are resolved; the actual archive's privacy manifest and encryption declaration were inspected, with Apple validation still pending. Follow [RELEASE.md](RELEASE.md), including **`--no-auto-testflight-setup`** and the exact successful build ID. Keep build, upload, processing, review and physical-device outcomes separate.
