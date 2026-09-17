@@ -67,6 +67,7 @@ for (const [ticker, query] of [
         .getByRole('button', { name: 'Inspect revenue evidence', exact: true })
         .first()
         .click();
+      await page.getByRole('button', { name: 'Technical details', exact: true }).first().click();
       await expect(page.getByText(evidence.excerpt, { exact: true })).toBeVisible();
       await page.getByRole('button', { name: 'Close evidence' }).click();
       await page.getByRole('button', { name: 'Add to watchlist', exact: true }).click();
@@ -94,6 +95,10 @@ for (const [ticker, query] of [
       await expect(reopened.getByText(revenue.explanation, { exact: true })).toBeVisible();
       await reopened
         .getByRole('button', { name: 'Inspect revenue evidence', exact: true })
+        .first()
+        .click();
+      await reopened
+        .getByRole('button', { name: 'Technical details', exact: true })
         .first()
         .click();
       await expect(reopened.getByText(evidence.excerpt, { exact: true })).toBeVisible();

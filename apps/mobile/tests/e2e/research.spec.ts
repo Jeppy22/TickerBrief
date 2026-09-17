@@ -40,7 +40,11 @@ test('fixture UI flow: search, inspect, watch, save, edit notes, restart offline
   await expect(page.getByRole('heading', { name: 'TEST FIXTURE ONLY', exact: true })).toBeVisible();
   await expect(page.getByText('Unavailable', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Inspect revenue evidence' }).click();
-  await expect(page.getByText('SYNTHETIC revenue evidence')).toBeVisible();
+  await expect(
+    page.getByTestId('source-notebook').getByRole('heading', { name: 'Revenue', exact: true }),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Technical details', exact: true }).click();
+  await expect(page.getByText('Original title: SYNTHETIC revenue evidence')).toBeVisible();
   await page.getByRole('button', { name: 'Close evidence' }).click();
   await page.getByRole('button', { name: 'Add to watchlist', exact: true }).click();
   await page.getByRole('button', { name: 'Save report & add notes' }).click();

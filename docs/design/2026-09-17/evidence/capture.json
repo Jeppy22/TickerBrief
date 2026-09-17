@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-09-17T02:46:00.509Z",
+  "environment": "Chromium browser preview, not a physical iPhone",
+  "source": "Previously retrieved real RKLB report, replayed unchanged from an ignored local artifact. No live API request.",
+  "reportId": "0dbf9018554a28ffb9e2bc01",
+  "retrievedAt": "2026-09-16T21:41:55.548212+00:00",
+  "sourceId": "fact-7609b87bcc92a5f9",
+  "value": -198209000,
+  "unit": "USD",
+  "aiEnabled": false,
+  "views": "Default and expanded details at 402x874; offline saved evidence at 320/430x874 with 2x CSS text approximation.",
+  "storage": "Isolated disposable browser context; no existing user data accessed."
+}

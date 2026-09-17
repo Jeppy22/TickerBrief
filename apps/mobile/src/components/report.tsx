@@ -3,6 +3,7 @@ import { Linking, Modal, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Evidence, Report } from '../lib/schema';
 import { FinancialValue } from './financial-value';
+import { EvidenceCard, EvidenceHeader } from './evidence';
 import {
   Button,
   Card,
@@ -195,59 +196,20 @@ export function ReportBody({ report }: { report: Report }) {
             testID="source-notebook"
             style={{ flex: 1, backgroundColor: colors.pageBackground }}
           >
-            <View style={{ padding: 18 }}>
-              <Button title="Close evidence" onPress={() => setSelected([])} />
-            </View>
+            <EvidenceHeader onClose={() => setSelected([])} />
             <ScrollView contentContainerStyle={s.content}>
-              <Eyebrow>Follow the evidence</Eyebrow>
-              <Heading>Supporting sources</Heading>
               <Copy style={s.muted}>
-                Retained excerpts are available offline. Opening SEC links requires an internet
+                Retained evidence is available offline. Opening SEC links requires an internet
                 connection.
               </Copy>
               {linkError && (
                 <Notice error>
-                  The source could not be opened. Its retained excerpt is available below; opening
+                  The source could not be opened. Its retained evidence is available below; opening
                   SEC links requires a connection.
                 </Notice>
               )}
               {selected.map((source) => (
-                <Card key={source.id}>
-                  <Eyebrow>{source.kind.replaceAll('_', ' ')}</Eyebrow>
-                  <Heading>{source.title}</Heading>
-                  {Boolean(source.filed) && (
-                    <Copy>
-                      Filed {dateLabel(source.filed!)} · {source.form}
-                    </Copy>
-                  )}
-                  <Copy style={s.muted}>Retrieved {source.retrieved_at}</Copy>
-                  {Boolean(source.accession) && (
-                    <Copy selectable style={s.muted}>
-                      Accession {source.accession}
-                    </Copy>
-                  )}
-                  {source.value !== null && source.value !== undefined && (
-                    <View style={{ gap: 6 }}>
-                      <Copy style={s.muted}>Reported value · {source.unit}</Copy>
-                      <FinancialValue>{String(source.value)}</FinancialValue>
-                      {Boolean(source.end) && (
-                        <Copy style={s.muted}>
-                          {source.start ? `Period ${source.start} to ` : 'As of '}
-                          {source.end}
-                        </Copy>
-                      )}
-                    </View>
-                  )}
-                  <Copy selectable>{source.excerpt}</Copy>
-                  <Button title="Open SEC filing" secondary onPress={() => void open(source.url)} />
-                  {source.data_url !== source.url && (
-                    <Button
-                      title="Open structured SEC data"
-                      secondary
-                      onPress={() => void open(source.data_url)}
-                    />
-                  )}
-                </Card>
+                <EvidenceCard key={source.id} source={source} onOpen={(url) => void open(url)} />
               ))}
             </ScrollView>
           </SafeAreaView>

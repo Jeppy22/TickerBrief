@@ -52,6 +52,11 @@ export const fixtureReport: Report = {
     {
       id: 'test-revenue',
       kind: 'reported_fact',
+      concept: 'Revenues',
+      value: 100,
+      unit: 'USD',
+      start: '2025-01-01',
+      end: '2025-12-31',
       title: 'SYNTHETIC revenue evidence',
       url: 'https://www.sec.gov/test-only',
       data_url: 'https://data.sec.gov/test-only',

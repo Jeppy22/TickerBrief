@@ -6,6 +6,8 @@ The stabilization release **0.1.0 (3)** has been built, uploaded to app **681292
 
 ## First physical observations
 
+The subsequent [evidence refinement](design/2026-09-17/evidence/README.md) is also local-only. After a future authorized build, retest compact Close in the safe-area header, return to both live/saved reports, readable metric names, grouped full values/units, and collapsed/expanded Technical details. In airplane mode, confirm saved structured records and genuine filing excerpts remain readable. These checks are **not performed on the iPhone** and do not apply to the existing build-3 UI.
+
 Device: **iPhone 17 Pro**, build **0.1.0 (2)**; exact iOS version not supplied. The operator reports successful research retrieval, SEC filing links, saving reports and personal notes, persistence after reopening, and normal keyboard behavior. Values sometimes wrap or clip, and the company screen's back label shows `(tabs)`.
 
 Airplane mode produced a connection error, but it is unknown whether the user was in live research or a saved snapshot. **Offline saved access remains unconfirmed on the iPhone.** Automated browser tests of saved research/source excerpts and note edits after process restarts pass with external requests blocked; Metro assets remain local. Those tests do not replace the device retest.

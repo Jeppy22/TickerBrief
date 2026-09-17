@@ -2,6 +2,20 @@
 
 Updated: 2026-09-17. The visual redesign is ready for local review; TestFlight remains 0.1.0 (3). Native verification of both stabilization and the later design is pending.
 
+## Evidence screen refinement — local preview only
+
+- Replaced the full-width Close evidence action with a compact **Close** control in a fixed header inside the existing safe-area modal. The target is at least 48 points high/60 wide; the accessible label, dismissal callback, return destination and native modal close handling are preserved.
+- Added a shared mapping for all financial concepts used by the current normalizer, including **NetIncomeLoss → Net income (loss)**. Unknown/custom concepts get a neutral heading and explanation; original identifiers remain in Technical details.
+- Full reported values now use grouped digits, a mathematical minus sign and explicit units. The example `-26863000` USD formats as **−$26,863,000**, without hardcoding a report value. Unit tests cover long/fractional negative amounts, zero, per-share precision, shares, small values and unknown units. No compacting, currency-cent rounding, inferred percentage conversion or text-scaling limit was added.
+- Default evidence prioritizes the metric, value/unit, reporting period, filing type/date and SEC filing action. The collapsed **Technical details** disclosure retains accession, original concept/title/unit, taxonomy, retrieval timestamp, exact raw JSON and the original structured-data link. Valid structured records are not presented as filing quotations. Actual management excerpts remain visible and distinctly labeled; plain retained source text and company information have neutral labels.
+- Both live and saved screens use the same component. API behavior, SEC URL allowlist/access controls, backend, schema/storage keys and existing saved reports/notes are unchanged. Older metadata can be read from its retained JSON without rewriting the snapshot.
+- [Browser screenshots and reproduction notes](design/2026-09-17/evidence/README.md) show default/expanded details using an unchanged, previously retrieved real RKLB report. Saved previews block API requests. Normal 402-pixel and enlarged 320/430-pixel layouts were visually inspected; these are browser previews, not physical iPhone results or a new hosted financial audit.
+- Validation: **9/9 unit tests**, TypeScript, ESLint and formatting passed. All **13 existing browser scenarios passed**, including values at 320/402/430 pixels with 1×/2×/2.5× CSS text scaling and full offline library restarts. The new evidence scenario initially caught a missing browser expanded-state attribute; adding the installed platform's supported `aria-expanded` fixed it, and the focused rerun passed. It verifies the supplied negative-value example, exact SEC link targets (intercepted locally), collapsed raw data, actual excerpt labeling, compact Close, return destinations and unchanged saved library/notes after offline reopening. The live suite was updated to expand Technical details before asserting exact raw records; it was not rerun because no hosted behavior changed.
+
+This iteration remains local: **no EAS build, upload, tester invitation, public release, deployment, billing change or live AI request**. TestFlight remains **0.1.0 (3)**. Native safe areas, dismissal and accessibility behavior remain pending.
+
+The Windows iOS Hermes export also passed with the shared evidence component included. This is a JavaScript bundle check, not a signed native build or physical-device verification.
+
 ## Local browser startup follow-up
 
 The operator reported a white screen at `http://127.0.0.1:8081/`. The server returned HTTP 200 with an empty root element while JavaScript loaded; Metro logs contained rebuilds lasting **25–31 seconds**. Fresh isolated Chromium sessions subsequently rendered Search at both the IP and localhost addresses with **no JavaScript or failed-request errors**. The operator's original tab was not directly accessible, so a delayed bundle is a supported explanation, not a confirmed diagnosis of that specific tab.

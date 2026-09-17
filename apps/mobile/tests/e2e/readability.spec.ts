@@ -148,7 +148,7 @@ test('complete current, prior and source amounts at phone widths and enlarged te
       await page.screenshot({ path: testInfo.outputPath(`amounts-${width}-${scale}x.png`) });
       await page.getByRole('button', { name: 'Inspect revenue evidence', exact: true }).click();
       await scaleText(page, scale);
-      await verifyAmounts(page, ['-987654321098.76', '123456789012.34']);
+      await verifyAmounts(page, ['−$987,654,321,098.76', '$123,456,789,012.34']);
       await expect(page.getByText(report.sources[0].excerpt, { exact: true })).toBeVisible();
       await page
         .getByTestId('source-notebook')
@@ -243,7 +243,7 @@ test('saved library, sources and note edits survive browser restarts with extern
     ).toBeVisible();
     await page.getByRole('button', { name: 'Close evidence', exact: true }).click();
     await page.getByRole('button', { name: 'Inspect revenue evidence', exact: true }).click();
-    await verifyAmounts(page, ['-987654321098.76', '123456789012.34']);
+    await verifyAmounts(page, ['−$987,654,321,098.76', '$123,456,789,012.34']);
     await page.getByRole('button', { name: 'Close evidence', exact: true }).click();
     await page
       .getByRole('textbox', { name: 'Personal research notes' })
