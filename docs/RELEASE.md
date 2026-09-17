@@ -1,6 +1,6 @@
 # Private iPhone beta release runbook
 
-Release state: production iOS build **`3797cb4d-c4f0-425d-8910-af53165d726c`** succeeded, version **0.1.0 (2)**, source **`4bed83a9a9547ad25fd2ce23bb67c0e4c4fac408`**. [Build dashboard](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3797cb4d-c4f0-425d-8910-af53165d726c). Static IPA inspection passed on Windows; no local Xcode was used. TestFlight upload, Apple processing, beta review and physical-device testing remain pending. Hosted factual API/browser gates remain passed. See [STATUS.md](STATUS.md) for distinct milestones.
+Release state: production iOS build **`3797cb4d-c4f0-425d-8910-af53165d726c`** succeeded, version **0.1.0 (2)**, source **`4bed83a9a9547ad25fd2ce23bb67c0e4c4fac408`**. [Build dashboard](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3797cb4d-c4f0-425d-8910-af53165d726c). Static IPA inspection passed on Windows; no local Xcode was used. **Upload and Apple processing are complete**, and the build is ready for internal testing. Physical-device testing remains pending; external beta review has not been requested. Hosted factual API/browser gates remain passed. See [STATUS.md](STATUS.md) for distinct milestones.
 
 ## Known identities
 
@@ -10,7 +10,7 @@ Release state: production iOS build **`3797cb4d-c4f0-425d-8910-af53165d726c`** s
 - Public app: **TickerBrief**. Tagline: **Stock research, clearly explained.**
 - Apple Team ID: **`98BBY4NN94`**, supplied by the operator and configured as `ios.appleTeamId`.
 - Registered bundle ID: **`com.jeppyinvesting.tickerbrief`**, confirmed by the operator and configured through `IOS_BUNDLE_IDENTIFIER` locally and in every EAS profile.
-- App Store Connect Apple ID: **`6812926318`**, confirmed by the operator and configured as `submit.production.ios.ascAppId`. Build signing is complete; separate upload credentials require the [manual handoff](IOS_READINESS.md#manual-handoff).
+- App Store Connect Apple ID: **`6812926318`**, confirmed by the operator and configured as `submit.production.ios.ascAppId`. Build signing and upload authentication were used successfully. The [manual handoff](IOS_READINESS.md#manual-handoff) now covers installing the processed build.
 
 EAS usage was checked before and after the build on **2026-09-16** (local date): Free plan, now **4/15 iOS builds used (11 remaining)**, **4/30 total builds used (26 remaining)**, no overage charges or paid add-ons. Period ends October 1. Recheck before any future build; uploading this existing build does not require a rebuild.
 
@@ -36,7 +36,7 @@ The Dockerfile is an alternative deployment artifact; it has not been built here
 
 ## Apple and EAS
 
-See [the iOS configuration review and upload handoff](IOS_READINESS.md). Team, bundle, App Store Connect app and build signing are configured. Separate upload authentication and confirmation of saved review information remain. Public privacy/support pages are published.
+See [the iOS configuration review and device handoff](IOS_READINESS.md). Team, bundle, App Store Connect app, build signing and upload authentication are configured. The operator confirmed private review contact information is saved. Public privacy/support pages are published.
 
 Use the existing project and ownership. From `apps/mobile` in PowerShell:
 
@@ -50,7 +50,7 @@ If sign-in has expired, use `npx.cmd eas-cli@latest login` and the official sign
 
 In Apple Developer / App Store Connect, verify active membership, the correct team, access to the existing app/bundle identifier, and the permissions required for signing/uploading. Account Holder/Admin may need to provide Certificates, Identifiers & Profiles access or accept current Apple agreements themselves. Review the [Apple role permissions](https://developer.apple.com/help/app-store-connect/reference/role-permissions/). Do not register a competing bundle ID to avoid an access problem.
 
-The public `EXPO_PUBLIC_API_URL=https://tickerbrief-api.onrender.com` and `IOS_BUNDLE_IDENTIFIER=com.jeppyinvesting.tickerbrief` are configured in each existing EAS build profile, using [Expo's build-profile environment setting](https://docs.expo.dev/build/eas-json/). Do not add conflicting remote values. The Apple team is set in app configuration; `submit.production.ios.ascAppId` targets the confirmed app **`6812926318`**.
+The public `EXPO_PUBLIC_API_URL=https://tickerbrief-api.onrender.com` and `IOS_BUNDLE_IDENTIFIER=com.jeppyinvesting.tickerbrief` are configured in each existing EAS build profile, using [Expo's build-profile environment setting](https://docs.expo.dev/build/eas-json/). Do not add conflicting remote values. The Apple team is set in app configuration; `submit.production.ios.ascAppId` targets the confirmed app **`6812926318`**. The submission profile also explicitly sets `ios.bundleIdentifier` to the registered bundle: EAS Submit does not inherit the build profile's environment. This resolves the observed local submission failure without changing or rebuilding the signed IPA.
 
 Also set them in the local shell used to resolve the dynamic app config:
 
@@ -89,15 +89,26 @@ The root `.easignore` preserves the root/mobile Git exclusions and omits backend
 
 Use the exact successful build ID, not an unrelated `--latest` artifact. Submission targets the configured app `6812926318`; EAS Submit authentication may still be required separately from build signing. Do not start either build before checking the Free plan and remaining iOS quota. Never accept a paid-build upgrade.
 
-### Next upload: reuse the successful build
+### Completed upload: monitor the existing submission
 
-First complete the [upload API-key handoff](IOS_READINESS.md#manual-handoff) and save the review metadata described below. Then, from `apps/mobile` in PowerShell:
+The existing API key was reused. This exact command succeeded from `apps/mobile` in PowerShell; it is retained as an audit record, **not a next action to rerun**:
 
 ```powershell
-npx.cmd eas-cli@latest submit --platform ios --profile production --id 3797cb4d-c4f0-425d-8910-af53165d726c --no-auto-testflight-setup
+npx.cmd eas-cli@latest submit --platform ios --profile production --id 3797cb4d-c4f0-425d-8910-af53165d726c --no-auto-testflight-setup --non-interactive
 ```
 
 EAS CLI 24.7.0 enables automatic TestFlight group setup by default, including inviting admin users when it creates a group. The explicit negative flag prevents that behavior. Do not pass `--groups`, create a public link, enable automatic tester notifications, or release publicly. After upload, record the submission ID/receipt separately and wait for Apple processing in app `6812926318` → TestFlight. Investigate Apple's actual warnings/errors before taking any corrective action; a successful EAS build is not Apple acceptance.
+
+[Submission `4bfd2bd0-3a28-4d94-823f-133e8b777472`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/4bfd2bd0-3a28-4d94-823f-133e8b777472) finished at **2026-09-17 00:38:26 UTC**. Apple's read-only status subsequently returned **`VALID` / `READY_FOR_BETA_TESTING`** for **0.1.0 (2)** with matching EAS build and submission IDs. External state is `READY_FOR_BETA_SUBMISSION`; no external review, group setup or tester invitations were performed. [Sanitized receipt and Apple status](verification/2026-09-17-testflight-submission.json).
+
+Read-only monitoring commands, if needed:
+
+```powershell
+npx.cmd eas-cli@latest submit:view 4bfd2bd0-3a28-4d94-823f-133e8b777472
+npx.cmd eas-cli@latest submit:status --platform ios --profile production --json --non-interactive
+```
+
+Continue with [manual internal testing and iPhone installation](BETA_TESTING.md#install-on-your-iphone). Do not rebuild or resubmit to install this version.
 
 ## Privacy and beta information
 
@@ -106,7 +117,7 @@ EAS CLI 24.7.0 enables automatic TestFlight group setup by default, including in
 - The actual IPA's combined privacy manifest was inspected: `C617.1`, `CA92.1`, `35F9.1`, tracking false. [Archive evidence](verification/2026-09-17-ios-build.json). These declarations do not alone prove Apple compliance or determine questionnaire answers; inspect App Store Connect warnings after upload.
 - This app uses standard HTTPS and no custom encryption. App config declares no non-exempt encryption; verify the final archive/features remain consistent with that declaration.
 - Prepare beta description, what to test, feedback email, review contact and export-compliance answers. Reviewers do not need an app login because there are no accounts. Explain the SEC coverage limits and disabled interpretation if still disabled.
-- [BETA_TESTING.md](BETA_TESTING.md) contains beta description, tester steps, URLs and review notes. In App Store Connect → TickerBrief → TestFlight → Test Information, save the approved feedback address, beta description and review contact name/email/phone directly. Use no-login review notes. Set the privacy URL under App Privacy and the support URL in the applicable app-version metadata. Operator confirmation of these private review fields remains pending; the device checklist is explicitly unperformed.
+- [BETA_TESTING.md](BETA_TESTING.md) contains beta description, tester steps, URLs and review notes. In App Store Connect → TickerBrief → TestFlight → Test Information, use the approved feedback address, beta description and no-login review notes. The operator confirmed the private review contact name/email/phone are saved; those fields are not copied into this repository. Set the privacy URL under App Privacy and the support URL in the applicable app-version metadata if not already saved. The device checklist is explicitly unperformed.
 - [External testing](https://developer.apple.com/help/app-store-connect/test-a-beta-version/invite-external-testers/) can require Beta App Review. Do not create tester invitations or a public link automatically.
 
 ## Record distinct release gates

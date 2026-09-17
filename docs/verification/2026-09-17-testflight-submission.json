@@ -1,0 +1,53 @@
+{
+  "verifiedAtUtc": "2026-09-17T00:46:21.3934617Z",
+  "verificationMethod": "EAS CLI 24.7.0 submit:view and submit:status; authenticated read-only App Store Connect lookup using the existing EAS-managed API key",
+  "app": {
+    "appleTeamId": "98BBY4NN94",
+    "bundleIdentifier": "com.jeppyinvesting.tickerbrief",
+    "ascAppId": "6812926318",
+    "backend": "https://tickerbrief-api.onrender.com"
+  },
+  "submission": {
+    "id": "4bfd2bd0-3a28-4d94-823f-133e8b777472",
+    "status": "FINISHED",
+    "createdAt": "2026-09-17T00:38:09.188Z",
+    "completedAt": "2026-09-17T00:38:26.635Z",
+    "dashboardUrl": "https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/4bfd2bd0-3a28-4d94-823f-133e8b777472",
+    "profile": "production",
+    "autoTestFlightSetup": false,
+    "buildId": "3797cb4d-c4f0-425d-8910-af53165d726c",
+    "sourceCommit": "4bed83a9a9547ad25fd2ce23bb67c0e4c4fac408",
+    "version": "0.1.0",
+    "buildNumber": "2",
+    "error": null
+  },
+  "apple": {
+    "appVersion": "0.1.0",
+    "buildNumber": "2",
+    "processingState": "VALID",
+    "internalState": "READY_FOR_BETA_TESTING",
+    "externalState": "READY_FOR_BETA_SUBMISSION",
+    "uploadedDate": "2026-09-16T17:39:43-07:00",
+    "expired": false,
+    "easSubmissionId": "4bfd2bd0-3a28-4d94-823f-133e8b777472",
+    "easBuildId": "3797cb4d-c4f0-425d-8910-af53165d726c"
+  },
+  "observedSequence": [
+    "First attempt failed locally before scheduling because dynamic bundle identifier was unresolved.",
+    "Added registered bundleIdentifier to the production submission profile; official EAS schema validation passed.",
+    "Retried the exact existing build with --no-auto-testflight-setup --non-interactive; upload finished using the existing API key.",
+    "Initial Apple lookup returned no listed TestFlight builds; subsequent lookup returned this processed and internally ready build."
+  ],
+  "boundaries": {
+    "newBuildStarted": false,
+    "credentialsReplaced": false,
+    "testerGroupsCreated": false,
+    "testerInvitationsCreated": false,
+    "publicReleasePerformed": false,
+    "externalBetaReviewRequested": false,
+    "physicalIphoneTestingPerformed": false,
+    "aiRequestsMade": false,
+    "billingChanged": false,
+    "privateReviewContact": "User confirmed saved directly in App Store Connect; values not copied or independently inspected."
+  }
+}
