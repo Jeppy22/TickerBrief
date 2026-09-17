@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="%LANG_ISO_CODE%">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>%WEB_TITLE%</title>
+    <style id="expo-reset">
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+      /* This shell precedes the app's JS/theme. System colors respect browser preferences. */
+      #startup {
+        box-sizing: border-box;
+        overflow: auto;
+        width: 100%;
+        padding: 24px;
+        background: Canvas;
+        color: CanvasText;
+        font:
+          1rem/1.5 system-ui,
+          sans-serif;
+      }
+      #startup h1 {
+        font-size: 1.5rem;
+      }
+      #startup a {
+        color: LinkText;
+        display: inline-block;
+        padding-block: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- React replaces this shell on mount. It never reads or changes saved data. -->
+    <div id="root">
+      <main id="startup">
+        <h1>TickerBrief</h1>
+        <p role="status">Loading TickerBrief…</p>
+        <p>If this takes longer than a minute, reload this page.</p>
+        <a href="">Reload TickerBrief</a>
+        <noscript><p>Enable JavaScript in this browser to open TickerBrief.</p></noscript>
+      </main>
+    </div>
+  </body>
+</html>

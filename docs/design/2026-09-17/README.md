@@ -56,6 +56,8 @@ npx.cmd expo start --web --port 8081 --clear
 
 Use a separate browser profile for review if you want to keep browser-preview notes separate. The normal app uses the real hosted backend; a free-service cold start may take time. Search AAPL, open the report and evidence, save a snapshot and add a review note. Open Saved Research to return to that snapshot. Browser storage is separate from the iPhone installation. Do not uninstall the iPhone app or clear its storage.
 
+If an old tab is blank, press **Ctrl+Shift+R** at the same address and allow the development bundle to compile. Observed rebuilds took 25–31 seconds. The web shell now shows **Loading TickerBrief** before the app starts and offers a same-page reload link. Do not clear browser/site storage; a hard refresh preserves it. This startup interval is separate from a later hosted research request or Render cold start.
+
 Use browser responsive mode at 320, 402 and 430 pixels. The screenshot script is a separate review harness: it intercepts requests only in its disposable Chromium context and replays the captured public AAPL response. It is never imported by the app. `before` captures the current checkout and refreshes the ignored response cache; do not rerun it over the committed baseline screenshots unless intentionally replacing that baseline. `after` uses the existing ignored capture and makes no live research request:
 
 ```powershell

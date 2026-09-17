@@ -2,6 +2,14 @@
 
 Updated: 2026-09-17. The visual redesign is ready for local review; TestFlight remains 0.1.0 (3). Native verification of both stabilization and the later design is pending.
 
+## Local browser startup follow-up
+
+The operator reported a white screen at `http://127.0.0.1:8081/`. The server returned HTTP 200 with an empty root element while JavaScript loaded; Metro logs contained rebuilds lasting **25–31 seconds**. Fresh isolated Chromium sessions subsequently rendered Search at both the IP and localhost addresses with **no JavaScript or failed-request errors**. The operator's original tab was not directly accessible, so a delayed bundle is a supported explanation, not a confirmed diagnosis of that specific tab.
+
+Added Expo's supported `public/index.html` shell for the existing single-page web output. It displays a startup message, a same-page reload link and a JavaScript-disabled explanation before the app mounts. React replaces the shell when ready. It uses browser system colors before the app theme is available and never reads or changes local storage. No native app, API, identity, AI, billing or deployment configuration changed. A hard refresh reloads resources without deleting saved research; do not clear site data to troubleshoot this screen.
+
+Validation: **2/2 focused browser regressions passed**, simulating a held bundle and an aborted bundle followed by a same-page reload. Both recovered to Search, removed the startup shell, retained the exact stored library and opened the existing synthetic snapshot's notes with API requests blocked. TypeScript, ESLint, formatting and the local production web export passed. These are browser simulations, not a claim that the original tab's failure or physical iPhone behavior was reproduced. No cloud build was started.
+
 ## Visual redesign — browser review only
 
 The previous stabilization delivery was complete before this iteration began, at preparation commit **`58f3cc1`** on `feat/private-beta`. Build **0.1.0 (3)** is already uploaded and processed, as recorded below. **No additional EAS build, upload, tester invitation or deployment was started for the redesign.** These visual changes are not in that TestFlight binary.
