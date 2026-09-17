@@ -1,0 +1,15 @@
+{
+  "stage": "before",
+  "capturedAt": "2026-09-17T01:56:43.792Z",
+  "environment": "Chromium browser preview, not physical iPhone",
+  "viewport": {
+    "width": 402,
+    "height": 874
+  },
+  "reportSource": "https://tickerbrief-api.onrender.com/v1/reports/AAPL",
+  "reportId": "4c8fee1994c4f6f356f14d02",
+  "retrievedAt": "2026-09-17T01:50:13.845405+00:00",
+  "generatedAt": "2026-09-17T01:50:14.969516+00:00",
+  "aiEnabled": false,
+  "content": "Same recorded real hosted report for both stages; preview note is explicitly an example; isolated browser storage."
+}

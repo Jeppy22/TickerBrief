@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { View } from 'react-native';
 import {
   Button,
   Card,
@@ -8,10 +8,12 @@ import {
   Copy,
   Eyebrow,
   Heading,
+  Input,
   Loading,
   Notice,
   s,
   Screen,
+  Section,
   Title,
 } from '../../components/ui';
 import { searchCompanies } from '../../lib/api';
@@ -48,21 +50,19 @@ export default function SearchScreen() {
   }
   return (
     <Screen>
-      <View style={[s.row, { marginBottom: 14 }]}>
+      <View style={s.row}>
         <Eyebrow>TickerBrief</Eyebrow>
         <Copy style={s.muted}>PRIVATE BETA</Copy>
       </View>
-      <Title>Stock research,{'\n'}clearly explained.</Title>
-      <Copy style={{ color: colors.muted }}>
+      <Title>Research a company</Title>
+      <Copy style={{ color: colors.textSecondary }}>
         Understand the business. Read the numbers. Check the evidence.
       </Copy>
-      <TextInput
+      <Input
         accessibilityLabel="Company name or ticker"
         placeholder="Company name or ticker"
-        placeholderTextColor={colors.muted}
         value={query}
         onChangeText={setQuery}
-        style={s.input}
         autoCapitalize="none"
         autoCorrect={false}
         returnKeyType="search"
@@ -117,7 +117,7 @@ export default function SearchScreen() {
       ))}
       {results === null && !busy && !error && (
         <>
-          <Card>
+          <Section>
             <Eyebrow>Start with a company</Eyebrow>
             <Heading>Research begins at the source.</Heading>
             <Copy>
@@ -137,7 +137,7 @@ export default function SearchScreen() {
                 />
               ))}
             </View>
-          </Card>
+          </Section>
           <Copy style={s.muted}>
             These are search shortcuts, not recommendations. No accounts, price predictions or
             trading signals.

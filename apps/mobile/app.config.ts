@@ -1,4 +1,5 @@
 import { ConfigContext, ExpoConfig } from 'expo/config';
+import colors from './src/components/colors.json';
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   const projectId = config.extra?.eas?.projectId;
@@ -20,6 +21,11 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     scheme: 'tickerbrief',
     owner: 'jeppy22',
     icon: './assets/brand/icon.png',
+    plugins: (config.plugins || []).map((plugin) =>
+      plugin === 'expo-splash-screen'
+        ? ['expo-splash-screen', { backgroundColor: colors.pageBackground }]
+        : plugin,
+    ),
     ios: {
       ...config.ios,
       bundleIdentifier,

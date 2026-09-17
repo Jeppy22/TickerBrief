@@ -1,5 +1,7 @@
 # Private TestFlight handoff
 
+**Visual iteration, 2026-09-17:** the later neutral/blue redesign is available only in the [local browser preview](design/2026-09-17/README.md). It is not included in build 3. No additional cloud build or upload was made. Review the before/after screenshots first; native visual checks remain pending a future explicitly requested build. The build-3 installation and stabilization checklist below remain valid.
+
 The stabilization release **0.1.0 (3)** has been built, uploaded to app **6812926318**, and processed by Apple: **`VALID` / `READY_FOR_BETA_TESTING`**, verified **2026-09-17 01:43:02 UTC**. [Build `3ba13f78-e80f-4231-9243-6cf2e4df33c0`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3ba13f78-e80f-4231-9243-6cf2e4df33c0), source **`ab7eda03b40e9e93ed2423f2a9fd9ecb9ea72073`**; [submission `5a5bff48-cd4d-426a-97d4-53d3875a9f3f`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/5a5bff48-cd4d-426a-97d4-53d3875a9f3f). [Verification evidence](verification/2026-09-17-beta-stabilization.json). The first release **0.1.0 (2)** was installed and partially tested by the operator. No new tester invitations, group changes or public links were created for this update; add build 3 to your existing group using the steps below.
 
 ## First physical observations

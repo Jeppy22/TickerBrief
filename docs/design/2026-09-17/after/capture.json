@@ -1,0 +1,23 @@
+{
+  "stage": "after",
+  "capturedAt": "2026-09-17T02:15:05.471Z",
+  "environment": "Chromium browser preview, not physical iPhone",
+  "viewport": {
+    "width": 402,
+    "height": 874
+  },
+  "reportSource": "https://tickerbrief-api.onrender.com/v1/reports/AAPL",
+  "reportId": "4c8fee1994c4f6f356f14d02",
+  "retrievedAt": "2026-09-17T01:50:13.845405+00:00",
+  "generatedAt": "2026-09-17T01:50:14.969516+00:00",
+  "aiEnabled": false,
+  "renderedInput": {
+    "color": "rgb(24, 28, 35)",
+    "background": "rgb(255, 255, 255)",
+    "placeholder": "rgb(89, 98, 112)",
+    "border": "rgb(36, 87, 197)",
+    "outline": "rgb(36, 87, 197)",
+    "fontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif"
+  },
+  "content": "Same recorded real hosted report for both stages; preview note is explicitly an example; isolated browser storage."
+}

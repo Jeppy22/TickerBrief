@@ -1,6 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { TextInput } from 'react-native';
 import { ReportBody } from '../../components/report';
 import {
   Button,
@@ -9,9 +8,9 @@ import {
   dateLabel,
   Eyebrow,
   Heading,
+  Input,
   Loading,
   Notice,
-  s,
   Screen,
   Title,
 } from '../../components/ui';
@@ -62,7 +61,7 @@ export default function SavedDetailScreen() {
             <Copy>
               Private to this device. These notes are yours, not part of the research report.
             </Copy>
-            <TextInput
+            <Input
               accessibilityLabel="Personal research notes"
               multiline
               value={notes}
@@ -71,7 +70,7 @@ export default function SavedDetailScreen() {
                 setMessage('');
               }}
               placeholder="What matters to your research?"
-              style={[s.input, { minHeight: 150, textAlignVertical: 'top' }]}
+              style={{ minHeight: 150, textAlignVertical: 'top' }}
               maxLength={20000}
             />
             {notes !== saved.notes && (
@@ -82,7 +81,7 @@ export default function SavedDetailScreen() {
               disabled={busy || notes === saved.notes}
               onPress={() => void saveNotes()}
             />
-            {Boolean(message) && <Notice>{message}</Notice>}
+            {Boolean(message) && <Notice tone="success">{message}</Notice>}
           </Card>
           <Button
             title="Open current research"

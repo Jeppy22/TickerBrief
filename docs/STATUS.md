@@ -1,6 +1,21 @@
 # Verified status
 
-Updated: 2026-09-17. The first physical test is recorded below; native verification of the stabilization fixes is pending.
+Updated: 2026-09-17. The visual redesign is ready for local review; TestFlight remains 0.1.0 (3). Native verification of both stabilization and the later design is pending.
+
+## Visual redesign — browser review only
+
+The previous stabilization delivery was complete before this iteration began, at preparation commit **`58f3cc1`** on `feat/private-beta`. Build **0.1.0 (3)** is already uploaded and processed, as recorded below. **No additional EAS build, upload, tester invitation or deployment was started for the redesign.** These visual changes are not in that TestFlight binary.
+
+- Added central semantic color, typography, spacing and radius tokens. Applied the requested neutral page/white surface palette, dark text and blue actions across Search, Watchlist, Saved Research, Settings, live/saved reports and evidence. Inputs, disabled actions and explanatory error/warning/success states use explicit accessible colors. Native system fonts and accessibility scaling remain enabled.
+- Reduced the main heading to 28 points, retained comfortable 16/24 body text and tabular financial numerals. Narrative/settings content uses sections and dividers; reporting periods, saved entries, notes and individual evidence records retain distinct containers. Related secondary actions share a row when space permits and stack for larger native text.
+- Preserved the complete current/prior/source value rendering, decimal/sign handling, scrolling overflow hint, reporting periods, source links/excerpts, missing-data explanations, `Back` options and return destinations. No storage keys, schema, migration, API or backend logic changed. Existing saved reports and notes are not reset.
+- A **newly reproduced browser layout defect** at 320 pixels with 2× text caused tab labels to overlap. The tab bar now wraps intrinsic label widths; native font scales above 1.4 use two columns. The added focused regression passes at 320/402/430 pixels and 1×/2×/2.5× CSS text scaling, checking label bounds and the Saved Research destination. Native Dynamic Type remains unverified.
+- Existing checks passed: **10/10 browser scenarios**, including offline saved sources/notes through process restarts, API delay/retry handling, Back destinations and complete long/negative financial values at all nine width/text combinations; **6/6 unit tests**. The additional tab regression passed separately. TypeScript and ESLint passed after the final UI changes.
+- The contrast calculator verifies **17 token pairs** against unrounded WCAG AA thresholds: all text pairs ≥4.5:1, input/control boundaries ≥3:1. Secondary labels/placeholders are **6.17:1 on white / 5.70:1 on the page**, primary blue/white **6.47:1**, and status text/surfaces **6.01–6.49:1**. Decorative dividers are not used as input boundaries. This verifies contrast, not full WCAG conformance.
+- The final browser capture asserts actual input text, placeholder, background and focus-border colors match the tokens. Formatting and the **Windows iOS Hermes export** passed. Resolved Expo configuration retains team `98BBY4NN94`, bundle `com.jeppyinvesting.tickerbrief`, owner/project and version; the splash background takes its color from the same semantic token. This export is not a signed native build.
+- [Before/after screenshots and exact preview commands](design/2026-09-17/README.md) use a **real hosted AAPL response**, recorded once and replayed unchanged in isolated browser storage. The preview note explicitly says it is an example. Hosted health confirmed `sec_configured=true`, `ai_enabled=false`, and the retrieved report's interpretation is disabled. This screenshot replay does not repeat the complete hosted filing audit; existing hosted verification remains separately recorded below.
+
+Design review and physical verification are separate: the screenshots are Chromium previews, including browser approximations of enlarged text. They do not verify iPhone safe areas, Dynamic Type, native back gestures, native splash rendering or persistence across an installed app update. No AI generation, paid service or signing change occurred.
 
 ## First iPhone test and stabilization
 
@@ -93,6 +108,8 @@ The operator confirmed the existing App Store Connect API key was configured and
 - npm audit now reports **zero vulnerabilities**, after scoped patched dependencies plus a committed, tested CommonJS compatibility patch. See DEPENDENCIES.md.
 
 ## Next task
+
+Review the [local visual redesign](design/2026-09-17/README.md) before requesting another cloud build. No build is authorized during this visual iteration; the app version and existing TestFlight release remain unchanged.
 
 In App Store Connect → TickerBrief → TestFlight → **your existing Internal Testing group → Add Builds**, select **0.1.0 (3)**, enter the retest notes and **Add**. Keep automatic distribution disabled and the tester list unchanged. Then use **TestFlight → TickerBrief → Update** over the existing installation and execute the [device retest checklist](BETA_TESTING.md#device-retest-checklist), including existing snapshots/notes and offline saved access after a force-quit. Record the exact iOS version and outcomes. Code is on `feat/private-beta`; no new build, upload, Render deployment or AI request is needed.
 

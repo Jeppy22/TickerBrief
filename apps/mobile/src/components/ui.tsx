@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { Children, PropsWithChildren, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Pressable,
@@ -6,22 +6,15 @@ import {
   StyleSheet,
   Text,
   TextProps,
+  TextInput,
+  TextInputProps,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { colors, radius, spacing, typography } from './theme';
 
-export const colors = {
-  paper: '#F6F5F0',
-  ink: '#142D35',
-  muted: '#53686D',
-  line: '#D6DED9',
-  teal: '#136C60',
-  pale: '#E4EEE8',
-  white: '#FFFFFF',
-  warning: '#785315',
-  warningBg: '#F5EDDB',
-  danger: '#9D3333',
-};
+export { colors } from './theme';
 export function Copy(props: TextProps) {
   return <Text {...props} style={[s.copy, props.style]} />;
 }
@@ -54,6 +47,38 @@ export function Screen({ children }: PropsWithChildren) {
 export function Card({ children }: PropsWithChildren) {
   return <View style={s.card}>{children}</View>;
 }
+export function Section({ children }: PropsWithChildren) {
+  return <View style={s.section}>{children}</View>;
+}
+export function Actions({ children }: PropsWithChildren) {
+  const { fontScale } = useWindowDimensions();
+  return (
+    <View style={s.actions}>
+      {Children.map(children, (child) => (
+        <View style={{ flexGrow: 1, flexBasis: fontScale > 1.4 ? '100%' : 150 }}>{child}</View>
+      ))}
+    </View>
+  );
+}
+export function Input(props: TextInputProps) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <TextInput
+      {...props}
+      placeholderTextColor={colors.textSecondary}
+      selectionColor={colors.actionPrimary}
+      style={[s.input, focused && s.inputFocused, props.style]}
+      onFocus={(event) => {
+        setFocused(true);
+        props.onFocus?.(event);
+      }}
+      onBlur={(event) => {
+        setFocused(false);
+        props.onBlur?.(event);
+      }}
+    />
+  );
+}
 export function Button({
   title,
   onPress,
@@ -78,23 +103,56 @@ export function Button({
       style={({ pressed }) => [
         s.button,
         secondary && s.secondary,
-        danger && { borderColor: colors.danger },
-        (disabled || pressed) && { opacity: 0.55 },
+        danger && {
+          borderColor: colors.errorText,
+          backgroundColor: secondary ? colors.surface : colors.errorText,
+        },
+        pressed &&
+          !disabled && {
+            backgroundColor: danger
+              ? secondary
+                ? colors.errorSurface
+                : colors.errorText
+              : secondary
+                ? colors.actionTint
+                : colors.actionPressed,
+          },
+        disabled && s.disabledButton,
       ]}
     >
-      <Text style={[s.buttonText, secondary && { color: danger ? colors.danger : colors.teal }]}>
+      <Text
+        style={[
+          s.buttonText,
+          secondary && { color: danger ? colors.errorText : colors.actionPrimary },
+          disabled && { color: colors.textSecondary },
+        ]}
+      >
         {title}
       </Text>
     </Pressable>
   );
 }
-export function Notice({ children, error = false }: PropsWithChildren<{ error?: boolean }>) {
+export function Notice({
+  children,
+  error = false,
+  tone = 'info',
+}: PropsWithChildren<{
+  error?: boolean;
+  tone?: 'info' | 'warning' | 'success';
+}>) {
+  const status = error
+    ? { text: colors.errorText, background: colors.errorSurface }
+    : tone === 'warning'
+      ? { text: colors.warningText, background: colors.warningSurface }
+      : tone === 'success'
+        ? { text: colors.successText, background: colors.successSurface }
+        : { text: colors.textSecondary, background: colors.pageBackground };
   return (
     <View
-      accessibilityRole={error ? 'alert' : undefined}
-      style={[s.notice, error && { backgroundColor: colors.warningBg }]}
+      accessibilityRole={error || tone === 'warning' ? 'alert' : undefined}
+      style={[s.notice, { backgroundColor: status.background, borderLeftColor: status.text }]}
     >
-      <Copy style={{ color: error ? colors.warning : colors.muted }}>{children}</Copy>
+      <Copy style={{ color: status.text }}>{children}</Copy>
     </View>
   );
 }
@@ -113,7 +171,7 @@ export function Loading({
   }, [slowHint]);
   return (
     <View style={s.loading}>
-      <ActivityIndicator color={colors.teal} />
+      <ActivityIndicator color={colors.actionPrimary} />
       <Copy>{label}</Copy>
       {slow && Boolean(slowHint) && <Notice>{slowHint}</Notice>}
     </View>
@@ -137,61 +195,83 @@ export function money(value: number | undefined) {
   }).format(value);
 }
 export const s = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.paper },
+  safe: { flex: 1, backgroundColor: colors.pageBackground },
   content: {
-    paddingHorizontal: 16,
-    paddingVertical: 22,
-    paddingBottom: 48,
-    gap: 18,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.xxl,
+    gap: spacing.lg,
     width: '100%',
-    maxWidth: 820,
+    maxWidth: 760,
     alignSelf: 'center',
   },
-  copy: { color: colors.ink, fontSize: 16, lineHeight: 25 },
-  title: { fontSize: 36, fontWeight: '700', letterSpacing: -1, color: colors.ink, lineHeight: 43 },
-  heading: { color: colors.ink, fontSize: 23, lineHeight: 30, fontWeight: '700' },
+  copy: { color: colors.textPrimary, ...typography.body },
+  title: { ...typography.title, color: colors.textPrimary },
+  heading: { color: colors.textPrimary, ...typography.heading },
   eyebrow: {
-    color: colors.teal,
-    fontSize: 12,
-    fontWeight: '700',
-    letterSpacing: 1.8,
+    color: colors.textSecondary,
+    ...typography.eyebrow,
     textTransform: 'uppercase',
   },
   card: {
-    paddingHorizontal: 16,
-    paddingVertical: 20,
-    borderRadius: 18,
-    backgroundColor: colors.white,
+    padding: spacing.lg,
+    borderRadius: radius.surface,
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: colors.line,
-    gap: 12,
+    borderColor: colors.divider,
+    gap: spacing.md,
   },
+  section: {
+    gap: spacing.md,
+    paddingVertical: spacing.xs,
+    paddingBottom: spacing.xl,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.divider,
+  },
+  metric: {
+    gap: spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: colors.divider,
+    paddingTop: spacing.lg,
+    marginTop: spacing.xs,
+  },
+  actions: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   button: {
-    backgroundColor: colors.teal,
+    backgroundColor: colors.actionPrimary,
     borderWidth: 1,
-    borderColor: colors.teal,
-    paddingHorizontal: 18,
-    paddingVertical: 13,
-    borderRadius: 12,
+    borderColor: colors.actionPrimary,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderRadius: radius.control,
     minHeight: 48,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  secondary: { backgroundColor: 'transparent' },
-  buttonText: { color: colors.white, fontSize: 15, fontWeight: '700' },
-  notice: { padding: 16, backgroundColor: colors.pale, borderRadius: 12 },
-  loading: { padding: 26, gap: 14, alignItems: 'center' },
+  secondary: { backgroundColor: colors.surface, borderColor: colors.inputBorder },
+  disabledButton: { backgroundColor: colors.divider, borderColor: colors.divider },
+  buttonText: { color: colors.onAction, ...typography.action, textAlign: 'center' },
+  notice: { padding: spacing.md, borderLeftWidth: 3, borderRadius: 4 },
+  loading: { paddingVertical: spacing.lg, gap: spacing.md, alignItems: 'center' },
   input: {
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.white,
-    color: colors.ink,
-    fontSize: 17,
-    padding: 16,
-    borderRadius: 12,
-    minHeight: 54,
+    borderWidth: 2,
+    borderColor: colors.inputBorder,
+    backgroundColor: colors.surface,
+    color: colors.textPrimary,
+    outlineColor: colors.actionPrimary,
+    ...typography.body,
+    padding: spacing.md,
+    borderRadius: radius.control,
+    minHeight: 50,
   },
-  row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
-  muted: { color: colors.muted, fontSize: 14, lineHeight: 21 },
-  divider: { borderTopWidth: 1, borderColor: colors.line, marginVertical: 6 },
+  inputFocused: { borderColor: colors.actionPrimary },
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.sm,
+  },
+  muted: { color: colors.textSecondary, ...typography.label },
+  label: { color: colors.textSecondary, ...typography.label, fontWeight: '600' },
+  divider: { borderTopWidth: 1, borderColor: colors.divider, marginVertical: spacing.sm },
 });

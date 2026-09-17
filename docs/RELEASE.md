@@ -1,5 +1,7 @@
 # Private iPhone beta release runbook
 
+**Local design review:** changes after build 3 are documented in [the visual review](design/2026-09-17/README.md). No further cloud build is authorized in this iteration. The release record below describes the existing binary, not the unbuilt redesign.
+
 Release state: stabilization **0.1.0 (3)** is **built, uploaded and processed**, ready for internal testing. [Build `3ba13f78-e80f-4231-9243-6cf2e4df33c0`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/3ba13f78-e80f-4231-9243-6cf2e4df33c0), source **`ab7eda03b40e9e93ed2423f2a9fd9ecb9ea72073`**. [Submission `5a5bff48-cd4d-426a-97d4-53d3875a9f3f`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/5a5bff48-cd4d-426a-97d4-53d3875a9f3f) used the exact build and existing credentials. Apple reports `VALID` / `READY_FOR_BETA_TESTING`. Use the existing internal group and update over the installed app as described in [BETA_TESTING.md](BETA_TESTING.md#install-on-your-iphone). The operator's build-2 observations and automated checks are separate in [STATUS.md](STATUS.md); native fixes, offline saved access and storage survival across this update require device retesting. No external beta review or public release was requested.
 
 ## Known identities

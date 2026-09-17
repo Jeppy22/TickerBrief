@@ -1,27 +1,35 @@
 import { Tabs, TabList, TabSlot, TabTrigger, TabTriggerSlotProps } from 'expo-router/ui';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../components/ui';
+import { spacing } from '../../components/theme';
 
 function TabButton({ children, isFocused, ...props }: TabTriggerSlotProps) {
+  const { fontScale } = useWindowDimensions();
   return (
     <Pressable
       {...props}
       accessibilityRole="tab"
       accessibilityState={{ selected: isFocused }}
       style={{
-        flex: 1,
-        paddingVertical: 16,
+        flexGrow: 1,
+        flexShrink: 0,
+        flexBasis: fontScale > 1.4 ? '50%' : 'auto',
+        paddingVertical: spacing.md,
+        paddingHorizontal: spacing.xs,
+        minWidth: 60,
         alignItems: 'center',
         minHeight: 52,
         borderTopWidth: 3,
-        borderTopColor: isFocused ? colors.teal : 'transparent',
+        borderTopColor: isFocused ? colors.actionPrimary : 'transparent',
       }}
     >
       <Text
         style={{
-          color: isFocused ? colors.teal : colors.muted,
+          color: isFocused ? colors.actionPrimary : colors.textSecondary,
           fontSize: 12,
+          lineHeight: 18,
+          textAlign: 'center',
           fontWeight: isFocused ? '700' : '500',
         }}
       >
@@ -39,9 +47,10 @@ export default function TabsLayout() {
         <View
           style={{
             flexDirection: 'row',
-            backgroundColor: colors.paper,
+            flexWrap: 'wrap',
+            backgroundColor: colors.surface,
             borderTopWidth: 1,
-            borderColor: colors.line,
+            borderColor: colors.divider,
             paddingBottom: insets.bottom,
           }}
         >

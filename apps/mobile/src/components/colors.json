@@ -1,0 +1,18 @@
+{
+  "pageBackground": "#F5F6F8",
+  "surface": "#FFFFFF",
+  "textPrimary": "#181C23",
+  "textSecondary": "#596270",
+  "actionPrimary": "#2457C5",
+  "onAction": "#FFFFFF",
+  "actionPressed": "#1D46A0",
+  "actionTint": "#ECF1FD",
+  "divider": "#DFE3E9",
+  "inputBorder": "#7B8594",
+  "errorText": "#A32638",
+  "errorSurface": "#FCEFF1",
+  "warningText": "#805509",
+  "warningSurface": "#FFF5DE",
+  "successText": "#146344",
+  "successSurface": "#EAF5EE"
+}

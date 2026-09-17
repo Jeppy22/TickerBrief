@@ -11,11 +11,12 @@ export default function Layout() {
         <StatusBar style="dark" />
         <Stack
           screenOptions={{
-            headerStyle: { backgroundColor: colors.paper },
-            headerTintColor: colors.ink,
+            headerStyle: { backgroundColor: colors.surface },
+            headerTintColor: colors.textPrimary,
+            headerTitleStyle: { fontSize: 17, fontWeight: '600' },
             headerBackTitle: 'Back',
             headerBackButtonDisplayMode: 'generic',
-            contentStyle: { backgroundColor: colors.paper },
+            contentStyle: { backgroundColor: colors.pageBackground },
           }}
         >
           <Stack.Screen name="(tabs)" options={{ headerShown: false, title: 'TickerBrief' }} />

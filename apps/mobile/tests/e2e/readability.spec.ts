@@ -103,6 +103,36 @@ async function verifyAmounts(page: Page, expected: string[]) {
   }
 }
 
+test('tab labels remain separated and reachable at narrow widths and enlarged text', async ({
+  page,
+}) => {
+  await page.goto('/');
+  for (const width of [320, 402, 430]) {
+    await page.setViewportSize({ width, height: 874 });
+    for (const scale of [1, 2, 2.5]) {
+      await scaleText(page, scale);
+      for (const name of ['Search', 'Watchlist', 'Saved Research', 'Settings']) {
+        const tab = page.getByRole('tab', { name, exact: true });
+        await expect(tab).toBeVisible();
+        const bounds = await tab.evaluate((element) => {
+          const button = element.getBoundingClientRect();
+          const range = document.createRange();
+          range.selectNodeContents(element);
+          const text = range.getBoundingClientRect();
+          return {
+            insideButton: text.left >= button.left && text.right <= button.right,
+            insideScreen:
+              button.left >= 0 && button.right <= innerWidth && button.bottom <= innerHeight,
+          };
+        });
+        expect(bounds).toEqual({ insideButton: true, insideScreen: true });
+      }
+    }
+  }
+  await page.getByRole('tab', { name: 'Saved Research', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Saved research', exact: true })).toBeVisible();
+});
+
 test('complete current, prior and source amounts at phone widths and enlarged text', async ({
   page,
 }, testInfo) => {

@@ -2,7 +2,17 @@ import * as Crypto from 'expo-crypto';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ReportBody } from '../../components/report';
-import { Button, Copy, Eyebrow, Loading, Notice, Screen, Title } from '../../components/ui';
+import {
+  Actions,
+  Button,
+  Copy,
+  Eyebrow,
+  Loading,
+  Notice,
+  s,
+  Screen,
+  Title,
+} from '../../components/ui';
 import { getReport } from '../../lib/api';
 import { useLibrary } from '../../lib/library';
 import { Report } from '../../lib/schema';
@@ -82,18 +92,20 @@ function ResearchView({ ticker }: { ticker: string }) {
             onPress={() => void save()}
             disabled={saving || !library}
           />
-          <Button
-            title={watched ? 'Remove from watchlist' : 'Add to watchlist'}
-            secondary
-            disabled={!library}
-            onPress={() =>
-              void act((store) =>
-                watched ? store.unwatch(report.company.ticker) : store.watch(report.company),
-              )
-            }
-          />
-          <Button title="Refresh research" secondary disabled={busy} onPress={reload} />
-          <Copy>
+          <Actions>
+            <Button
+              title={watched ? 'Remove from watchlist' : 'Add to watchlist'}
+              secondary
+              disabled={!library}
+              onPress={() =>
+                void act((store) =>
+                  watched ? store.unwatch(report.company.ticker) : store.watch(report.company),
+                )
+              }
+            />
+            <Button title="Refresh research" secondary disabled={busy} onPress={reload} />
+          </Actions>
+          <Copy style={s.muted}>
             Saving keeps a dated copy of the report currently shown, even during a refresh.
             Refreshing never changes your saved reports. SEC data is cached to respect source access
             limits.

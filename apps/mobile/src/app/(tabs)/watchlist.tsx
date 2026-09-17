@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import {
   Button,
+  Actions,
   Card,
   Copy,
   Eyebrow,
@@ -35,17 +36,19 @@ export default function WatchlistScreen() {
         <Card key={company.ticker}>
           <Eyebrow>{company.ticker}</Eyebrow>
           <Heading>{company.name}</Heading>
-          <Button
-            title={`Read ${company.ticker} brief`}
-            onPress={() =>
-              router.push({ pathname: '/report/[ticker]', params: { ticker: company.ticker } })
-            }
-          />
-          <Button
-            title="Remove from watchlist"
-            secondary
-            onPress={() => void act((store) => store.unwatch(company.ticker))}
-          />
+          <Actions>
+            <Button
+              title={`Read ${company.ticker} brief`}
+              onPress={() =>
+                router.push({ pathname: '/report/[ticker]', params: { ticker: company.ticker } })
+              }
+            />
+            <Button
+              title="Remove from watchlist"
+              secondary
+              onPress={() => void act((store) => store.unwatch(company.ticker))}
+            />
+          </Actions>
         </Card>
       ))}
     </Screen>

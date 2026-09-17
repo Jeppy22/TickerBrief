@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { colors, Copy, s } from './ui';
+import { typography } from './theme';
 
 /** Keep an amount atomic. Large accessibility text can scroll instead of losing digits. */
 export function FinancialValue({ children }: { children: string }) {
@@ -29,10 +30,8 @@ export function FinancialValue({ children }: { children: string }) {
 
 const styles = StyleSheet.create({
   value: {
-    color: colors.ink,
-    fontSize: 20,
-    lineHeight: 28,
-    fontWeight: '600',
+    color: colors.textPrimary,
+    ...typography.amount,
     fontVariant: ['tabular-nums'],
     flexShrink: 0,
   },

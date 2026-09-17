@@ -3,7 +3,19 @@ import { Linking, Modal, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Evidence, Report } from '../lib/schema';
 import { FinancialValue } from './financial-value';
-import { Button, Card, colors, Copy, dateLabel, Eyebrow, Heading, money, Notice, s } from './ui';
+import {
+  Button,
+  Card,
+  colors,
+  Copy,
+  dateLabel,
+  Eyebrow,
+  Heading,
+  money,
+  Notice,
+  s,
+  Section,
+} from './ui';
 
 export function ReportBody({ report }: { report: Report }) {
   const [selected, setSelected] = useState<Evidence[]>([]);
@@ -33,12 +45,12 @@ export function ReportBody({ report }: { report: Report }) {
         {dateLabel(report.generated_at)}
       </Copy>
       {report.stale && (
-        <Notice error>
+        <Notice tone="warning">
           Some sources are stale because a refresh failed. Review the retrieval dates before relying
           on these figures.
         </Notice>
       )}
-      <Card>
+      <Section>
         <Eyebrow>The business</Eyebrow>
         <Heading>What the company does</Heading>
         {report.overview ? (
@@ -70,9 +82,9 @@ export function ReportBody({ report }: { report: Report }) {
             />
           </>
         )}
-      </Card>
+      </Section>
       {report.periods.map((period) => (
-        <View key={period.kind} style={{ gap: 14 }}>
+        <Card key={period.kind}>
           <Eyebrow>{period.label}</Eyebrow>
           <Heading>
             {dateLabel(period.start)} – {dateLabel(period.end)}
@@ -84,8 +96,8 @@ export function ReportBody({ report }: { report: Report }) {
             </Notice>
           )}
           {period.metrics.map((metric) => (
-            <Card key={metric.key}>
-              <Copy style={s.muted}>{metric.label}</Copy>
+            <View key={metric.key} style={s.metric}>
+              <Copy style={s.label}>{metric.label}</Copy>
               <FinancialValue>{money(metric.current?.value)}</FinancialValue>
               {metric.current && (
                 <Copy style={s.muted}>
@@ -116,11 +128,11 @@ export function ReportBody({ report }: { report: Report }) {
                   }
                 />
               )}
-            </Card>
+            </View>
           ))}
-        </View>
+        </Card>
       ))}
-      <Card>
+      <Section>
         <Eyebrow>Interpretation</Eyebrow>
         <Heading>Summary & competing cases</Heading>
         <Notice>{report.interpretation.message}</Notice>
@@ -150,15 +162,15 @@ export function ReportBody({ report }: { report: Report }) {
               ))}
             </View>
           ))}
-      </Card>
-      <Card>
+      </Section>
+      <Section>
         <Eyebrow>Before you draw a conclusion</Eyebrow>
         <Heading>Uncertainties & limits</Heading>
         {report.uncertainties.map((text, index) => (
           <Copy key={index}>• {text}</Copy>
         ))}
-      </Card>
-      <Card>
+      </Section>
+      <Section>
         <Heading>Source notebook</Heading>
         <Copy>
           {report.sources.length} retained source records. Financial values include the concept,
@@ -172,14 +184,17 @@ export function ReportBody({ report }: { report: Report }) {
             setSelected(report.sources);
           }}
         />
-      </Card>
+      </Section>
       <Copy style={s.muted}>
         Research for understanding, not personalized investment advice. Always read the underlying
         filings.
       </Copy>
       {selected.length > 0 && (
         <Modal visible animationType="slide" onRequestClose={() => setSelected([])}>
-          <SafeAreaView testID="source-notebook" style={{ flex: 1, backgroundColor: colors.paper }}>
+          <SafeAreaView
+            testID="source-notebook"
+            style={{ flex: 1, backgroundColor: colors.pageBackground }}
+          >
             <View style={{ padding: 18 }}>
               <Button title="Close evidence" onPress={() => setSelected([])} />
             </View>
