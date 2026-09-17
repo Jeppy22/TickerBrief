@@ -112,6 +112,8 @@ npx.cmd eas-cli@latest submit:status --platform ios --profile production --json 
 
 The existing **Private Beta** internal group was verified before assignment: one tester, automatic distribution disabled, builds 2 and 3 present. Group membership must remain unchanged. Do not create invitations, use automatic group setup, enable a public link or submit an App Store release.
 
+**Pending external queue, checked 14:24 UTC:** submission remains `IN_QUEUE` after more than 23 minutes, with no worker logs/error. Apple still lists only builds 2/3, so build-4 processing and group availability are not verified. [Expo status](https://status.expo.dev/) reported EAS Submit operational. Keep the original submission; no retry or credential repair is justified by the available evidence. After it finishes, verify `submit:status` returns build **4**, `VALID`, linked to the exact build/submission IDs above. Then **TestFlight → Internal Testing → Private Beta → Builds → Add Builds → 0.1.0 (4) → Next → Add**, keeping automatic distribution disabled and membership unchanged. Skip Add Builds if it is already present. No new invitation or App Store release is needed.
+
 ### Stabilization release record (0.1.0 build 3)
 
 These commands completed successfully from `apps/mobile` in PowerShell. They are records, **not commands to rerun for installation**:

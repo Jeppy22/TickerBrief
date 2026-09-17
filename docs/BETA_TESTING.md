@@ -4,6 +4,8 @@
 
 Build 4 finished successfully; its single upload is queued. Apple processing and assignment to the existing **Private Beta** internal group remain pending. [Build `bda208af-bcdb-45a2-8b58-45575437d6c1`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/builds/bda208af-bcdb-45a2-8b58-45575437d6c1), source **`788ab66d809924ce9d0c078be686baf0911ff7ba`**; [submission `22a4179d-1048-48ae-b8cb-7d0798d9b107`](https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/22a4179d-1048-48ae-b8cb-7d0798d9b107). [Verification evidence](verification/2026-09-17-design-release.json). The first release **0.1.0 (2)** was installed and partially tested by the operator. Builds 2 and 3 were already in the existing group before this release; physical build-3 results have not been supplied.
 
+Last checked **2026-09-17 14:24 UTC**: EAS still reports `IN_QUEUE`, no error; Apple lists only builds 2/3. **Build 4 is not available to the group yet.** Do not rebuild or submit again. The steps below apply after this existing upload completes and Apple processing reports `VALID`.
+
 ## First physical observations
 
 The redesign/evidence changes in build 4 have **not been verified on the iPhone**. Retest compact Close in the safe-area header, return to both live/saved reports, readable metric names, grouped full values/units, and collapsed/expanded Technical details. In airplane mode, confirm saved structured records and genuine filing excerpts remain readable.

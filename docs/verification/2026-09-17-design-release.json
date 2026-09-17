@@ -108,7 +108,9 @@
     "dashboardUrl": "https://expo.dev/accounts/jeppy22/projects/tickerbrief/submissions/22a4179d-1048-48ae-b8cb-7d0798d9b107",
     "createdAt": "2026-09-17T14:01:08.072Z",
     "completedAt": null,
-    "error": null
+    "error": null,
+    "workerLogsObserved": false,
+    "externalBlocker": "EAS submission queue; no reported error after more than 23 minutes. Original upload retained; no duplicate or retry."
   },
   "constraints": {
     "aiRequestsMade": false,
@@ -116,5 +118,31 @@
     "newTesterInvitations": false,
     "publicRelease": false,
     "physicalIphoneVerification": "pending operator retest"
+  },
+  "recordedAtUtc": "2026-09-17T14:24:28.7721845Z",
+  "apple": {
+    "verifiedAtUtc": "2026-09-17T14:24:28.7721845Z",
+    "ascAppId": "6812926318",
+    "observedBuildNumbers": [
+      "3",
+      "2"
+    ],
+    "build4Observed": false,
+    "build4ProcessingState": null
+  },
+  "internalGroup": {
+    "verifiedBeforeAssignmentAtUtc": "2026-09-17T13:57:37.419Z",
+    "id": "2d3571e9-5212-4f00-8e7d-de352dd1dc27",
+    "name": "Private Beta",
+    "isInternalGroup": true,
+    "testerCount": 1,
+    "automaticDistribution": false,
+    "existingBuildNumbers": [
+      "3",
+      "2"
+    ],
+    "build4Assigned": false,
+    "membershipMutationsPerformed": false,
+    "assignmentPending": "Waiting for EAS upload and Apple processing; configured API group access is available, manual dashboard steps documented."
   }
 }
