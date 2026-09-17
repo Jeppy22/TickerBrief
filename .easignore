@@ -1,6 +1,6 @@
 # EAS reads this at the Git repository root and does not merge .gitignore files.
 # Keep the root and mobile exclusions below in sync with their .gitignore files.
-.git/
+.git
 node_modules/
 .venv/
 __pycache__/
